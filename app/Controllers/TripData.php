@@ -36,4 +36,30 @@ class TripData extends ResourceController
 
         return $this->respond($result, 200);;
     }
+
+    public function seatList()
+    {
+        $separate = [2,6,10,14,18];
+        for ($i=0; $i < 20; $i++) { 
+            $result[] = [
+                'row' => $i,
+                'id' => $i+1,
+                'name' => 'A'.$i+1,
+                'isAvailable' => true,
+                'isSeat' => true,
+            ];
+
+            if (in_array($i+1, $separate)) {
+                $result[] = [
+                    'row' => 00,
+                    'id' => 00,
+                    'name' => '-',
+                    'isAvailable' => false,
+                    'isSeat' => false,
+                ];
+            }
+        }
+        
+        return $this->respond($result, 200);
+    }
 }

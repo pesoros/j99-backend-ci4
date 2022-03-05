@@ -36,6 +36,7 @@ $routes->post('register', 'Register::index');
 $routes->post('login', 'Login::index');
 $routes->get('datakota', 'MasterData::dataKota');
 $routes->get('listbus', 'TripData::tripList');
+$routes->get('seatlist', 'TripData::seatList');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
