@@ -32,8 +32,14 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('testapi', 'Test::test');
+$routes->post('register', 'Register::index');
+$routes->post('login', 'Login::index');
 $routes->get('datakota', 'MasterData::dataKota');
+$routes->get('listbus', 'TripData::tripList');
+
+$routes->group("", ["filter" => "authfilter"], function($routes){
+    
+});
 
 /*
  * --------------------------------------------------------------------

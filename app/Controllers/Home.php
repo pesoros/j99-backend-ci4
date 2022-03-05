@@ -2,10 +2,20 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\RESTful\ResourceController;
+
+class Home extends ResourceController
 {
-    public function index()
+    use ResponseTrait;
+
+    public function index(Type $var = null)
     {
-        return view('welcome_message');
+        $bodyRaw = $this->request->getRawInput();
+        $data = [
+            'messages' => 'Juragan 99 API =PSR='
+        ];
+
+        return $this->respond($data,200);
     }
 }

@@ -23,7 +23,8 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cors'          => \App\Filters\Cors::class, 
+        'authfilter'    => \App\Filters\AuthFilter::class,
+        'cors'          => \App\Filters\Cors::class
     ];
 
     /**

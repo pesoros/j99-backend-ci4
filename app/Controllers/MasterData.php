@@ -4,61 +4,24 @@ namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
+use App\Models\MasterModel;
+use App\Models\TripModel;
 
 class MasterData extends ResourceController
 {
     use ResponseTrait;
+    protected $masterModel;
+    public function __construct()
+    {
+        $this->masterModel = new MasterModel();
+    }
 
     public function dataKota()
     {
-        $q = $this->request->getVar("q");
+        $bodyRaw = $this->request->getRawInput();
+        $q = $bodyRaw['keyword'];
 
-        $data[] = [
-            'id' => '1',
-            'namaKota' => 'Jakarta',
-        ];
-        $data[] = [
-            'id' => '2',
-            'namaKota' => 'Surabaya',
-        ];
-        $data[] = [
-            'id' => '3',
-            'namaKota' => 'Malang',
-        ];
-        $data[] = [
-            'id' => '4',
-            'namaKota' => 'DI Yogyakarta',
-        ];
-        $data[] = [
-            'id' => '5',
-            'namaKota' => 'Bandung',
-        ];
-        $data[] = [
-            'id' => '6',
-            'namaKota' => 'Tangerang',
-        ];
-        $data[] = [
-            'id' => '7',
-            'namaKota' => 'Bali',
-        ];
-
-        if ($q) {
-            $data = $this->searchArray($data, 'namaKota', $q);
-        }
-
-        return $this->respond($data);
-    }
-
-    public function searchArray($array, $field, $q)
-    {
-        $result = [];
-        foreach ($array as $key => $val) {
-            $leftstr = strtolower($val[$field]);
-            $rightstr = strtolower($q);
-            if (strpos($leftstr, $rightstr) !== FALSE) {
-                $result[] = $val;
-            }
-        }
-        return $result;
+        $result = $this->masterModel->getLocation($q)->getResult();
+        return $this->respond($result, 200);
     }
 }
