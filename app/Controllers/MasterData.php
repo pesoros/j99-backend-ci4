@@ -19,7 +19,7 @@ class MasterData extends ResourceController
     public function dataKota()
     {
         $bodyRaw = $this->request->getRawInput();
-        $q = $bodyRaw['keyword'];
+        $q = isset($bodyRaw['keyword']) ? $bodyRaw['keyword'] : '';
 
         $result = $this->masterModel->getLocation($q)->getResult();
         return $this->respond($result, 200);
