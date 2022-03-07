@@ -40,6 +40,9 @@ $routes->post('dataunit', 'MasterData::dataUnit');
 $routes->post('listbus', 'TripData::tripList');
 $routes->post('seatlist', 'TripData::seatList');
 
+$routes->get('xendit', 'XenditResource::index');
+$routes->get('datapaymentmethod', 'XenditResource::paymentMethodList');
+
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
 });

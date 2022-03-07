@@ -37,4 +37,26 @@ class MasterModel extends Model
 
         return $unit;
     }
+
+    public function getPaymentMethod()
+    {
+        $unit[] = [
+            'bankCode' => 'mandiri',
+            'bankName' => 'Mandiri'
+        ];
+        $unit[] = [
+            'bankCode' => 'bca',
+            'bankName' => 'BCA'
+        ];
+        $unit[] = [
+            'bankCode' => 'bri',
+            'bankName' => 'BRI'
+        ];
+        $unit[] = [
+            'bankCode' => 'bni',
+            'bankName' => 'BNI'
+        ];
+
+        return $unit;
+    }
 }

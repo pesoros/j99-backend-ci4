@@ -19,7 +19,7 @@ class TripData extends ResourceController
 
     public function tripList()
     {
-        $bodyRaw = $this->request->getRawInput();
+        $bodyRaw = $this->request->getVar();
         $unitType = isset($bodyRaw['unitType']) ? $bodyRaw['unitType'] : '';
         $kelas = isset($bodyRaw['kelas']) ? $bodyRaw['kelas'] : '';
         $jumlahPenumpang = isset($bodyRaw['jumlahPenumpang']) ? $bodyRaw['jumlahPenumpang'] : '';
@@ -56,7 +56,7 @@ class TripData extends ResourceController
 
     public function seatList()
     {
-        $bodyRaw = $this->request->getRawInput();
+        $bodyRaw = $this->request->getVar();
         $trip_route_id = isset($bodyRaw['trip_route_id']) ? $bodyRaw['trip_route_id'] : '';
         $trip_id_no = isset($bodyRaw['trip_id_no']) ? $bodyRaw['trip_id_no'] : '';
         $fleet_registration_id = isset($bodyRaw['fleet_registration_id']) ? $bodyRaw['fleet_registration_id'] : '';
@@ -123,16 +123,14 @@ class TripData extends ResourceController
 
         foreach ($seatArray as $key => $value) {
             $result['seats'][] = [
-                'row' => $key,
                 'id' => $key+1,
-                'name' => 'A'.$key+1,
+                'name' => trim($value),
                 'isAvailable' => true,
                 'isSeat' => true,
             ];
 
             if (in_array($key+1, $separate)) {
                 $result['seats'][] = [
-                    'row' => 00,
                     'id' => 00,
                     'name' => '-',
                     'isAvailable' => false,
@@ -140,10 +138,6 @@ class TripData extends ResourceController
                 ];
             }
         }
-
-        // $rowSeat = 1;
-        // $totalSeats = 1;
-        // $lastSeats = ((sizeof($seatArray) >= 3) ? (sizeof($seatArray) - 5) : sizeof($seatArray));
 
         return $this->respond($result, 200);
     }
