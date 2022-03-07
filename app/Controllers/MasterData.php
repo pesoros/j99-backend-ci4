@@ -22,6 +22,10 @@ class MasterData extends ResourceController
         $q = isset($bodyRaw['keyword']) ? $bodyRaw['keyword'] : '';
 
         $result = $this->masterModel->getLocation($q)->getResult();
+
+        foreach ($result as $key => $value) {
+            $value->row = $key;
+        }
         return $this->respond($result, 200);
     }
 
