@@ -131,7 +131,7 @@ class TripData extends ResourceController
             ->get()
             ->getResult();
             
-        $result['seatsInfo'] = $layoutset;
+        $result['seatsInfo'] = $layoutset[0];
         
         if ($layoutset[0]->layout == "2-2") {
             $separate = [2,6,10,14,18];
