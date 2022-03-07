@@ -24,4 +24,19 @@ class MasterData extends ResourceController
         $result = $this->masterModel->getLocation($q)->getResult();
         return $this->respond($result, 200);
     }
+
+    public function dataKelas()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $q = isset($bodyRaw['keyword']) ? $bodyRaw['keyword'] : '';
+
+        $result = $this->masterModel->getFleetType($q)->getResult();
+        return $this->respond($result, 200);
+    }
+
+    public function dataUnit()
+    {
+        $result = $this->masterModel->getUnit();
+        return $this->respond($result, 200);
+    }
 }

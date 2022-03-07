@@ -34,9 +34,11 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->post('register', 'Register::index');
 $routes->post('login', 'Login::index');
-$routes->get('datakota', 'MasterData::dataKota');
-$routes->get('listbus', 'TripData::tripList');
-$routes->get('seatlist', 'TripData::seatList');
+$routes->post('datakota', 'MasterData::dataKota');
+$routes->post('datakelas', 'MasterData::datakelas');
+$routes->post('dataunit', 'MasterData::dataUnit');
+$routes->post('listbus', 'TripData::tripList');
+$routes->post('seatlist', 'TripData::seatList');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
