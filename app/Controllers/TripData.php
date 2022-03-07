@@ -27,6 +27,10 @@ class TripData extends ResourceController
         $kotaBerangkat = isset($bodyRaw['berangkat']) ? $bodyRaw['berangkat'] : '';
         $kotaTujuan = isset($bodyRaw['tujuan']) ? $bodyRaw['tujuan'] : '';
 
+        if (empty($tanggalBerangkat)) {
+            return $this->failNotFound('Data Not Found');
+        } 
+
         $tanggalBerangkat = date("Y-m-d", strtotime(!empty($tanggalBerangkat)?$tanggalBerangkat:date('Y-m-d')));
 
         $filterData = [
