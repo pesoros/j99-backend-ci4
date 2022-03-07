@@ -37,36 +37,14 @@ class TripData extends ResourceController
         ];
         $result = $this->tripModel->getTripList($filterData)->getResult();
 
+        if (empty($result)) {
+            return $this->failNotFound('Data Not Found');
+        } 
+
         foreach ($result as $key => $value) {
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat)->getResult();
             $value->seatPicked = $checkSeat[0]->picked; 
             $value->seatAvail = intval($value->fleet_seats) - intval($checkSeat[0]->picked); 
-        }
-        
-        return $this->respond($result, 200);
-    }
-
-    public function seatList_old()
-    {
-        $separate = [2,6,10,14,18];
-        for ($i=0; $i < 20; $i++) { 
-            $result[] = [
-                'row' => $i,
-                'id' => $i+1,
-                'name' => 'A'.$i+1,
-                'isAvailable' => true,
-                'isSeat' => true,
-            ];
-
-            if (in_array($i+1, $separate)) {
-                $result[] = [
-                    'row' => 00,
-                    'id' => 00,
-                    'name' => '-',
-                    'isAvailable' => false,
-                    'isSeat' => false,
-                ];
-            }
         }
         
         return $this->respond($result, 200);
