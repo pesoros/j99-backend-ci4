@@ -70,48 +70,22 @@ class TripData extends ResourceController
         $data['fleet_registration_id'] = $fleet_registration_id;
         $data['fleet_type_id'] = $fleet_type_id;
         $data['booking_date'] = $booking_date;
-        $pricess = $this->db->table('pri_price')->select('*')->where('route_id', $trip_route_id)->where(' vehicle_type_id', $fleet_type_id)->get()->getResult();
+        $pricess = $this->tripModel->getPrice($trip_route_id, $fleet_type_id)->getResult();
         if (empty($pricess)) {
-            return $this->failNotFound('Data Not Found');
+            return tripModelfailNotFound('Data Not Found');
         } 
-        // $data['child_pric'] = 'Children - ' . $pricess[0]['children_price'] . $currency[0]['currency'] . ', Adult -' . $pricess[0]['price'] . $currency[0]['currency'] . ', Special-' . $pricess[0]['special_price'] . $currency[0]['currency'];
-        // return $this->respond($data);
-        $data['bankinfo'] = $this->db->table('bank_info')->select('*')->get()->getResult();
+        $data['bankinfo'] = $this->tripModel->getBankinfo()->getResult();
 
         #---------BOOKED SEAT(S)-----------#
-        $bookedSeats = $this->db->table('tkt_booking AS tb')
-        ->select("
-                tb.trip_id_no,
-                SUM(tb.total_seat) AS booked_seats,
-                GROUP_CONCAT(tb.seat_numbers SEPARATOR ', ') AS booked_serial
-            ")
-            ->where('tb.trip_id_no', $trip_id_no)
-            ->like('tb.booking_date', $booking_date, 'after')
-            ->groupStart()
-            ->where("tb.tkt_refund_id IS NULL", null, false)
-            ->orWhere("tb.tkt_refund_id", 0)
-            ->orWhere("tb.tkt_refund_id", null)
-            ->groupEnd()
-            ->get()
-            ->getResult();
+        $bookedSeats = $this->tripModel->getBookedSeats($trip_id_no, $booking_date)->getResult();
         
         $bookArray = explode(',', $bookedSeats[0]->booked_serial);
 
         #---------FLEET SEAT(S)-----------#
-        $fleetSeats = $this->db->table("fleet_type")
-            ->select("
-                total_seat, seat_numbers,fleet_facilities
-            ")
-            ->where('id', $fleet_type_id)
-            ->get()
-            ->getResult();
+        $fleetSeats = $this->tripModel->getfleetseats($fleet_type_id)->getResult();
         $seatArray = explode(',', $fleetSeats[0]->seat_numbers);
 
-        $layoutset = $this->db->table("fleet_type")
-            ->select("*")
-            ->where('id', $fleet_type_id)
-            ->get()
-            ->getResult();
+        $layoutset = $this->tripModel->layoutSet($fleet_type_id)->getResult();
             
         $result['seatsInfo'] = $layoutset[0];
         

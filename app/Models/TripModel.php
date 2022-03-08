@@ -8,10 +8,15 @@ class TripModel extends Model
 {
     public function getTripList($data = array())
     {
-        $f = $data['fleet_type'];
+        $kelas = $data['fleet_type'];
         $start = $data['start_point'];
         $end = $data['end_point'];
         $date = $data['date'];
+        $whereext = '';
+
+        if ($kelas == '') {
+            $whereext .= 'AND ta.type = $kelas';
+        }
 
         $query = $this->db->query("SELECT
             ta.trip_id AS trip_id_no,
@@ -41,38 +46,100 @@ class TripModel extends Model
             LEFT JOIN trip_location AS tl2 ON tl2.id = tr.end_point
             WHERE (FIND_IN_SET('$start',tr.stoppage_points))
             AND (FIND_IN_SET('$end',tr.stoppage_points))
-            AND ta.type = $f
-            AND (!FIND_IN_SET(DAYOFWEEK('$date'),ta.weekend))
+            AND (!FIND_IN_SET(DAYOFWEEK('$date'),ta.weekend)) 
+            $whereext
             GROUP BY ta.trip_id
         ");
 
         return $query;
     }
 
-    public function checkSeatAvail($trip_id_no,$date)
+    public function checkSeatAvail($trip_id_no, $date)
     {
         $bookingResult = $this->db->table("tkt_booking AS tb")
             ->select("SUM(tb.total_seat) AS picked")
             ->join('trip AS ta', "ta.trip_id = tb.trip_id_no")
             ->where('tb.trip_id_no', $trip_id_no)
-            ->like('tb.booking_date',$date,'after')
+            ->like('tb.booking_date', $date, 'after')
             ->groupStart()
-                ->where("tb.tkt_refund_id IS NULL", null, false)
-                ->orWhere("tb.tkt_refund_id", 0)
-                ->orWhere("tb.tkt_refund_id", null)
+            ->where("tb.tkt_refund_id IS NULL", null, false)
+            ->orWhere("tb.tkt_refund_id", 0)
+            ->orWhere("tb.tkt_refund_id", null)
             ->groupEnd()
             ->get();
-            
+
         return $bookingResult;
     }
 
     public function retrieve_currency()
     {
         $query = $this->db->query('SELECT * FROM ws_setting');
-        
+
         if ($query->getNumRows() > 0) {
-            return $query;  
+            return $query;
         }
         return false;
+    }
+
+    public function getPrice($trip_route_id, $fleet_type_id)
+    {
+        $query = $this->db->table('pri_price')
+            ->select('*')
+            ->where('route_id', $trip_route_id)
+            ->where(' vehicle_type_id', $fleet_type_id)
+            ->get();
+
+        return $query;
+    }
+
+    public function getBankInfo()
+    {
+        $query = $this->db->table('bank_info')->select('*')->get();
+
+        return $query;
+    }
+
+    public function getBookedSeats($trip_id_no, $booking_date)
+    {
+        $query = $this->db->table('tkt_booking AS tb')
+            ->select("
+                tb.trip_id_no,
+                SUM(tb.total_seat) AS booked_seats,
+                GROUP_CONCAT(tb.seat_numbers SEPARATOR ', ') AS booked_serial
+            ")
+            ->where('tb.trip_id_no', $trip_id_no)
+            ->like('tb.booking_date', $booking_date, 'after')
+            ->groupStart()
+            ->where("tb.tkt_refund_id IS NULL", null, false)
+            ->orWhere("tb.tkt_refund_id", 0)
+            ->orWhere("tb.tkt_refund_id", null)
+            ->groupEnd()
+            ->get();
+
+        return $query;
+    }
+
+    public function getfleetseats($fleet_type_id)
+    {
+        $query = $this->db->table("fleet_type")
+            ->select("
+                total_seat,
+                seat_numbers,
+                fleet_facilities
+            ")
+            ->where('id', $fleet_type_id)
+            ->get();
+
+        return $query;
+    }
+
+    public function layoutSet($fleet_type_id)
+    {
+        $query = $this->db->table("fleet_type")
+            ->select("*")
+            ->where('id', $fleet_type_id)
+            ->get();
+
+        return $query;
     }
 }
