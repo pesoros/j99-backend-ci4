@@ -14,7 +14,7 @@ class TripModel extends Model
         $date = $data['date'];
         $whereext = '';
 
-        if ($kelas == '') {
+        if ($kelas !== '') {
             $whereext .= 'AND ta.type = $kelas';
         }
 
