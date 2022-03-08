@@ -14,7 +14,7 @@ class XenditResource extends ResourceController
     public function __construct()
     {
         $this->masterModel = new MasterModel();
-        Xendit::setApiKey('xnd_development_ahcjWS67zdnSCcqTnbBpZ8k9E4RHqZtGu3LpfM10mLBTU1BTjTZsbJ8zT4hKGJ');
+        Xendit::setApiKey(getenv('XENDIT_TOKEN'));
     }
 
     public function index()
