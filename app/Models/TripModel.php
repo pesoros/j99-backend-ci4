@@ -15,7 +15,7 @@ class TripModel extends Model
         $whereext = '';
 
         if ($kelas !== '') {
-            $whereext .= 'AND ta.type = $kelas';
+            $whereext .= 'AND ta.type = '.$kelas;
         }
 
         $query = $this->db->query("SELECT
