@@ -42,6 +42,11 @@ class Login extends ResourceController
         $payload = array(
             "uid" => $user['id'],
             "email" => $user['email'],
+            "firstName" => $user['first_name'],
+            "lastName" => $user['last_name'],
+            "address" => $user['address'],
+            "phone" => $user['phone'],
+            "active" => $user['active'],
             "iat" => 1356999524,
             "nbf" => 1357000000,
         );

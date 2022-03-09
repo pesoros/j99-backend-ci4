@@ -20,12 +20,25 @@ class Register extends ResourceController
         $rules = [
             'email' => 'required|valid_email|is_unique[users_client.email]',
             'password' => 'required|min_length[6]',
-            'confpassword' => 'matches[password]'
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
         ];
+
+        $identity = $this->request->getVar('identity') ? $this->request->getVar('identity') : '';
+        $identityNumber = $this->request->getVar('identityNumber') ? $this->request->getVar('identityNumber') : '';
+
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
         $data = [
             'email'     => $this->request->getVar('email'),
-            'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT) 
+            'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+            'first_name'     => $this->request->getVar('firstName'),
+            'last_name'     => $this->request->getVar('lastName'),
+            'address'     => $this->request->getVar('address'),
+            'phone'     => $this->request->getVar('phone'),
+            'identity'     => $identity,
+            'identity_number'     => $identityNumber,
         ];
         $model = new UserModel();
         $registered = $model->save($data);
