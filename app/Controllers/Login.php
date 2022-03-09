@@ -56,7 +56,14 @@ class Login extends ResourceController
 
         $result['status'] = 'login succeed';
         $result['token'] = $token;
-        $result['decoded'] = $decoded;
+        $result['uid'] = $decoded->uid;
+        $result['email'] = $decoded->email;
+        $result['firstName'] = $decoded->firstName;
+        $result['lastName'] = $decoded->lastName;
+        $result['address'] = $decoded->address;
+        $result['phone'] = $decoded->phone;
+        $result['iat'] = $decoded->iat;
+        $result['nbf'] = $decoded->nbf;
 
         return $this->respond($result);
     }
