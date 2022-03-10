@@ -19,10 +19,12 @@ class XenditResource extends ResourceController
 
     public function index()
     {
-        $params = ['external_id' => 'demo_147580196270',
+        $paymentID = 'pesoros_2021zbcde';
+
+        $params = ['external_id' => $paymentID,
             'payer_email' => 'sample_email@xendit.co',
             'description' => 'Trip to Bali',
-            'amount' => 32000,
+            'amount' => 1000,
         ];
 
         $createInvoice = \Xendit\Invoice::create($params);
@@ -43,7 +45,21 @@ class XenditResource extends ResourceController
         // $getAllInvoice = \Xendit\Invoice::retrieveAll($retrieveAll);
         // var_dump(($getAllInvoice));
 
-        return $this->respond($createInvoice);
+        $params = ["external_id" => $paymentID,
+            "bank_code" => "BNI",
+            "name" => "Steve Wozniak",
+        ];
+
+        $createVA = \Xendit\VirtualAccounts::create($params);
+
+        // $updateParams = ["suggested_amount" => 150000];
+      
+        // $updateVA = \Xendit\VirtualAccounts::update($paymentID, $updateParams);
+      
+
+        // $getFVAPayment = \Xendit\VirtualAccounts::getFVAPayment($paymentID);
+
+        return $this->respond(['a' => $createVA]);
     }
 
     public function paymentMethodList()

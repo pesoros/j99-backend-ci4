@@ -4,10 +4,9 @@ namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\MasterModel;
 use App\Models\TripModel;
 
-class TripData extends ResourceController
+class Trip extends ResourceController
 {
     use ResponseTrait;
     protected $tripModel;
