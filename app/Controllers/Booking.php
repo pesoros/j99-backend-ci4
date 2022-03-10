@@ -21,10 +21,6 @@ class Booking extends ResourceController
 
     public function storeBook()
     {
-        // $dateExpired = new Time('+30 minute');
-        // $dateExpired = date("Y-m-d", strtotime($dateExpired)).'T'.date("h:i:s", strtotime($dateExpired)).'.000Z';
-        // echo $dateExpired;
-        // return;
         $timezone = $this->db->table('ws_setting')->select('*')->where('id', 1)->get()->getResult();
         date_default_timezone_set($timezone[0]->timezone);
 
@@ -291,6 +287,7 @@ class Booking extends ResourceController
             'retail_outlet_name' => $payment_channel_code,
             'name' => $name,
             'expected_amount' => $amount,
+            "expiration_date" => $dateExpired
         ];
         
         $createFPC = \Xendit\Retail::create($params);
@@ -300,7 +297,7 @@ class Booking extends ResourceController
 
     public function codeGenerate($head = 'J99')
     {
-        $length = 6;
+        $length = 8;
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';

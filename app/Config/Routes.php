@@ -39,9 +39,10 @@ $routes->post('datakelas', 'MasterData::datakelas');
 $routes->post('dataunit', 'MasterData::dataUnit');
 $routes->post('listbus', 'Trip::tripList');
 $routes->post('seatlist', 'Trip::seatList');
-$routes->get('xendit', 'XenditResource::index');
 $routes->get('datapaymentmethod', 'XenditResource::paymentMethodList');
 $routes->post('booking/add', 'Booking::storeBook');
+$routes->get('xendit', 'XenditResource::index');
+$routes->get('callback/xendit', 'Callback::index');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
