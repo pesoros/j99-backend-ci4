@@ -26,29 +26,26 @@ class MasterModel extends Model
 
     public function getUnit()
     {
-        $unit[] = [
-            'id' => '1',
-            'unit' => 'bus'
-        ];
-        $unit[] = [
-            'id' => '2',
-            'unit' => 'shuttle'
-        ];
-
-        return $unit;
+        $query = $this->db->table('unit')
+            ->where('status',1)
+            ->get();
+        return $query;
     }
     
     public function getResto()
     {
-        $query = $this->db->table('resto')->get();
+        $query = $this->db->table('resto')
+            ->where('status',1)
+            ->get();
         return $query;
     }
 
     public function getRestoMenu($idResto)
     {
         $query = $this->db->table('resto_menu')
-        ->where('id_resto', $idResto)
-        ->get();
+            ->where('id_resto', $idResto)
+            ->where('status',1)
+            ->get();
         return $query;
     }
 }

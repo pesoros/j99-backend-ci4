@@ -40,7 +40,7 @@ class MasterData extends ResourceController
 
     public function dataUnit()
     {
-        $result = $this->masterModel->getUnit();
+        $result = $this->masterModel->getUnit()->getResult();
         return $this->respond($result, 200);
     }
 
