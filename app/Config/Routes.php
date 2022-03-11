@@ -44,6 +44,7 @@ $routes->post('seatlist', 'Trip::seatList');
 $routes->get('datapaymentmethod', 'XenditResource::paymentMethodList');
 $routes->post('booking/add', 'Booking::storeBook');
 $routes->get('xendit', 'XenditResource::index');
+$routes->post('callback/xendit/va/create', 'Callback::virtualAccountCreate');
 $routes->post('callback/xendit/va', 'Callback::virtualAccountPay');
 $routes->post('callback/xendit/retailoutlet', 'Callback::retailOutletPay');
 $routes->post('callback/xendit/ewallet', 'Callback::ewalletPay');

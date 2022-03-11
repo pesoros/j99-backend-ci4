@@ -16,6 +16,24 @@ class Callback extends ResourceController
         $this->db = \Config\Database::connect();
     }
 
+    public function virtualAccountCreate()
+    {
+        // == virtual Account Create ==
+        $bodyRaw = $this->request->getVar();
+        $id = isset($bodyRaw->id) ? $bodyRaw->id : '-';
+        $owner_id = isset($bodyRaw->owner_id) ? $bodyRaw->owner_id : '-';
+        $external_id = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
+        $expiration_date = isset($bodyRaw->expiration_date) ? $bodyRaw->expiration_date : '-';
+        $account_number = isset($bodyRaw->account_number) ? $bodyRaw->account_number : '-';
+        $bank_code = isset($bodyRaw->bank_code) ? $bodyRaw->bank_code : '-';
+        $name = isset($bodyRaw->name) ? $bodyRaw->name : '-';
+        $status = isset($bodyRaw->status) ? $bodyRaw->status : '-';
+        $created = isset($bodyRaw->created) ? $bodyRaw->created : '-';
+        $is_closed = isset($bodyRaw->is_closed) ? $bodyRaw->is_closed : '-';
+
+        return $this->respond($bodyRaw, 200);
+    }
+
     public function virtualAccountPay()
     {
         // == virtual Account ==
