@@ -43,4 +43,19 @@ class MasterData extends ResourceController
         $result = $this->masterModel->getUnit();
         return $this->respond($result, 200);
     }
+
+    public function dataResto()
+    {
+        $result = $this->masterModel->getResto()->getResult();
+        return $this->respond($result, 200);
+    }
+
+    public function dataMenu()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $idResto = isset($bodyRaw['idResto']) ? $bodyRaw['idResto'] : '';
+
+        $result = $this->masterModel->getRestoMenu($idResto)->getResult();
+        return $this->respond($result, 200);
+    }
 }

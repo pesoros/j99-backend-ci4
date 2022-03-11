@@ -37,26 +37,18 @@ class MasterModel extends Model
 
         return $unit;
     }
-
-    public function getPaymentMethod()
+    
+    public function getResto()
     {
-        $unit[] = [
-            'bankCode' => 'mandiri',
-            'bankName' => 'Mandiri'
-        ];
-        $unit[] = [
-            'bankCode' => 'bca',
-            'bankName' => 'BCA'
-        ];
-        $unit[] = [
-            'bankCode' => 'bri',
-            'bankName' => 'BRI'
-        ];
-        $unit[] = [
-            'bankCode' => 'bni',
-            'bankName' => 'BNI'
-        ];
+        $query = $this->db->table('resto')->get();
+        return $query;
+    }
 
-        return $unit;
+    public function getRestoMenu($idResto)
+    {
+        $query = $this->db->table('resto_menu')
+        ->where('id_resto', $idResto)
+        ->get();
+        return $query;
     }
 }

@@ -97,4 +97,22 @@ class BookingModel extends Model
 
         return $query;
     }
+
+    public function getWsSetting($id = null)
+    {
+        if ($id) {
+            $query = $this->db->table('ws_setting')->select('*')->where('id', $id)->get();
+        } else {
+            $query = $this->db->table('ws_setting')->select('*')->get();
+        }
+
+        return $query;
+    }
+
+    public function getPriPrice($trip_route_id)
+    {
+        $query = $this->db->table('pri_price')->select('*')->where('route_id', $trip_route_id)->get();
+
+        return $query;
+    }
 }

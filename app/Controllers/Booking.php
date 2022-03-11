@@ -21,7 +21,7 @@ class Booking extends ResourceController
 
     public function storeBook()
     {
-        $timezone = $this->db->table('ws_setting')->select('*')->where('id', 1)->get()->getResult();
+        $timezone = $this->bookingModel->getWsSetting(1)->getResult();
         date_default_timezone_set($timezone[0]->timezone);
 
         $bodyRaw = $this->request->getVar();
@@ -130,10 +130,10 @@ class Booking extends ResourceController
 
                             $binfo = $this->bookingModel->getBookingHistory($postData['id_no'])->getResult();
                             $total_amnt = $binfo[0]->price;
-                            $comission = $this->db->table('ws_setting')->select('*')->get()->getResult();
+                            $comission = $this->bookingModel->getWsSetting()->getResult();
                             $obj['b_commission'] = ($binfo[0]->price * $comission[0]->bank_commission) / 100;
                             $obj['commission_per'] = $comission[0]->bank_commission;
-                            $priprice = $this->db->table('pri_price')->select('*')->where('route_id', $trip_route_id)->get()->getResult();
+                            $priprice = $this->bookingModel->getPriPrice($trip_route_id)->getResult();
                             $obj['routePrice'] = $priprice[0];
                             $data['status'] = true;
                             $data['message'] = 'save_successfully';

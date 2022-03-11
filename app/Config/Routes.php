@@ -37,12 +37,14 @@ $routes->post('login', 'Login::index');
 $routes->post('datakota', 'MasterData::dataKota');
 $routes->post('datakelas', 'MasterData::datakelas');
 $routes->post('dataunit', 'MasterData::dataUnit');
+$routes->get('dataresto', 'MasterData::dataResto');
+$routes->post('datarestomenu', 'MasterData::dataMenu');
 $routes->post('listbus', 'Trip::tripList');
 $routes->post('seatlist', 'Trip::seatList');
 $routes->get('datapaymentmethod', 'XenditResource::paymentMethodList');
 $routes->post('booking/add', 'Booking::storeBook');
 $routes->get('xendit', 'XenditResource::index');
-$routes->get('callback/xendit', 'Callback::index');
+$routes->post('callback/payment', 'Callback::payment');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
