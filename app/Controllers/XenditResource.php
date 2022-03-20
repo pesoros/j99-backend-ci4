@@ -68,4 +68,11 @@ class XenditResource extends ResourceController
 
         return $this->respond($getPaymentChannels, 200);
     }
+
+    public function paymentMethodStatus()
+    {
+        $result['VIRTUAL_ACCOUNT'] = \Xendit\VirtualAccounts::getVABanks();
+
+        return $this->respond($result, 200);
+    }
 }

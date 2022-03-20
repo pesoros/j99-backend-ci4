@@ -77,12 +77,23 @@ class Trip extends ResourceController
 
         #---------BOOKED SEAT(S)-----------#
         $bookedSeats = $this->tripModel->getBookedSeats($trip_id_no, $booking_date)->getResult();
+
+        // return $this->respond($bookedSeats);
         
-        $bookArray = explode(',', $bookedSeats[0]->booked_serial);
+        if ($bookedSeats[0]->booked_serial != null) {
+            $bookArray = explode(',', $bookedSeats[0]->booked_serial);
+        } else {
+            $bookArray = [];
+        }
 
         #---------FLEET SEAT(S)-----------#
         $fleetSeats = $this->tripModel->getfleetseats($fleet_type_id)->getResult();
-        $seatArray = explode(',', $fleetSeats[0]->seat_numbers);
+
+        if ($fleetSeats[0]->seat_numbers != null) {
+            $seatArray = explode(',', $fleetSeats[0]->seat_numbers);
+        } else {
+            $seatArray = [];
+        }
 
         $layoutset = $this->tripModel->layoutSet($fleet_type_id)->getResult();
             

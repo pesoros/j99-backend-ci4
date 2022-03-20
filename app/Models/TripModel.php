@@ -27,6 +27,7 @@ class TripModel extends Model
             tl2.name AS drop_trip_location,
             ta.type,
             tp.total_seat AS fleet_seats,
+            fr.reg_no AS fleet_registration_id,
             pp.price AS price,
             pp.children_price,
             pp.special_price,
@@ -41,6 +42,7 @@ class TripModel extends Model
             LEFT JOIN trip_route AS tr ON tr.id = ta.route
             LEFT JOIN trip_assign AS tras ON tras.trip = ta.trip_id
             LEFT JOIN fleet_type AS tp ON tp.id = ta.type
+            LEFT JOIN fleet_registration AS fr ON fr.fleet_type_id = tp.id
             LEFT JOIN pri_price AS pp ON pp.route_id = ta.route AND pp.vehicle_type_id= ta.type
             LEFT JOIN trip_location AS tl1 ON tl1.id = tr.start_point
             LEFT JOIN trip_location AS tl2 ON tl2.id = tr.end_point

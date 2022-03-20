@@ -8,6 +8,14 @@ class BookingModel extends Model
 {
     public function createBooking($data)
     {
+        $save = $this->db->table('tkt_booking_head')
+            ->insert($data);
+
+        return $save;
+    }
+
+    public function createGroup($data)
+    {
         $save = $this->db->table('ws_booking_history')
             ->insert($data);
 

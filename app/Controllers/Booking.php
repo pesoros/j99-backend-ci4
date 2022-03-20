@@ -25,20 +25,62 @@ class Booking extends ResourceController
         date_default_timezone_set($timezone[0]->timezone);
 
         $bodyRaw = $this->request->getVar();
-        $trip_id_no = isset($bodyRaw['trip_id_no']) ? $bodyRaw['trip_id_no'] : '';
-        $trip_route_id = isset($bodyRaw['trip_route_id']) ? $bodyRaw['trip_route_id'] : '';
-        $pickup_location = isset($bodyRaw['pickup_location']) ? $bodyRaw['pickup_location'] : '';
-        $drop_location = isset($bodyRaw['drop_location']) ? $bodyRaw['drop_location'] : '';
-        $pricePerSeat = isset($bodyRaw['pricePerSeat']) ? $bodyRaw['pricePerSeat'] : '';
-        $booking_date = isset($bodyRaw['booking_date']) ? $bodyRaw['booking_date'] : '';
-        $fleet_type = isset($bodyRaw['fleet_type_id']) ? $bodyRaw['fleet_type_id'] : '';
-        $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
-        $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
-        $facilities = null;
+        $booker_id = isset($bodyRaw['booker_id']) ? $bodyRaw['booker_id'] : '';
+        $booker_name = isset($bodyRaw['booker_name']) ? $bodyRaw['booker_name'] : '';
+        $booker_name = isset($bodyRaw['booker_email']) ? $bodyRaw['booker_email'] : '';
+        $booker_name = isset($bodyRaw['booker_phone']) ? $bodyRaw['booker_phone'] : '';
         $offer_code = isset($bodyRaw['offer_code']) ? $bodyRaw['offer_code'] : '';
+        $pergi = isset($bodyRaw['pergi']) ? $bodyRaw['pergi'] : '';
+        $pulang = isset($bodyRaw['pulang']) ? $bodyRaw['pulang'] : '';
+        $dateNow = date('Y-m-d H:i:s');
+        $bookingCode = $this->codeGenerate("B", 8);
+        
+        $total_price = 1000; 
+        $total_seat = 2; 
+        $roundTrip = 0;
 
-        $seatPicked = $bodyRaw['seatPicked'];
-        $total_seat = count($seatPicked);
+        $setBookingCode = $this->createBooking([
+            'booking_code' => $bookingCode,
+            'round_trip' => $roundTrip,
+            'total_price' => $total_price,
+            'total_seat' => $total_seat,
+            'payment_status' => '0',
+            'offer_code' => $offer_code,
+            'created_at' => $dateNow,
+        ]);
+
+        $data['pergi'] = $this->setTicket($pergi, $bookingCode, $offer_code);
+
+        if ($pulang) {
+            $data['pulang'] = $this->setTicket($pulang, $bookingCode, $offer_code);
+        } else {
+            $data['pulang'] = '-';
+        }
+
+
+        return $this->respond($data, 200);
+    }
+
+    public function createBooking($bookData)
+    {
+        $createTicket = $this->bookingModel->createBooking($bookData);
+    }
+
+    public function setTicket($datas,$bookingCode,$offer_code)
+    {
+        $trip_id_no = isset($datas['trip_id_no']) ? $datas['trip_id_no'] : '';
+        $trip_route_id = isset($datas['trip_route_id']) ? $datas['trip_route_id'] : '';
+        $pickup_location = isset($datas['pickup_location']) ? $datas['pickup_location'] : '';
+        $drop_location = isset($datas['drop_location']) ? $datas['drop_location'] : '';
+        $pricePerSeat = isset($datas['pricePerSeat']) ? $datas['pricePerSeat'] : '';
+        $booking_date = isset($datas['booking_date']) ? $datas['booking_date'] : '';
+        $fleet_type = isset($datas['fleet_type_id']) ? $datas['fleet_type_id'] : '';
+        $payment_method = isset($datas['payment_method']) ? $datas['payment_method'] : '';
+        $payment_channel_code = isset($datas['payment_channel_code']) ? $datas['payment_channel_code'] : '';
+        $facilities = null;
+
+        $seatPicked = $datas['seatPicked'];
+        $seatCount = count($seatPicked);
         $seat_number = '';
         foreach ($seatPicked as $key => $value) {
             if ($key > 0) {
@@ -47,16 +89,16 @@ class Booking extends ResourceController
             $seat_number .= $value['seat'];
         }
 
-        $adult_sts = $total_seat;
+        $adult_sts = $seatCount;
         $child_sts = 0;
         $special_sts = 0;
         $totl_inpt = intval($child_sts) + intval($adult_sts) + intval($special_sts);
-        $price = intval($pricePerSeat) * intval($total_seat);
+        $price = intval($pricePerSeat) * intval($seatCount);
 
         /// Every Route Children and special seats info
         $rout_chsp_seat = $this->bookingModel->getTripRoute($trip_route_id)->getResult();
 
-        if ($total_seat == $totl_inpt) {
+        if ($seatCount == $totl_inpt) {
             #--------------------------------------
             $booking_date = $booking_date . ' ' . date('H:i:s');
 
@@ -69,12 +111,13 @@ class Booking extends ResourceController
             } else {
                 $discount = 0;
             }
-            $passengerId = $this->codeGenerate("P");
-            $bookId = $this->codeGenerate("B");
+            $passengerId = $this->codeGenerate("P",12);
+            $bookId = $this->codeGenerate("G",12);
 
             #--------------------------------------
 
             $postData = [
+                'booking_code' => $bookingCode,
                 'id_no' => $bookId,
                 'trip_id_no' => $trip_id_no,
                 'tkt_passenger_id_no' => $passengerId,
@@ -87,7 +130,7 @@ class Booking extends ResourceController
                 'adult' => $adult_sts,
                 'child' => $child_sts,
                 'special' => $special_sts,
-                'total_seat' => $total_seat,
+                'total_seat' => $seatCount,
                 'seat_numbers' => $seat_number,
                 'offer_code' => $offer_code,
                 'tkt_refund_id' => null,
@@ -109,10 +152,10 @@ class Booking extends ResourceController
                     // return $this->respond($bookCheck);
                     if ($bookCheck) {
 
-                        if ($this->bookingModel->createBooking($postData)) {
+                        if ($this->bookingModel->createGroup($postData)) {
 
                             foreach ($seatPicked as $key => $value) {
-                                $ticketNumber = $this->codeGenerate("T");
+                                $ticketNumber = $this->codeGenerate("T", 8);
                                 $ticketdata = [
                                     'boking_id' => $bookId,
                                     'ticket_number' => $ticketNumber,
@@ -170,7 +213,7 @@ class Booking extends ResourceController
             $data['exception'] = 'Please Check your seat';
         }
 
-        return $this->respond($data, 200);
+        return $data;
     }
 
     private function checkBooking($tripIdNo = null, $fleetId = null, $newSeats = null, $booking_date = null)
@@ -295,9 +338,8 @@ class Booking extends ResourceController
         return $createFPC;
     }
 
-    public function codeGenerate($head = 'J99')
+    public function codeGenerate($head = 'J99', $length = 12)
     {
-        $length = 8;
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
