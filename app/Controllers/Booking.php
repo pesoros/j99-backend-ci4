@@ -27,8 +27,8 @@ class Booking extends ResourceController
         $bodyRaw = $this->request->getVar();
         $booker_id = isset($bodyRaw['booker_id']) ? $bodyRaw['booker_id'] : '';
         $booker_name = isset($bodyRaw['booker_name']) ? $bodyRaw['booker_name'] : '';
-        $booker_name = isset($bodyRaw['booker_email']) ? $bodyRaw['booker_email'] : '';
-        $booker_name = isset($bodyRaw['booker_phone']) ? $bodyRaw['booker_phone'] : '';
+        $booker_email = isset($bodyRaw['booker_email']) ? $bodyRaw['booker_email'] : '';
+        $booker_phone = isset($bodyRaw['booker_phone']) ? $bodyRaw['booker_phone'] : '';
         $offer_code = isset($bodyRaw['offer_code']) ? $bodyRaw['offer_code'] : '';
         $pergi = isset($bodyRaw['pergi']) ? $bodyRaw['pergi'] : '';
         $pulang = isset($bodyRaw['pulang']) ? $bodyRaw['pulang'] : '';
@@ -50,13 +50,25 @@ class Booking extends ResourceController
         ]);
 
         $data['pergi'] = $this->setTicket($pergi, $bookingCode, $offer_code);
+        $total_price = $data['pergi']['price'];
+        unset($data['pergi']['price']);
+        unset($data['pergi']['message']);
 
         if ($pulang) {
             $data['pulang'] = $this->setTicket($pulang, $bookingCode, $offer_code);
+            $total_price = $total_price + $data['pulang']['price'];
+            unset($data['pulang']['price']);
+            unset($data['pulang']['message']);
         } else {
             $data['pulang'] = '-';
         }
 
+        $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
+        $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
+
+        $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
+        $data['payment'] = $setPayment;
+        $data['payment']['total_price'] = $total_price;
 
         return $this->respond($data, 200);
     }
@@ -75,8 +87,6 @@ class Booking extends ResourceController
         $pricePerSeat = isset($datas['pricePerSeat']) ? $datas['pricePerSeat'] : '';
         $booking_date = isset($datas['booking_date']) ? $datas['booking_date'] : '';
         $fleet_type = isset($datas['fleet_type_id']) ? $datas['fleet_type_id'] : '';
-        $payment_method = isset($datas['payment_method']) ? $datas['payment_method'] : '';
-        $payment_channel_code = isset($datas['payment_channel_code']) ? $datas['payment_channel_code'] : '';
         $facilities = null;
 
         $seatPicked = $datas['seatPicked'];
@@ -188,10 +198,9 @@ class Booking extends ResourceController
                             unset($postData['tkt_refund_id']);
                             unset($postData['status']);
 
-                            $insertdata = $this->bookingModel->createTktBooking($postData);
-                            $setPayment = $this->paymentGateway($payment_method, $bookId, 'bayuyuhartono@gmail.com', 'bayu', 'j99 ticket', $price, $payment_channel_code);
+                            $data['price'] = $price;
 
-                            $data['payment'] = $setPayment;
+                            $insertdata = $this->bookingModel->createTktBooking($postData);
                         } else {
                             $data['status'] = false;
                             $data['exception'] = 'please_try_again';
