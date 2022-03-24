@@ -52,8 +52,8 @@ class TripModel extends Model
             LEFT JOIN pri_price AS pp ON pp.route_id = ta.route AND pp.vehicle_type_id= ta.type
             LEFT JOIN trip_location AS tl1 ON tl1.id = tr.start_point
             LEFT JOIN trip_location AS tl2 ON tl2.id = tr.end_point
-            WHERE (FIND_IN_SET('$start',tr.stoppage_points))
-            AND (FIND_IN_SET('$end',tr.stoppage_points))
+            WHERE (FIND_IN_SET('$start',tr.pickup_points))
+            AND (FIND_IN_SET('$end',tr.dropoff_points))
             AND (!FIND_IN_SET(DAYOFWEEK('$date'),ta.weekend)) 
             $whereext
             GROUP BY ta.trip_id
