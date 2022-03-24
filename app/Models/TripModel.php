@@ -40,6 +40,8 @@ class TripModel extends Model
             tr.approximate_time AS duration,
             tr.stoppage_points,
             tr.distance,
+            tr.pickup_points,
+            tr.dropoff_points,
             shedule.start,
             shedule.end,
             tras.closed_by_id
