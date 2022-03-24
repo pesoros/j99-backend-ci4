@@ -21,6 +21,7 @@ class Trip extends ResourceController
         $bodyRaw = $this->request->getVar();
         $unitType = isset($bodyRaw['unitType']) ? $bodyRaw['unitType'] : '';
         $kelas = isset($bodyRaw['kelas']) ? $bodyRaw['kelas'] : '';
+        $unit_type = isset($bodyRaw['unit_type']) ? $bodyRaw['unit_type'] : '';
         $jumlahPenumpang = isset($bodyRaw['jumlahPenumpang']) ? $bodyRaw['jumlahPenumpang'] : '';
         $tanggalBerangkat = isset($bodyRaw['tanggal']) ? $bodyRaw['tanggal'] : '';
         $kotaBerangkat = isset($bodyRaw['berangkat']) ? $bodyRaw['berangkat'] : '';
@@ -36,7 +37,8 @@ class Trip extends ResourceController
 			'start_point' => $kotaBerangkat,
 			'end_point'   => $kotaTujuan,
 			'date'        => $tanggalBerangkat,
-			'fleet_type'  => $kelas
+			'fleet_type'  => $kelas,
+			'unit_type'  => $unit_type,
         ];
         $result = $this->tripModel->getTripList($filterData)->getResult();
 

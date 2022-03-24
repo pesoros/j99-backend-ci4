@@ -9,13 +9,18 @@ class TripModel extends Model
     public function getTripList($data = array())
     {
         $kelas = $data['fleet_type'];
+        $unit_type = $data['unit_type'];
         $start = $data['start_point'];
         $end = $data['end_point'];
         $date = $data['date'];
         $whereext = '';
 
         if ($kelas !== '') {
-            $whereext .= 'AND ta.type = '.$kelas;
+            $whereext .= ' AND ta.type = '.$kelas;
+        }
+
+        if ($unit_type !== '') {
+            $whereext .= ' AND fr.unit_id = '.$unit_type;
         }
 
         $query = $this->db->query("SELECT
@@ -28,6 +33,7 @@ class TripModel extends Model
             ta.type,
             tp.total_seat AS fleet_seats,
             fr.reg_no AS fleet_registration_id,
+            fr.unit_id AS unit_type,
             pp.price AS price,
             pp.children_price,
             pp.special_price,
