@@ -43,8 +43,8 @@ class TripModel extends Model
             tr.dropoff_points,
             tras.closed_by_id,
             tras.resto_id,
-            CONCAT(tpool1.name,' - ',tpoint.dep_point) AS pickup_trip_location,
-            CONCAT(tpool2.name,' - ',tpoint.arr_point)  AS drop_trip_location,
+            tpool1.name AS pickup_trip_location,
+            tpool2.name AS drop_trip_location,
             tpoint.dep_time as start,
             tpoint.arr_time as end,
             tpoint.price as price
