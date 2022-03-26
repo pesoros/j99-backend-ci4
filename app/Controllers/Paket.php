@@ -30,6 +30,8 @@ class Paket extends ResourceController
         $result = $result[0];
 
         $result->trace = $this->paketModel->getTrace($result->id)->getResult();
+        $result->pool_sender_id = $this->paketModel->getPool($result->pool_sender_id)->getResult()[0]->name;
+        $result->pool_receiver_id = $this->paketModel->getPool($result->pool_receiver_id)->getResult()[0]->name;
 
         return $this->respond($result, 200);
     }

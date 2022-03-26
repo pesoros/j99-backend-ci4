@@ -14,6 +14,14 @@ class PaketModel extends Model
         return $query;
     }
 
+    public function getPool($id)
+    {
+        $query = $this->db->table('trip_location_pool')
+            ->where('id',$id)
+            ->get();
+        return $query;
+    }
+
     public function getTrace($id)
     {
         $query = $this->db->table('packet_trace')

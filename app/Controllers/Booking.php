@@ -167,7 +167,7 @@ class Booking extends ResourceController
                             foreach ($seatPicked as $key => $value) {
                                 $ticketNumber = $this->codeGenerate("T", 8);
                                 $ticketdata = [
-                                    'boking_id' => $bookId,
+                                    'booking_id' => $bookingCode,
                                     'ticket_number' => $ticketNumber,
                                     'name' => $value['name'],
                                     'fleet_type' => $fleet_type,
