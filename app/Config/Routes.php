@@ -32,6 +32,7 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('document/ticket/thermal', 'Document::thermalTicket');
 $routes->post('register', 'Register::index');
 $routes->post('login', 'Login::index');
 $routes->post('datakota', 'MasterData::dataKota');
@@ -49,7 +50,7 @@ $routes->post('callback/xendit/va/create', 'Callback::virtualAccountCreate');
 $routes->post('callback/xendit/va', 'Callback::virtualAccountPay');
 $routes->post('callback/xendit/retailoutlet', 'Callback::retailOutletPay');
 $routes->post('callback/xendit/ewallet', 'Callback::ewalletPay');
-$routes->get('document/ticket/thermal', 'Document::thermalTicket');
+$routes->post('paket/cek', 'Paket::cekPaket');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     

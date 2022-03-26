@@ -174,8 +174,6 @@ class Booking extends ResourceController
                                     'seat_number' => $value['seat'],
                                     'food' => $value['food'],
                                     'baggage' => $value['baggage'],
-                                    'identity' => $value['identity'],
-                                    'identity_number' => $value['identity_number'],
                                     'phone' => $value['phone'],
                                 ];
                                 $createTicket = $this->bookingModel->createTicket($ticketdata);
