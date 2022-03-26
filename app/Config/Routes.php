@@ -51,6 +51,7 @@ $routes->post('callback/xendit/va', 'Callback::virtualAccountPay');
 $routes->post('callback/xendit/retailoutlet', 'Callback::retailOutletPay');
 $routes->post('callback/xendit/ewallet', 'Callback::ewalletPay');
 $routes->post('paket/cek', 'Paket::cekPaket');
+$routes->post('ticket/cek', 'Ticket::cekTicket');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     

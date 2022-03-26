@@ -27,7 +27,9 @@ class Paket extends ResourceController
             return $this->failNotFound('Data Not Found');
         } 
 
-        $result[0]->trace = $this->paketModel->getTrace($result[0]->id)->getResult();
+        $result = $result[0];
+
+        $result->trace = $this->paketModel->getTrace($result->id)->getResult();
 
         return $this->respond($result, 200);
     }
