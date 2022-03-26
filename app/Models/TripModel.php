@@ -15,36 +15,39 @@ class TripModel extends Model
         $date = $data['date'];
         $whereext = '';
 
-        if ($kelas !== '') {
-            $whereext .= ' AND ta.type = '.$kelas;
+        if ($kelas !== "") {
+            $whereext .= " AND ta.type = ".$kelas;
         }
 
-        if ($unit_type !== '') {
-            $whereext .= ' AND fr.unit_id = '.$unit_type;
+        if ($unit_type !== "") {
+            $whereext .= " AND fr.unit_id = ".$unit_type;
         }
+
+        $whereext .= " AND tpoint.dep_point = '".$start."'";
+        $whereext .= " AND tpoint.arr_point = '".$end."'";
 
         $query = $this->db->query("SELECT
             ta.trip_id AS trip_id_no,
             ta.route AS trip_route_id,
             ta.shedule_id,
             tr.name AS trip_route_name,
-            tl1.name AS pickup_trip_location,
-            tl2.name AS drop_trip_location,
             ta.type,
             tp.total_seat AS fleet_seats,
+            tp.type AS class,
             fr.reg_no AS fleet_registration_id,
             fr.unit_id AS unit_type,
-            pp.price AS price,
-            pp.children_price,
-            pp.special_price,
             tr.approximate_time AS duration,
             tr.stoppage_points,
             tr.distance,
             tr.pickup_points,
             tr.dropoff_points,
-            shedule.start,
-            shedule.end,
-            tras.closed_by_id
+            tras.closed_by_id,
+            tras.resto_id,
+            CONCAT(tpool1.name,' - ',tpoint.dep_point) AS pickup_trip_location,
+            CONCAT(tpool2.name,' - ',tpoint.arr_point)  AS drop_trip_location,
+            tpoint.dep_time as start,
+            tpoint.arr_time as end,
+            tpoint.price as price
             FROM trip AS ta
             LEFT JOIN shedule ON shedule.shedule_id = ta.shedule_id
             LEFT JOIN trip_route AS tr ON tr.id = ta.route
@@ -52,12 +55,15 @@ class TripModel extends Model
             LEFT JOIN fleet_type AS tp ON tp.id = ta.type
             LEFT JOIN fleet_registration AS fr ON fr.fleet_type_id = tp.id
             LEFT JOIN pri_price AS pp ON pp.route_id = ta.route AND pp.vehicle_type_id= ta.type
-            LEFT JOIN trip_location AS tl1 ON tl1.id = tr.start_point
-            LEFT JOIN trip_location AS tl2 ON tl2.id = tr.end_point
+            LEFT JOIN trip_location AS tl1 ON tl1.name = '$start' 
+            LEFT JOIN trip_location AS tl2 ON tl2.name = '$end' 
+            LEFT JOIN trip_location_pool AS tpool1 ON tl1.id = tpool1.location_id 
+            LEFT JOIN trip_location_pool AS tpool2 ON tl2.id = tpool2.location_id 
+            LEFT JOIN trip_point AS tpoint ON tras.id = tpoint.trip_assign_id
             WHERE (FIND_IN_SET('$start',tr.pickup_points))
             AND (FIND_IN_SET('$end',tr.dropoff_points))
             AND (!FIND_IN_SET(DAYOFWEEK('$date'),ta.weekend)) 
-            $whereext
+            $whereext 
             GROUP BY ta.trip_id
         ");
 

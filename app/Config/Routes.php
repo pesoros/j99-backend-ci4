@@ -49,6 +49,7 @@ $routes->post('callback/xendit/va/create', 'Callback::virtualAccountCreate');
 $routes->post('callback/xendit/va', 'Callback::virtualAccountPay');
 $routes->post('callback/xendit/retailoutlet', 'Callback::retailOutletPay');
 $routes->post('callback/xendit/ewallet', 'Callback::ewalletPay');
+$routes->get('document/ticket/thermal', 'Document::thermalTicket');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
