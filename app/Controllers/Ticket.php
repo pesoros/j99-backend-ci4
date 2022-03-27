@@ -24,11 +24,19 @@ class Ticket extends ResourceController
         $alpha = $alpha[0];
 
         if ($alpha == "B") {
-            $result = $this->ticketModel->getBook($code)->getResult()[0];
+            $result = $this->ticketModel->getBook($code)->getResult();
+            if (empty($result)) {
+                return $this->failNotFound('Data Not Found');
+            } 
+            $result = $result[0];
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
         } else if ($alpha == "T") {
-            $result = $this->ticketModel->getTicket($code)->getResult()[0];
+            $result = $this->ticketModel->getTicket($code)->getResult();
+            if (empty($result)) {
+                return $this->failNotFound('Data Not Found');
+            } 
+            $result = $result[0];
             $result->code_type = 'ticket';
         } else {
             return $this->failNotFound('wrong code number');
