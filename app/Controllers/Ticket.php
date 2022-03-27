@@ -19,14 +19,17 @@ class Ticket extends ResourceController
     public function cekTicket()
     {
         $bodyRaw = $this->request->getRawInput();
-        $ticketcode = isset($bodyRaw['code']) ? $bodyRaw['code'] : '';
-        $alpha = explode("-",$ticketcode);
+        $code = isset($bodyRaw['code']) ? $bodyRaw['code'] : '';
+        $alpha = explode("-",$code);
         $alpha = $alpha[0];
 
         if ($alpha == "B") {
-            $result = $this->ticketModel->getBook($ticketcode)->getResult();
+            $result = $this->ticketModel->getBook($code)->getResult()[0];
+            $result->code_type = 'booking';
+            $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
         } else if ($alpha == "T") {
-            $result = $this->ticketModel->getTicket($ticketcode)->getResult();
+            $result = $this->ticketModel->getTicket($code)->getResult()[0];
+            $result->code_type = 'ticket';
         } else {
             return $this->failNotFound('wrong code number');
         }
