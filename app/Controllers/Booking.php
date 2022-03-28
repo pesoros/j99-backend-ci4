@@ -40,6 +40,7 @@ class Booking extends ResourceController
         $roundTrip = 0;
 
         $setBookingCode = $this->createBooking([
+            'booker' => $booker_email,
             'booking_code' => $bookingCode,
             'round_trip' => $roundTrip,
             'total_price' => $total_price,
