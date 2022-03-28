@@ -55,6 +55,7 @@ $routes->post('ticket/cek', 'Ticket::cekTicket');
 $routes->post('account/profile', 'Account::getProfile');
 $routes->post('account/profile/update', 'Account::updateProfile');
 $routes->post('account/profile/historyticket', 'Account::historyTicket');
+$routes->post('contact/pariwisata', 'Contact::pariwisata');
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     

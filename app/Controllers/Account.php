@@ -53,7 +53,14 @@ class Account extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+        if ($email = '') {
+            return $this->failNotFound('Email empty');
+        }
         $result = $this->accountModel->historyTicket($email)->getResult();
+
+        if (empty($result)) {
+            return $this->failNotFound('Data Not Found');
+        } 
 
         return $this->respond($result, 200);
     }
