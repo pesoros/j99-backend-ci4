@@ -64,4 +64,10 @@ class Account extends ResourceController
 
         return $this->respond($result, 200);
     }
+
+    public function changePassword()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+    }
 }
