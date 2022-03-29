@@ -29,7 +29,7 @@ class Register extends ResourceController
         $identity = $this->request->getVar('identity') ? $this->request->getVar('identity') : '';
         $identityNumber = $this->request->getVar('identityNumber') ? $this->request->getVar('identityNumber') : '';
 
-        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
+        // if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
         $data = [
             'email'     => $this->request->getVar('email'),
             'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
