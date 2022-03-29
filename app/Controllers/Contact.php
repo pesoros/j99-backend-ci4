@@ -25,9 +25,9 @@ class Contact extends ResourceController
         $busType = isset($bodyRaw['busType']) ? $bodyRaw['busType'] : '';
         $description = isset($bodyRaw['description']) ? $bodyRaw['description'] : '';
 
-        $result = $bodyRaw;
         $result['status'] = 200;
         $result['messages'] = 'success';
+        $result['body'] = $bodyRaw;
 
         return $this->respond($result, 200);
     }
