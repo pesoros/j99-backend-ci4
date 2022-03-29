@@ -31,7 +31,7 @@ class Register extends ResourceController
         $identity = isset($bodyRaw['identity']) ? $bodyRaw['identity'] : '';
         $identityNumber = isset($bodyRaw['identityNumber']) ? $bodyRaw['identityNumber'] : '';
 
-        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
+        // if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
         $data = [
             'email'     => $bodyRaw['email'],
             'password'  => password_hash($bodyRaw['password'], PASSWORD_BCRYPT),
