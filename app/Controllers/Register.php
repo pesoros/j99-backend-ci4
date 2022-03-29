@@ -28,8 +28,8 @@ class Register extends ResourceController
 
         $bodyRaw = $this->request->getRawInput();
 
-        $identity = $bodyRaw['identity'] ? $bodyRaw['identity'] : '';
-        $identityNumber = $bodyRaw['identityNumber'] ? $bodyRaw['identityNumber'] : '';
+        $identity = isset($bodyRaw['identity']) ? $bodyRaw['identity'] : '';
+        $identityNumber = isset($bodyRaw['identityNumber']) ? $bodyRaw['identityNumber'] : '';
 
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
         $data = [
