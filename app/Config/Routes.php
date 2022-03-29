@@ -56,7 +56,9 @@ $routes->post('account/profile', 'Account::getProfile');
 $routes->post('account/profile/update', 'Account::updateProfile');
 $routes->post('account/profile/historyticket', 'Account::historyTicket');
 $routes->post('account/password/change', 'Account::changePassword');
-$routes->post('contact/pariwisata', 'Contact::pariwisata');
+$routes->post('contact/pariwisata', 'Enquiry::pariwisata');
+$routes->post('email/send', 'Mail::index');
+
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
