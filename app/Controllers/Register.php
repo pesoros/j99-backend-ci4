@@ -26,17 +26,17 @@ class Register extends ResourceController
             'phone' => 'required',
         ];
 
-        $identity = $this->request->getRawInput()->identity ? $this->request->getRawInput()->identity : '';
-        $identityNumber = $this->request->getRawInput()->identityNumber ? $this->request->getRawInput()->identityNumber : '';
+        $identity = $this->request->getVar('identity') ? $this->request->getVar('identity') : '';
+        $identityNumber = $this->request->getVar('identityNumber') ? $this->request->getVar('identityNumber') : '';
 
-        // if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
+        if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
         $data = [
-            'email'     => $this->request->getRawInput()->email,
-            'password'  => password_hash($this->request->getRawInput()->password, PASSWORD_BCRYPT),
-            'first_name'     => $this->request->getRawInput()->firstName,
-            'last_name'     => $this->request->getRawInput()->lastName,
-            'address'     => $this->request->getRawInput()->address,
-            'phone'     => $this->request->getRawInput()->phone,
+            'email'     => $this->request->getVar('email'),
+            'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+            'first_name'     => $this->request->getVar('firstName'),
+            'last_name'     => $this->request->getVar('lastName'),
+            'address'     => $this->request->getVar('address'),
+            'phone'     => $this->request->getVar('phone'),
             'identity'     => $identity,
             'identity_number'     => $identityNumber,
         ];
