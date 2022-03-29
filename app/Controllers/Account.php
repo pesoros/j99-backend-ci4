@@ -69,5 +69,17 @@ class Account extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+        $newPassword = isset($bodyRaw['newPassword']) ? $bodyRaw['newPassword'] : '';
+        $confNewPassword = isset($bodyRaw['confNewPassword']) ? $bodyRaw['confNewPassword'] : '';
+
+        if ($newPassword !== $confNewPassword) {
+            return $this->failNotFound('Passord not match');
+        }
+
+        $data['password'] = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        $result = $this->accountModel->updatePassword($email,$data);
+
+        return $this->respond($result);
     }
 }

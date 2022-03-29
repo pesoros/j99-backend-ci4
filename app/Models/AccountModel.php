@@ -40,4 +40,13 @@ class AccountModel extends Model
             ->get();
         return $query;
     }
+
+    public function updatePassword($email,$data)
+    {
+        $update = $this->db->table('users_client')
+            ->where('email',$email)
+            ->update($data);
+
+        return $update;
+    }
 }
