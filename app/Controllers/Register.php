@@ -16,15 +16,15 @@ class Register extends ResourceController
     use ResponseTrait;
     public function index()
     {
-        helper(['form']);
-        $rules = [
-            'email' => 'required|valid_email|is_unique[users_client.email]',
-            'password' => 'required|min_length[6]',
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'address' => 'required',
-            'phone' => 'required',
-        ];
+        // helper(['form']);
+        // $rules = [
+        //     'email' => 'required|valid_email|is_unique[users_client.email]',
+        //     'password' => 'required|min_length[6]',
+        //     'firstName' => 'required',
+        //     'lastName' => 'required',
+        //     'address' => 'required',
+        //     'phone' => 'required',
+        // ];
 
         $bodyRaw = $this->request->getRawInput();
 
