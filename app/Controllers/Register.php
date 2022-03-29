@@ -26,17 +26,19 @@ class Register extends ResourceController
             'phone' => 'required',
         ];
 
-        $identity = $this->request->getVar('identity') ? $this->request->getVar('identity') : '';
-        $identityNumber = $this->request->getVar('identityNumber') ? $this->request->getVar('identityNumber') : '';
+        $bodyRaw = $this->request->getRawInput();
+
+        $identity = $bodyRaw['identity'] ? $bodyRaw['identity'] : '';
+        $identityNumber = $bodyRaw['identityNumber'] ? $bodyRaw['identityNumber'] : '';
 
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
         $data = [
-            'email'     => $this->request->getVar('email'),
-            'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-            'first_name'     => $this->request->getVar('firstName'),
-            'last_name'     => $this->request->getVar('lastName'),
-            'address'     => $this->request->getVar('address'),
-            'phone'     => $this->request->getVar('phone'),
+            'email'     => $bodyRaw['email'],
+            'password'  => password_hash($bodyRaw['password'], PASSWORD_BCRYPT),
+            'first_name'     => $bodyRaw['firstName'],
+            'last_name'     => $bodyRaw['lastName'],
+            'address'     => $bodyRaw['address'],
+            'phone'     => $bodyRaw['phone'],
             'identity'     => $identity,
             'identity_number'     => $identityNumber,
         ];
