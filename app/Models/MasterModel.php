@@ -48,4 +48,11 @@ class MasterModel extends Model
             ->get();
         return $query;
     }
+
+    public function getCheckinStatus()
+    {
+        $query = $this->db->table('checkin_status')
+            ->get();
+        return $query;
+    }
 }

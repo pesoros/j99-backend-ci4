@@ -58,4 +58,10 @@ class MasterData extends ResourceController
         $result = $this->masterModel->getRestoMenu($idResto)->getResult();
         return $this->respond($result, 200);
     }
+
+    public function dataCheckinStatus()
+    {
+        $result = $this->masterModel->getCheckinStatus()->getResult();
+        return $this->respond($result, 200);
+    }
 }

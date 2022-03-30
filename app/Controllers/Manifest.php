@@ -19,6 +19,8 @@ class Manifest extends ResourceController
     public function tripDetail(Type $var = null)
     {
         $bodyRaw = $this->request->getRawInput();
+        $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
+        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
 
         $result['status'] = 200;
         $result['messages'] = 'success';

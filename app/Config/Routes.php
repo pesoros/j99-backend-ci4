@@ -40,6 +40,7 @@ $routes->post('datakelas', 'MasterData::datakelas');
 $routes->post('dataunit', 'MasterData::dataUnit');
 $routes->get('dataresto', 'MasterData::dataResto');
 $routes->post('datarestomenu', 'MasterData::dataMenu');
+$routes->get('datacheckinstatus', 'MasterData::dataCheckinStatus');
 $routes->post('listbus', 'Trip::tripList');
 $routes->post('seatlist', 'Trip::seatList');
 $routes->get('datapaymentmethod', 'XenditResource::paymentMethodList');
