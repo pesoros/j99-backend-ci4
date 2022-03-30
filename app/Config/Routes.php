@@ -59,6 +59,12 @@ $routes->post('account/password/change', 'Account::changePassword');
 $routes->post('contact/pariwisata', 'Enquiry::pariwisata');
 $routes->post('email/send', 'Mail::index');
 
+$routes->group("manifest", function($routes){
+    $routes->post('trip', 'Manifest::tripDetail');
+    $routes->post('checkin/list', 'Manifest::checkinList');
+    $routes->post('checkin/set', 'Manifest::setStatusCheckin');
+});
+
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     
