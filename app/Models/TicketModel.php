@@ -24,6 +24,7 @@ class TicketModel extends Model
         $query = $this->db->table('tkt_passenger_pcs AS tps')
             ->select("
                 tbook.booking_code,
+                tps.name,
                 tps.ticket_number,
                 ft.type,
                 tps.seat_number,
