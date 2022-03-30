@@ -59,11 +59,11 @@ $routes->post('account/password/change', 'Account::changePassword');
 $routes->post('contact/pariwisata', 'Enquiry::pariwisata');
 $routes->post('email/send', 'Mail::index');
 
-$routes->group("manifest", function($routes){
-    $routes->post('trip', 'Manifest::tripDetail');
-    $routes->post('checkin/list', 'Manifest::checkinList');
-    $routes->post('checkin/set', 'Manifest::setStatusCheckin');
-});
+// $routes->group("manifest", function($routes){
+    $routes->post('manifest/trip', 'Manifest::tripDetail');
+    $routes->post('manifest/checkin/list', 'Manifest::checkinList');
+    $routes->post('manifest/checkin/set', 'Manifest::setStatusCheckin');
+// });
 
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
