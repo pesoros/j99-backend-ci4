@@ -56,11 +56,14 @@ class Account extends ResourceController
         if ($email == '') {
             return $this->failNotFound('Email empty');
         }
-        $result = $this->accountModel->historyTicket($email)->getResult();
+        $getHistory = $this->accountModel->historyTicket($email)->getResult();
 
-        if (empty($result)) {
+        if (empty($getHistory)) {
             return $this->failNotFound('Data Not Found');
         } 
+
+        $result['status'] = 200;
+        $result['data'] = $getHistory;
 
         return $this->respond($result, 200);
     }
