@@ -11,6 +11,7 @@ class OtpModel extends Model
         $query = $this->db->table('otp')
             ->where('phone',$phone)
             ->where('status',1)
+            ->orderBy('id','DESC')
             ->get();
         return $query;
     }
@@ -20,6 +21,7 @@ class OtpModel extends Model
         $query = $this->db->table('otp')
             ->where('email',$email)
             ->where('status',1)
+            ->orderBy('id','DESC')
             ->get();
         return $query;
     }
