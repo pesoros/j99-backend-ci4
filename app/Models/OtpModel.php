@@ -6,10 +6,19 @@ use CodeIgniter\Model;
 
 class OtpModel extends Model
 {
-    public function getOtp($phone,$dateNow)
+    public function getOtpPhone($phone,$dateNow)
     {
         $query = $this->db->table('otp')
             ->where('phone',$phone)
+            ->where('status',1)
+            ->get();
+        return $query;
+    }
+
+    public function getOtpMail($email,$dateNow)
+    {
+        $query = $this->db->table('otp')
+            ->where('email',$email)
             ->where('status',1)
             ->get();
         return $query;

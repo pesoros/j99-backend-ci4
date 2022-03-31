@@ -20,10 +20,18 @@ class Otp extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $phone = isset($bodyRaw['phone']) ? $bodyRaw['phone'] : '';
+        $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
         $otp = isset($bodyRaw['otp']) ? $bodyRaw['otp'] : '';
         $dateNow = date("Y-m-d H:i:s");
 
-        $getOtp = $this->otpModel->getOtp($phone,$dateNow)->getRow();
+        if ($phone !== '') {
+            # code...
+            $getOtp = $this->otpModel->getOtpPhone($phone,$dateNow)->getRow();
+        } else if ($email !== '') {
+            $getOtp = $this->otpModel->getOtpMail($email,$dateNow)->getRow();
+        } else {
+            return $this->failNotFound('email or phone must be filled');
+        }
 
         if (empty($getOtp)) {
             return $this->failNotFound('Data Not Found');
@@ -49,21 +57,26 @@ class Otp extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $phone = isset($bodyRaw['phone']) ? $bodyRaw['phone'] : '';
+        $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
 
         $untilTime = date("Y-m-d H:i:s", strtotime('+15 minutes'));
 
         $data = [
+            'email' => $email,
             'phone' => $phone,
             'otp' => mt_rand(1000,9999),
             'status' => 1,
             'valid_until' => $untilTime
         ];
 
-        $result = $this->otpModel->createOtp($data);
+        $createOtp = $this->otpModel->createOtp($data);
 
-        if (empty($result)) {
-            return $this->failNotFound('Data Not Found');
+        if ($createOtp !== true) {
+            return $this->failNotFound('Failed');
         } 
+
+        $result['status'] = 200;
+        $result['message'] = 'success';
 
         return $this->respond($result, 200);
     }
