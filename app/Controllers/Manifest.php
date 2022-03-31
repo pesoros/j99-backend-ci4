@@ -68,4 +68,45 @@ class Manifest extends ResourceController
 
         return $this->respond($result, 200);
     }
+
+    public function expensesList()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
+        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
+
+        $expensesList = $this->manifestModel->getExpensesList($tripIdNo,$tripDate)->getResult();
+        
+        $result['status'] = 200;
+        $result['messages'] = 'success';
+        $result['data'] = $expensesList;
+
+        return $this->respond($result, 200);
+    }
+
+    public function expensesSet()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
+        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
+        $description = isset($bodyRaw['description']) ? $bodyRaw['description'] : '';
+        $nominal = isset($bodyRaw['nominal']) ? $bodyRaw['nominal'] : '';
+        $dateNow = date("Y-m-d H:i:s");
+
+        $data = [
+            'trip_id_no' => $tripIdNo,
+            'trip_date'    => $tripDate,
+            'description'    => $description,
+            'nominal'    => $nominal,
+            'status'    => 1,
+            'created_at'    => $dateNow,
+        ];
+        
+        $createExpense = $this->manifestModel->createExpense($data);
+
+        $result['status'] = 200;
+        $result['messages'] = 'success';
+
+        return $this->respond($result, 200);
+    }
 }

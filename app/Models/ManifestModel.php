@@ -53,4 +53,22 @@ class ManifestModel extends Model
 
         return $save;
     }
+
+    public function getExpensesList($trip_id_no,$booking_date)
+    {
+        $query = $this->db->table('trip_expenses')
+            ->where('trip_id_no', $trip_id_no)
+            ->where('DATE(trip_date)', $booking_date)
+            ->get();
+
+        return $query;
+    }
+
+    public function createExpense($data)
+    {
+        $save = $this->db->table('trip_expenses')
+            ->insert($data);
+
+        return $save;
+    }
 }
