@@ -61,6 +61,7 @@ $routes->post('contact/pariwisata', 'Enquiry::pariwisata');
 $routes->post('email/send', 'Mail::index');
 $routes->post('otp/check', 'Otp::checkOtp');
 $routes->post('otp/set', 'Otp::createOtp');
+$routes->post('checkregis', 'MasterData::checkRegis');
 
 $routes->group("manifest", function($routes){
     $routes->post('trip', 'Manifest::tripDetail');

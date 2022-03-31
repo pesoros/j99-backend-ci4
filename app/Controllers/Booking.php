@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use App\Models\BookingModel;
 use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 use Xendit\Xendit;
-use CodeIgniter\I18n\Time;
 
 class Booking extends ResourceController
 {
@@ -34,10 +34,27 @@ class Booking extends ResourceController
         $pulang = isset($bodyRaw['pulang']) ? $bodyRaw['pulang'] : '';
         $dateNow = date('Y-m-d H:i:s');
         $bookingCode = $this->codeGenerate("B", 8);
-        
-        $total_price = 1000; 
-        $total_seat = 2; 
+
+        $total_price = 0;
+        $total_seat = 0;
         $roundTrip = 0;
+
+        $data['pergi'] = $this->setTicket($pergi, $bookingCode, $offer_code);
+        $total_price = $data['pergi']['price'];
+        unset($data['pergi']['price']);
+        unset($data['pergi']['message']);
+        $total_seat = count($pergi['seatPicked']);
+
+        if ($pulang) {
+            $roundTrip = 1;
+            $total_seat = $total_seat + count($pulang['seatPicked']);
+            $data['pulang'] = $this->setTicket($pulang, $bookingCode, $offer_code);
+            $total_price = $total_price + $data['pulang']['price'];
+            unset($data['pulang']['price']);
+            unset($data['pulang']['message']);
+        } else {
+            $data['pulang'] = '-';
+        }
 
         $setBookingCode = $this->createBooking([
             'booker' => $booker_email,
@@ -49,20 +66,6 @@ class Booking extends ResourceController
             'offer_code' => $offer_code,
             'created_at' => $dateNow,
         ]);
-
-        $data['pergi'] = $this->setTicket($pergi, $bookingCode, $offer_code);
-        $total_price = $data['pergi']['price'];
-        unset($data['pergi']['price']);
-        unset($data['pergi']['message']);
-
-        if ($pulang) {
-            $data['pulang'] = $this->setTicket($pulang, $bookingCode, $offer_code);
-            $total_price = $total_price + $data['pulang']['price'];
-            unset($data['pulang']['price']);
-            unset($data['pulang']['message']);
-        } else {
-            $data['pulang'] = '-';
-        }
 
         $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
         $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
@@ -79,7 +82,7 @@ class Booking extends ResourceController
         $createTicket = $this->bookingModel->createBooking($bookData);
     }
 
-    public function setTicket($datas,$bookingCode,$offer_code)
+    public function setTicket($datas, $bookingCode, $offer_code)
     {
         $trip_id_no = isset($datas['trip_id_no']) ? $datas['trip_id_no'] : '';
         $trip_route_id = isset($datas['trip_route_id']) ? $datas['trip_route_id'] : '';
@@ -122,8 +125,8 @@ class Booking extends ResourceController
             } else {
                 $discount = 0;
             }
-            $passengerId = $this->codeGenerate("P",12);
-            $bookId = $this->codeGenerate("G",12);
+            $passengerId = $this->codeGenerate("P", 12);
+            $bookId = $this->codeGenerate("G", 12);
 
             #--------------------------------------
 
@@ -268,7 +271,7 @@ class Booking extends ResourceController
     {
         // $createInvoice = $this->createInvoice($bookingId, $email, $name, $description, $amount, $payment_channel_code);
         $dateExpired = new Time('+1 day');
-        $dateExpired = date("Y-m-d", strtotime($dateExpired)).'T'.date("h:i:s", strtotime($dateExpired)).'.000Z';
+        $dateExpired = date("Y-m-d", strtotime($dateExpired)) . 'T' . date("h:i:s", strtotime($dateExpired)) . '.000Z';
 
         if ($payment_method == 'VIRTUAL_ACCOUNT') {
             $result = $this->generateVirtualAccountPay($bookingId, $email, $name, $description, $amount, $payment_channel_code, $dateExpired);
@@ -301,7 +304,7 @@ class Booking extends ResourceController
         $params = ["external_id" => $bookingId,
             "bank_code" => strval($payment_channel_code),
             "name" => $name,
-            "expiration_date" => $dateExpired
+            "expiration_date" => $dateExpired,
         ];
 
         $createVA = \Xendit\VirtualAccounts::create($params);
@@ -327,7 +330,7 @@ class Booking extends ResourceController
         ];
 
         $createEWalletCharge = \Xendit\EWallets::createEWalletCharge($params);
-        
+
         return $createEWalletCharge;
     }
 
@@ -338,11 +341,11 @@ class Booking extends ResourceController
             'retail_outlet_name' => $payment_channel_code,
             'name' => $name,
             'expected_amount' => $amount,
-            "expiration_date" => $dateExpired
+            "expiration_date" => $dateExpired,
         ];
-        
+
         $createFPC = \Xendit\Retail::create($params);
-        
+
         return $createFPC;
     }
 

@@ -64,4 +64,22 @@ class MasterData extends ResourceController
         $result = $this->masterModel->getCheckinStatus()->getResult();
         return $this->respond($result, 200);
     }
+
+    public function checkRegis()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+
+        $getEmail = $this->masterModel->getregis($email)->getRow();
+
+        if (!$getEmail) {
+            $result['status'] = 200;
+            $result['message'] = 'email not taken';
+        } else {
+            $result['status'] = 404;
+            $result['message'] = 'email taken';
+        }
+        
+        return $this->respond($result, 200);
+    }
 }

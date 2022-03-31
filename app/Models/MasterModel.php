@@ -55,4 +55,12 @@ class MasterModel extends Model
             ->get();
         return $query;
     }
+
+    public function getregis($email)
+    {
+        $query = $this->db->table('users_client')
+            ->where('email',$email)
+            ->get();
+        return $query;
+    }
 }
