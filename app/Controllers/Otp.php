@@ -12,8 +12,9 @@ class Otp extends ResourceController
     protected $otpModel;
     public function __construct()
     {
-        $this->otpModel = new   OtpModel();
+        $this->otpModel = new OtpModel();
         $this->db = \Config\Database::connect();
+        $this->email = \Config\Services::email();
     }
     
     public function checkOtp()
@@ -58,13 +59,21 @@ class Otp extends ResourceController
         $bodyRaw = $this->request->getRawInput();
         $phone = isset($bodyRaw['phone']) ? $bodyRaw['phone'] : '';
         $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+        $sendBy = isset($bodyRaw['sendBy']) ? $bodyRaw['sendBy'] : '';
+        $otpNumber = mt_rand(1000,9999);
+
+        if ($sendBy == 'email') {
+            $sendMail = $this->sendMail($email,'OTP',$otpNumber);
+        } else if ($sendBy == 'wa') {
+            // waiting wa bussines api
+        }
 
         $untilTime = date("Y-m-d H:i:s", strtotime('+15 minutes'));
 
         $data = [
             'email' => $email,
             'phone' => $phone,
-            'otp' => mt_rand(1000,9999),
+            'otp' => $otpNumber,
             'status' => 1,
             'valid_until' => $untilTime
         ];
@@ -80,4 +89,28 @@ class Otp extends ResourceController
 
         return $this->respond($result, 200);
     }
+
+    private function sendMail($mailTo,$subject,$message)
+	{
+        $nickname = getenv('EMAIL_CONFIG_SENDERNAME');
+        $mailFrom = getenv('EMAIL_CONFIG_SENDERMAIL');
+
+		// $config['protocol'] = getenv('EMAIL_CONFIG_PROTOCOL');
+		// $config['SMTPHost'] = getenv('EMAIL_CONFIG_HOST');
+		// $config['SMTPPort'] = getenv('EMAIL_CONFIG_PORT');
+		// $config['SMTPUser'] = getenv('EMAIL_CONFIG_USER');
+		// $config['SMTPPass'] = getenv('EMAIL_CONFIG_PASS');
+        // $config['SMTPCrypto'] = getenv('CRYPTO');
+
+        $this->email->clear();
+        // $this->email->initialize($config);
+        $this->email->setTo($mailTo);
+        $this->email->setFrom($mailFrom, $nickname);
+        
+        $this->email->setSubject($subject);
+        $this->email->setMessage($message);
+        $send = $this->email->send();
+		
+		return $send;
+	}
 }
