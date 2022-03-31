@@ -59,6 +59,8 @@ $routes->post('account/profile/historyticket', 'Account::historyTicket');
 $routes->post('account/password/change', 'Account::changePassword');
 $routes->post('contact/pariwisata', 'Enquiry::pariwisata');
 $routes->post('email/send', 'Mail::index');
+$routes->post('otp/check', 'Otp::checkOtp');
+$routes->post('otp/set', 'Otp::createOtp');
 
 $routes->group("manifest", function($routes){
     $routes->post('trip', 'Manifest::tripDetail');
