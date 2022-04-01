@@ -67,7 +67,7 @@ class Ticket extends ResourceController
         $data['tickedData'] = $this->ticketModel->getTicket($code)->getRow();
         $data['qrcode'] = $this->qrcodeGenerate($code);
 
-        $filename = date('y-m-d-H-i-s'). 'ticket';
+        $filename = $code. '-ticket.php';
         $options = new Options();
         $options->set('isRemoteEnabled', TRUE);
         $dompdf = new Dompdf($options);
