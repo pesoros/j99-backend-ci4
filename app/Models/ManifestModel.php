@@ -9,18 +9,18 @@ class ManifestModel extends Model
     public function getTripDetail($trip_id_no)
     {
         $query = $this->db->table('trip_assign AS ta')
-            ->select('
+            ->select("
                 trt.name as route,
                 flr.reg_no,
                 flr.model_no as nopol,
                 flr.company as brand,
                 ftp.type as class,
                 rs.resto_name,
-                CONCAT(empdriver.first_name,empdriver.second_name) as driver,
-                CONCAT(empassist1.first_name,empassist1.second_name) as assistant_1,
-                CONCAT(empassist2.first_name,empassist2.second_name) as assistant_2,
-                CONCAT(empassist3.first_name,empassist3.second_name) as assistant_3,
-            ')
+                CONCAT(empdriver.first_name,' ',empdriver.second_name) as driver,
+                CONCAT(empassist1.first_name,' ',empassist1.second_name) as assistant_1,
+                CONCAT(empassist2.first_name,' ',empassist2.second_name) as assistant_2,
+                CONCAT(empassist3.first_name,' ',empassist3.second_name) as assistant_3,
+            ")
             ->join('fleet_registration AS flr', 'ta.fleet_registration_id = flr.id')
             ->join('fleet_type AS ftp', 'flr.fleet_type_id = ftp.id')
             ->join('resto AS rs', 'ta.resto_id = rs.id')
