@@ -85,17 +85,17 @@
                         <tr>
                             <td>Nama</td>
                             <td>:</td>
-                            <td><?= $tickedData['name'] ?></td>
+                            <td><?= $tickedData->name ?></td>
                         </tr>
                         <tr>
                             <td>No HP</td>
                             <td>:</td>
-                            <td><?= $tickedData['phone'] ?></td>
+                            <td><?= $tickedData->phone ?></td>
                         </tr>
                         <tr>
                             <td>Tanggal</td>
                             <td>:</td>
-                            <td><?= $tickedData['booking_date'] ?></td>
+                            <td><?= $tickedData->booking_date ?></td>
                         </tr>
                         <tr>
                             <td>Asal</td>
@@ -110,7 +110,7 @@
                         <tr>
                             <td>Tarif</td>
                             <td>:</td>
-                            <td>Rp. <?= $tickedData['price'] ?></td>
+                            <td>Rp. <?= $tickedData->price ?></td>
                         </tr>
                     </table>
                 </td>
@@ -119,27 +119,27 @@
                         <tr>
                             <td>Kode Tiket</td>
                             <td>:</td>
-                            <td><?= $tickedData['ticket_number'] ?></td>
+                            <td><?= $tickedData->ticket_number ?></td>
                         </tr>
                         <tr>
                             <td>Kelas</td>
                             <td>:</td>
-                            <td><?= $tickedData['type'] ?></</td>
+                            <td><?= $tickedData->type ?></</td>
                         </tr>
                         <tr>
                             <td>No Kursi</td>
                             <td>:</td>
-                            <td><?= $tickedData['seat_number'] ?></</td>
+                            <td><?= $tickedData->seat_number ?></</td>
                         </tr>
                         <tr>
                             <td>Menu Makan</td>
                             <td>:</td>
-                            <td><?= $tickedData['food_name'] ?></</td>
+                            <td><?= $tickedData->food_name ?></</td>
                         </tr>
                         <tr>
                             <td>Bagasi</td>
                             <td>:</td>
-                            <td><?= $tickedData['baggage'] ?></</td>
+                            <td><?= $tickedData->baggage ?></</td>
                         </tr>
                         <tr>
                             <td>No Polisi</td>
