@@ -63,6 +63,7 @@ $routes->post('otp/set', 'Otp::createOtp');
 $routes->post('checkregis', 'MasterData::checkRegis');
 
 $routes->group("manifest", function($routes){
+    $routes->post('login', 'LoginManifest::index');
     $routes->post('trip', 'Manifest::tripDetail');
     $routes->post('checkin/list', 'Manifest::checkinList');
     $routes->post('checkin/set', 'Manifest::setStatusCheckin');
