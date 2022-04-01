@@ -69,6 +69,9 @@ $routes->group("manifest", function($routes){
     $routes->post('checkin/set', 'Manifest::setStatusCheckin');
     $routes->post('expenses/list', 'Manifest::expensesList');
     $routes->post('expenses/set', 'Manifest::expensesSet');
+    $routes->post('baggage/set', 'Manifest::baggageSet');
+    $routes->post('baggage/list', 'Manifest::baggageList');
+    $routes->get('baggage/typefrom', 'Manifest::typeFrom');
 });
 
 

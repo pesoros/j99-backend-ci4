@@ -71,4 +71,30 @@ class ManifestModel extends Model
 
         return $save;
     }
+
+    public function getTypeFrom()
+    {
+        $query = $this->db->table('trip_baggage_type_from')
+            ->get();
+
+        return $query;
+    }
+
+    public function getBaggageList($trip_id_no,$booking_date)
+    {
+        $query = $this->db->table('trip_baggage')
+            ->where('trip_id_no', $trip_id_no)
+            ->where('DATE(trip_date)', $booking_date)
+            ->get();
+
+        return $query;
+    }
+
+    public function createBaggage($data)
+    {
+        $save = $this->db->table('trip_baggage')
+            ->insert($data);
+
+        return $save;
+    }
 }

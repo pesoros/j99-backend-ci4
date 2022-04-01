@@ -109,4 +109,55 @@ class Manifest extends ResourceController
 
         return $this->respond($result, 200);
     }
+
+    public function typeFrom()
+    {
+        $typeFrom = $this->manifestModel->getTypeFrom()->getResult();
+        
+        $result['status'] = 200;
+        $result['messages'] = 'success';
+        $result['data'] = $typeFrom;
+
+        return $this->respond($result, 200);
+    }
+
+    public function baggageList()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
+        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
+
+        $baggageList = $this->manifestModel->getBaggageList($tripIdNo,$tripDate)->getResult();
+        
+        $result['status'] = 200;
+        $result['messages'] = 'success';
+        $result['data'] = $baggageList;
+
+        return $this->respond($result, 200);
+    }
+
+    public function baggageSet()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
+        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
+        $typeFrom = isset($bodyRaw['typeFrom']) ? $bodyRaw['typeFrom'] : '';
+        $code = isset($bodyRaw['code']) ? $bodyRaw['code'] : '';
+        $dateNow = date("Y-m-d H:i:s");
+
+        $data = [
+            'trip_id_no' => $tripIdNo,
+            'trip_date'    => $tripDate,
+            'type_from'    => $typeFrom,
+            'code'    => $code,
+            'created_at'    => $dateNow,
+        ];
+        
+        $createBaggage = $this->manifestModel->createBaggage($data);
+
+        $result['status'] = 200;
+        $result['messages'] = 'success';
+
+        return $this->respond($result, 200);
+    }
 }
