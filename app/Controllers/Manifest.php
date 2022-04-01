@@ -83,9 +83,30 @@ class Manifest extends ResourceController
         $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
 
         $expensesList = $this->manifestModel->getExpensesList($tripIdNo,$tripDate)->getResult();
+        $getAllowance = $this->manifestModel->getAllowance($tripIdNo)->getRow();
+
+        $spend = 0;
+        $income = 0;
+        $summary = 0;
+        
+        foreach ($expensesList as $key => $value) {
+            if ($value->action == 'spend') {
+                $spend = $spend + $value->nominal;
+            } else {
+                $income = $income + $value->nominal;
+            }
+        }
+
+        $allowance = intval($getAllowance->allowance);
+        $summary = $allowance + $income;
+        $summary = $summary - $spend;
         
         $result['status'] = 200;
         $result['messages'] = 'success';
+        $result['total_spend'] = $spend;
+        $result['total_income'] = $income;
+        $result['allowance'] = $allowance;
+        $result['summary'] = $summary;
         $result['data'] = $expensesList;
 
         return $this->respond($result, 200);
@@ -98,6 +119,7 @@ class Manifest extends ResourceController
         $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
         $description = isset($bodyRaw['description']) ? $bodyRaw['description'] : '';
         $nominal = isset($bodyRaw['nominal']) ? $bodyRaw['nominal'] : '';
+        $action = isset($bodyRaw['action']) ? $bodyRaw['action'] : '';
         $dateNow = date("Y-m-d H:i:s");
 
         $data = [
@@ -105,6 +127,7 @@ class Manifest extends ResourceController
             'trip_date'    => $tripDate,
             'description'    => $description,
             'nominal'    => $nominal,
+            'action'    => $action,
             'status'    => 1,
             'created_at'    => $dateNow,
         ];

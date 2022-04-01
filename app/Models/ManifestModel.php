@@ -84,6 +84,16 @@ class ManifestModel extends Model
         return $save;
     }
 
+    public function getAllowance($trip_id_no)
+    {
+        $query = $this->db->table('trip_assign')
+            ->select('allowance')
+            ->where('trip', $trip_id_no)
+            ->get();
+
+        return $query;
+    }
+
     public function getExpensesList($trip_id_no,$booking_date)
     {
         $query = $this->db->table('trip_expenses')
