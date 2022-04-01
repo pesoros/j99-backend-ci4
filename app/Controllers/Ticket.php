@@ -75,6 +75,7 @@ class Ticket extends ResourceController
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream($filename, array("Attachment" => false));
+        exit();
     }
 
     public function qrcodeGenerate($kodeTicket)
