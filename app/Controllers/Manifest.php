@@ -20,10 +20,12 @@ class Manifest extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
-        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
+
+        $tripDetail = $this->manifestModel->getTripDetail($tripIdNo)->getRow();
 
         $result['status'] = 200;
         $result['messages'] = 'success';
+        $result['data'] = $tripDetail;
 
         return $this->respond($result, 200);
     }
