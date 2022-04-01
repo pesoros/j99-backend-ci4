@@ -32,7 +32,6 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('document/ticket/thermal', 'Document::thermalTicket');
 $routes->post('register', 'Register::index');
 $routes->post('login', 'Login::index');
 $routes->post('datakota', 'MasterData::dataKota');
@@ -74,6 +73,9 @@ $routes->group("manifest", function($routes){
     $routes->get('baggage/typefrom', 'Manifest::typeFrom');
 });
 
+$routes->group("print", function($routes){
+    $routes->get('ticket/thermal', 'Ticket::thermalTicket');
+});
 
 $routes->group("", ["filter" => "authfilter"], function($routes){
     

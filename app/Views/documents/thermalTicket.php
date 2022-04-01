@@ -85,17 +85,17 @@
                         <tr>
                             <td>Nama</td>
                             <td>:</td>
-                            <td>Pitoyo Bumi Langit</td>
+                            <td><?= $tickedData->name ?></td>
                         </tr>
                         <tr>
                             <td>No HP</td>
                             <td>:</td>
-                            <td>081288833455</td>
+                            <td><?= $tickedData->phone ?></td>
                         </tr>
                         <tr>
                             <td>Tanggal</td>
                             <td>:</td>
-                            <td>21 Maret 2021</td>
+                            <td><?= $tickedData->booking_date ?></td>
                         </tr>
                         <tr>
                             <td>Asal</td>
@@ -110,7 +110,7 @@
                         <tr>
                             <td>Tarif</td>
                             <td>:</td>
-                            <td>Rp 680.000</td>
+                            <td>Rp. <?= $tickedData->price ?></td>
                         </tr>
                     </table>
                 </td>
@@ -119,27 +119,27 @@
                         <tr>
                             <td>Kode Tiket</td>
                             <td>:</td>
-                            <td>T-K98NMD</td>
+                            <td><?= $tickedData->ticket_number ?></td>
                         </tr>
                         <tr>
                             <td>Kelas</td>
                             <td>:</td>
-                            <td>Eksekutif</td>
+                            <td><?= $tickedData->type ?></</td>
                         </tr>
                         <tr>
                             <td>No Kursi</td>
                             <td>:</td>
-                            <td>B4</td>
+                            <td><?= $tickedData->seat_number ?></</td>
                         </tr>
                         <tr>
                             <td>Menu Makan</td>
                             <td>:</td>
-                            <td>Garangasem Daging</td>
+                            <td><?= $tickedData->food_name ?></</td>
                         </tr>
                         <tr>
                             <td>Bagasi</td>
                             <td>:</td>
-                            <td>Bawa</td>
+                            <td><?= $tickedData->baggage ?></</td>
                         </tr>
                         <tr>
                             <td>No Polisi</td>

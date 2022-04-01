@@ -25,12 +25,12 @@ class TicketModel extends Model
             ->select("
                 tbook.booking_code,
                 tps.name,
+                tps.phone,
                 tps.ticket_number,
                 ft.type,
                 tps.seat_number,
                 tbook.pickup_trip_location,
                 tbook.drop_trip_location,
-                tbook.booking_date,
                 tbook.booking_date,
                 tps.baggage,
                 IF(tps.baggage = 1, 'Bawa', 'Tidak Bawa') as baggage,

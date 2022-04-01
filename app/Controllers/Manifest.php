@@ -16,7 +16,7 @@ class Manifest extends ResourceController
         $this->db = \Config\Database::connect();
     }
 
-    public function tripDetail(Type $var = null)
+    public function tripDetail()
     {
         $bodyRaw = $this->request->getRawInput();
         $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
@@ -37,6 +37,10 @@ class Manifest extends ResourceController
         $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
 
         $checkinList = $this->manifestModel->getCheckinList($tripIdNo,$tripDate)->getResult();
+
+        foreach ($checkinList as $key => $value) {
+            $value->url_print = base_url('print/ticket/thermal?code='.$value->ticket_number);
+        }
         
         $result['status'] = 200;
         $result['messages'] = 'success';
@@ -67,6 +71,7 @@ class Manifest extends ResourceController
 
         $result['status'] = 200;
         $result['messages'] = 'success';
+        $result['url_print'] = base_url('print/ticket/thermal?code='.$code);
 
         return $this->respond($result, 200);
     }
