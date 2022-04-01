@@ -97,7 +97,7 @@ class Manifest extends ResourceController
             }
         }
 
-        if ($allowance !== null) {
+        if ($getAllowance->allowance !== null) {
             $allowance = intval($getAllowance->allowance);
         } else {
             $allowance = 0;
