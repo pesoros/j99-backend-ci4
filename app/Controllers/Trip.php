@@ -98,8 +98,9 @@ class Trip extends ResourceController
         }
 
         $layoutset = $this->tripModel->layoutSet($fleet_type_id)->getResult();
-            
+        
         $result['seatsInfo'] = $layoutset[0];
+        $result['seatsInfo']->picked = $bookArray;
         
         if ($layoutset[0]->layout == "2-2") {
             $separate = [2,6,10,14,18];
@@ -108,10 +109,15 @@ class Trip extends ResourceController
         }
 
         foreach ($seatArray as $key => $value) {
+            if (in_array(trim($value), $bookArray)) {
+                $avail = false;
+            } else {
+                $avail = true;
+            }
             $result['seats'][] = [
                 'id' => $key+1,
                 'name' => trim($value),
-                'isAvailable' => true,
+                'isAvailable' => $avail,
                 'isSeat' => true,
             ];
 
@@ -119,7 +125,7 @@ class Trip extends ResourceController
                 $result['seats'][] = [
                     'id' => 00,
                     'name' => '-',
-                    'isAvailable' => false,
+                    'isAvailable' => $avail,
                     'isSeat' => false,
                 ];
             }
