@@ -5,14 +5,17 @@ namespace App\Controllers;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\ManifestModel;
+use App\Models\PaketModel;
 
 class Manifest extends ResourceController
 {
     use ResponseTrait;
     protected $manifestModel;
+    protected $paketModel;
     public function __construct()
     {
         $this->manifestModel = new ManifestModel();
+        $this->paketModel = new PaketModel();
         $this->db = \Config\Database::connect();
     }
 
@@ -162,12 +165,40 @@ class Manifest extends ResourceController
         $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
 
         $baggageList = $this->manifestModel->getBaggageList($tripIdNo,$tripDate)->getResult();
+
+        foreach ($baggageList as $key => $value) {
+            if ($value->type_from == 'Package') {
+                $getDetail = $this->getPaket($value->code);
+                $value->from = $getDetail->pool_sender_id;
+                $value->to = $getDetail->pool_receiver_id;
+            } else {
+                $getDetail = $this->manifestModel->getTicket($value->code)->getRow();
+                if ($getDetail) {
+                    $value->from = $getDetail->pickup_trip_location;
+                    $value->to = $getDetail->drop_trip_location;
+                }
+            }
+        }
         
         $result['status'] = 200;
         $result['messages'] = 'success';
         $result['data'] = $baggageList;
 
         return $this->respond($result, 200);
+    }
+
+    public function getPaket($packetCode)
+    {
+        $result = $this->paketModel->getPacket($packetCode)->getRow();
+
+        if (empty($result)) {
+            return $this->failNotFound('Data Not Found');
+        } 
+
+        $result->pool_sender_id = $this->paketModel->getPool($result->pool_sender_id)->getRow()->name;
+        $result->pool_receiver_id = $this->paketModel->getPool($result->pool_receiver_id)->getRow()->name;
+
+        return $result;
     }
 
     public function baggageSet()

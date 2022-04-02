@@ -145,4 +145,22 @@ class ManifestModel extends Model
 
         return $save;
     }
+
+    public function getTicket($code)
+    {
+        $wherefield = 'tps.ticket_number';
+        $query = $this->db->table('tkt_passenger_pcs AS tps')
+            ->select("
+                tpoolgo.name AS pickup_trip_location,
+                tpoolback.name AS drop_trip_location,
+            ")
+            ->join('tkt_booking AS tbook', 'tps.booking_id = tbook.id_no')
+            ->join('trip_location AS tlocgo', 'tbook.pickup_trip_location = tlocgo.name','left')
+            ->join('trip_location AS tlocback', 'tbook.drop_trip_location = tlocback.name','left')
+            ->join('trip_location_pool AS tpoolgo', 'tlocgo.id = tpoolgo.location_id')
+            ->join('trip_location_pool AS tpoolback', 'tlocback.id = tpoolback.location_id')
+            ->where($wherefield,$code)
+            ->get();
+        return $query;
+    }
 }

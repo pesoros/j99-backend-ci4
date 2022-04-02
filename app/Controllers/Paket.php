@@ -21,17 +21,15 @@ class Paket extends ResourceController
         $bodyRaw = $this->request->getRawInput();
         $packetCode = isset($bodyRaw['code']) ? $bodyRaw['code'] : '';
 
-        $result = $this->paketModel->getPacket($packetCode)->getResult();
+        $result = $this->paketModel->getPacket($packetCode)->getRow();
 
         if (empty($result)) {
             return $this->failNotFound('Data Not Found');
         } 
 
-        $result = $result[0];
-
         $result->trace = $this->paketModel->getTrace($result->id)->getResult();
-        $result->pool_sender_id = $this->paketModel->getPool($result->pool_sender_id)->getResult()[0]->name;
-        $result->pool_receiver_id = $this->paketModel->getPool($result->pool_receiver_id)->getResult()[0]->name;
+        $result->pool_sender_id = $this->paketModel->getPool($result->pool_sender_id)->getRow()->name;
+        $result->pool_receiver_id = $this->paketModel->getPool($result->pool_receiver_id)->getRow()->name;
 
         return $this->respond($result, 200);
     }
