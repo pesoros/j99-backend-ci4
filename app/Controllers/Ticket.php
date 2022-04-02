@@ -44,11 +44,14 @@ class Ticket extends ResourceController
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
         } else if ($alpha == "T") {
             $result = $this->ticketModel->getTicket($code)->getResult();
+
+            $qrcode = $this->qrcodeGenerate($code);
             if (empty($result)) {
                 return $this->failNotFound('Data Not Found');
             } 
             $result = $result[0];
             $result->code_type = 'ticket';
+            $result->qrcode = $qrcode;
             // $result->print_url = base_url('print/ticket/thermal?code='.$code);
         } else {
             return $this->failNotFound('wrong code number');
