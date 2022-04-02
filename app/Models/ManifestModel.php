@@ -163,4 +163,15 @@ class ManifestModel extends Model
             ->get();
         return $query;
     }
+
+    public function getManifest($email)
+    {
+        $query = $this->db->table('manifest')
+            ->where('email_assign', $email)
+            ->where('status', 1)
+            ->orderBy('id','DESC')
+            ->get();
+
+        return $query;
+    }
 }

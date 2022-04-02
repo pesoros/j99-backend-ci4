@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UserManifestModel;
+use App\Models\ManifestModel;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -16,6 +17,13 @@ class LoginManifest extends ResourceController
      * @return mixed
      */
     use ResponseTrait;
+    protected $manifestModel;
+    public function __construct()
+    {
+        $this->manifestModel = new ManifestModel();
+        $this->db = \Config\Database::connect();
+    }
+
     public function index()
     {
         helper(['form']);
@@ -39,6 +47,8 @@ class LoginManifest extends ResourceController
             return $this->fail('Wrong Password');
         }
 
+        $manifest = $this->manifestModel->getManifest($this->request->getVar('email'))->getRow();
+
         $key = getenv('TOKEN_SECRET');
         $payload = array(
             "uid" => $user['id'],
@@ -60,6 +70,7 @@ class LoginManifest extends ResourceController
         $result['lastName'] = $decoded->lastName;
         $result['iat'] = $decoded->iat;
         $result['nbf'] = $decoded->nbf;
+        $result['manifest'] = $manifest;
 
         return $this->respond($result);
     }
