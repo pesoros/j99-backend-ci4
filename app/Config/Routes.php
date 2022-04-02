@@ -76,6 +76,8 @@ $routes->group("manifest", function($routes){
 
 $routes->group("print", function($routes){
     $routes->get('ticket/thermal', 'Ticket::thermalTicket');
+    $routes->get('ticket/thermal/html', 'Ticket::thermalTicketHtml');
+    $routes->get('ticket/thermal/image', 'Ticket::thermalTicketImage');
 });
 
 $routes->group("", ["filter" => "authfilter"], function($routes){

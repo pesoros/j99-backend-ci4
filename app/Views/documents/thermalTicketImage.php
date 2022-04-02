@@ -1,0 +1,1 @@
+<img src="http://localhost:8080/print/ticket/thermal?code=T-Y1BJLXBQ" />

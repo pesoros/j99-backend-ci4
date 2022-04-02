@@ -15,6 +15,7 @@ use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\QrCode;
+use Spatie;
 
 class Ticket extends ResourceController
 {
@@ -76,6 +77,39 @@ class Ticket extends ResourceController
         $dompdf->render();
         $dompdf->stream($filename, array("Attachment" => false));
         exit();
+    }
+
+    public function thermalTicketHtml()
+    {
+        $code = $this->request->getVar("code");
+
+        $data['tickedData'] = $this->ticketModel->getTicket($code)->getRow();
+        $data['qrcode'] = $this->qrcodeGenerate($code);
+
+        return view('documents/thermalTicket', $data);
+    }
+
+    public function thermalTicketImage()
+    {
+        $code = $this->request->getVar("code");
+
+        // $data['tickedData'] = $this->ticketModel->getTicket($code)->getRow();
+        // $data['qrcode'] = $this->qrcodeGenerate($code);
+
+        $filename = $code. '-ticket';
+        // $options = new Options();
+        // $options->set('isRemoteEnabled', TRUE);
+        // $dompdf = new Dompdf($options);
+        // $dompdf->loadHtml(view('documents/thermalTicket', $data));
+        // $dompdf->setPaper('A4', 'landscape');
+        // $dompdf->render();
+        // $output = $dompdf->output();
+        // file_put_contents('ticket/pdf/'.$filename.'.pdf', $output);
+
+        $pdf = new Spatie\PdfToImage\Pdf('ticket/pdf/T-Y1BJLXBQ-ticket.pdf');
+        $pdf->saveImage('/ticket/png/'.$filename.'.png');
+
+        return;
     }
 
     public function qrcodeGenerate($kodeTicket)

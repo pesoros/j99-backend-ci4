@@ -10,7 +10,8 @@
         "firebase/php-jwt": "^6.0",
         "xendit/xendit-php": "^2.17",
         "dompdf/dompdf": "^1.2",
-        "endroid/qr-code": "^4.4"
+        "endroid/qr-code": "^4.4",
+        "spatie/pdf-to-image": "^1.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

@@ -122,9 +122,17 @@ class ManifestModel extends Model
 
     public function getBaggageList($trip_id_no,$booking_date)
     {
-        $query = $this->db->table('trip_baggage')
-            ->where('trip_id_no', $trip_id_no)
-            ->where('DATE(trip_date)', $booking_date)
+        $query = $this->db->table('trip_baggage AS tbg')
+            ->select("
+                tbg.code,
+                tbt.type_from,
+                IF(tbs.status_name IS NULL, 'Menunggu', tbs.status_name) as status,
+                tbg.created_at
+            ")
+            ->join('trip_baggage_type_from AS tbt', 'tbg.type_from = tbt.id')
+            ->join('trip_baggage_status AS tbs', 'tbg.status = tbs.id','left')
+            ->where('tbg.trip_id_no', $trip_id_no)
+            ->where('DATE(tbg.trip_date)', $booking_date)
             ->get();
 
         return $query;
