@@ -71,10 +71,10 @@ class Trip extends ResourceController
         $data['fleet_registration_id'] = $fleet_registration_id;
         $data['fleet_type_id'] = $fleet_type_id;
         $data['booking_date'] = $booking_date;
-        $pricess = $this->tripModel->getPrice($trip_route_id, $fleet_type_id)->getResult();
-        if (empty($pricess)) {
-            return tripModelfailNotFound('Data Not Found');
-        } 
+        // $pricess = $this->tripModel->getPrice($trip_route_id, $fleet_type_id)->getResult();
+        // if (empty($pricess)) {
+        //     return tripModelfailNotFound('Data Not Found');
+        // } 
         $data['bankinfo'] = $this->tripModel->getBankinfo()->getResult();
 
         #---------BOOKED SEAT(S)-----------#

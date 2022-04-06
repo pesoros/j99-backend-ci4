@@ -54,7 +54,6 @@ class TripModel extends Model
             LEFT JOIN trip_assign AS tras ON tras.trip = ta.trip_id
             LEFT JOIN fleet_type AS tp ON tp.id = ta.type
             LEFT JOIN fleet_registration AS fr ON fr.fleet_type_id = tp.id
-            LEFT JOIN pri_price AS pp ON pp.route_id = ta.route AND pp.vehicle_type_id= ta.type
             LEFT JOIN trip_location AS tl1 ON tl1.name = '$start' 
             LEFT JOIN trip_location AS tl2 ON tl2.name = '$end' 
             LEFT JOIN trip_location_pool AS tpool1 ON tl1.id = tpool1.location_id 

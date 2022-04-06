@@ -159,8 +159,8 @@ class Booking extends ResourceController
             $tspecialck = $cs[0]->tspecial + 0;
             $req_children_seat = (!empty($rout_chsp_seat[0]->children_seat) ? $rout_chsp_seat[0]->children_seat : 20);
             $req_special_seat = (!empty($rout_chsp_seat[0]->special_seat) ? $rout_chsp_seat[0]->special_seat : 20);
-            if ($tcs <= $req_children_seat) {
-                if ($tspecialck <= $rout_chsp_seat[0]->special_seat) {
+            // if ($tcs <= $req_children_seat) {
+            //     if ($tspecialck <= $rout_chsp_seat[0]->special_seat) {
                     #---------check seats--------
                     $bookCheck = $this->checkBooking($trip_id_no, $fleet_type, $seat_number, $booking_date);
                     // return $this->respond($bookCheck);
@@ -183,16 +183,16 @@ class Booking extends ResourceController
                                 $createTicket = $this->bookingModel->createTicket($ticketdata);
                             }
 
-                            $binfo = $this->bookingModel->getBookingHistory($postData['id_no'])->getResult();
-                            $total_amnt = $binfo[0]->price;
-                            $comission = $this->bookingModel->getWsSetting()->getResult();
-                            $obj['b_commission'] = ($binfo[0]->price * $comission[0]->bank_commission) / 100;
-                            $obj['commission_per'] = $comission[0]->bank_commission;
-                            $priprice = $this->bookingModel->getPriPrice($trip_route_id)->getResult();
-                            $obj['routePrice'] = $priprice[0];
+                            // $binfo = $this->bookingModel->getBookingHistory($postData['id_no'])->getResult();
+                            // $total_amnt = $binfo[0]->price;
+                            // $comission = $this->bookingModel->getWsSetting()->getResult();
+                            // $obj['b_commission'] = ($binfo[0]->price * $comission[0]->bank_commission) / 100;
+                            // $obj['commission_per'] = $comission[0]->bank_commission;
+                            // $priprice = $this->bookingModel->getPriPrice($trip_route_id)->getResult();
+                            // $obj['routePrice'] = $priprice[0];
                             $data['status'] = true;
                             $data['message'] = 'save_successfully';
-                            $obj['booking'] = $binfo[0];
+                            // $obj['booking'] = $binfo[0];
 
                             $postData['booking_type'] = 'Cash';
                             $postData['payment_status'] = 2;
@@ -211,14 +211,14 @@ class Booking extends ResourceController
                         $data['status'] = false;
                         $data['exception'] = 'something_went_worng';
                     }
-                } else {
-                    $data['status'] = false;
-                    $data['exception'] = 'Special Seats Are not Available';
-                }
-            } else {
-                $data['status'] = false;
-                $data['exception'] = 'Children Seats Are not Available';
-            }
+            //     } else {
+            //         $data['status'] = false;
+            //         $data['exception'] = 'Special Seats Are not Available';
+            //     }
+            // } else {
+            //     $data['status'] = false;
+            //     $data['exception'] = 'Children Seats Are not Available';
+            // }
         } else {
             $data['status'] = false;
             $data['exception'] = 'Please Check your seat';
