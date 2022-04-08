@@ -45,7 +45,7 @@ class Callback extends ResourceController
         $setPay['channel_name'] = isset($bodyRaw->bank_code) ? $bodyRaw->bank_code : '-';
         $setPay['code'] = isset($bodyRaw->account_number) ? $bodyRaw->account_number : '-';
 
-        $setBookingCode = $this->callbackModel->paymentRegistration($setPay);
+        $setBookingCode = $this->callbackModel->savePayment($setPay);
 
         return $this->respond($bodyRaw, 200);
     }
@@ -60,7 +60,7 @@ class Callback extends ResourceController
         $setPay['channel_name'] = isset($bodyRaw->retail_outlet_name) ? $bodyRaw->retail_outlet_name : '-';
         $setPay['code'] = isset($bodyRaw->payment_code) ? $bodyRaw->payment_code : '-';
 
-        $setBookingCode = $this->callbackModel->paymentRegistration($setPay);
+        $setBookingCode = $this->callbackModel->savePayment($setPay);
 
         return $this->respond($bodyRaw, 200);
     }
@@ -77,7 +77,7 @@ class Callback extends ResourceController
 
         $status = isset($bodyRaw->status) ? $bodyRaw->status : '-';
         if ($status == 'SUCCEEDED') {
-            $setBookingCode = $this->callbackModel->paymentRegistration($setPay);
+            $setBookingCode = $this->callbackModel->savePayment($setPay);
         }
 
         return $this->respond($bodyRaw, 200);
