@@ -14,6 +14,14 @@ class BookingModel extends Model
         return $save;
     }
 
+    public function paymentRegistration($data)
+    {
+        $save = $this->db->table('payment_registration')
+            ->insert($data);
+
+        return $save;
+    }
+
     public function createGroup($data)
     {
         $save = $this->db->table('ws_booking_history')

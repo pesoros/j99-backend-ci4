@@ -22,7 +22,7 @@ class Callback extends ResourceController
         $bodyRaw = $this->request->getVar();
         $id = isset($bodyRaw->id) ? $bodyRaw->id : '-';
         $owner_id = isset($bodyRaw->owner_id) ? $bodyRaw->owner_id : '-';
-        $external_id = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
+        $setPay['external_id'] = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
         $expiration_date = isset($bodyRaw->expiration_date) ? $bodyRaw->expiration_date : '-';
         $account_number = isset($bodyRaw->account_number) ? $bodyRaw->account_number : '-';
         $bank_code = isset($bodyRaw->bank_code) ? $bodyRaw->bank_code : '-';
@@ -38,16 +38,14 @@ class Callback extends ResourceController
     {
         // == virtual Account ==
         $bodyRaw = $this->request->getVar();
-        $payment_id = isset($bodyRaw->payment_id) ? $bodyRaw->payment_id : '-';
-        $external_id = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
-        $amount = isset($bodyRaw->amount) ? $bodyRaw->amount : '-';
-        $transaction_timestamp = isset($bodyRaw->transaction_timestamp) ? $bodyRaw->transaction_timestamp : '-';
-        $id = isset($bodyRaw->id) ? $bodyRaw->id : '-';
-        $owner_id = isset($bodyRaw->owner_id) ? $bodyRaw->owner_id : '-';
-        $callback_virtual_account_id = isset($bodyRaw->callback_virtual_account_id) ? $bodyRaw->callback_virtual_account_id : '-';
-        $account_number = isset($bodyRaw->account_number) ? $bodyRaw->account_number : '-';
-        $bank_code = isset($bodyRaw->bank_code) ? $bodyRaw->bank_code : '-';
+        $setPay['payment_id'] = isset($bodyRaw->id) ? $bodyRaw->id : '-';
+        $setPay['external_id'] = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
+        $setPay['amount'] = isset($bodyRaw->amount) ? $bodyRaw->amount : '-';
+        $setPay['transaction_timestamp'] = isset($bodyRaw->transaction_timestamp) ? $bodyRaw->transaction_timestamp : '-';
+        $setPay['channel_name'] = isset($bodyRaw->bank_code) ? $bodyRaw->bank_code : '-';
+        $setPay['code'] = isset($bodyRaw->account_number) ? $bodyRaw->account_number : '-';
 
+        $setBookingCode = $this->bookingModel->paymentRegistration($setPay);
 
         return $this->respond($bodyRaw, 200);
     }
@@ -55,15 +53,14 @@ class Callback extends ResourceController
     public function retailOutletPay(Type $var = null)
     {
         $bodyRaw = $this->request->getVar();
-        $payment_id = isset($bodyRaw->payment_id) ? $bodyRaw->payment_id : '-';
-        $external_id = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
-        $amount = isset($bodyRaw->amount) ? $bodyRaw->amount : '-';
-        $transaction_timestamp = isset($bodyRaw->transaction_timestamp) ? $bodyRaw->transaction_timestamp : '-';
-        $id = isset($bodyRaw->id) ? $bodyRaw->id : '-';
-        $owner_id = isset($bodyRaw->owner_id) ? $bodyRaw->owner_id : '-';
-        $payment_code = isset($bodyRaw->payment_code) ? $bodyRaw->payment_code : '-';
-        $retail_outlet_name = isset($bodyRaw->retail_outlet_name) ? $bodyRaw->retail_outlet_name : '-';
-        $name = isset($bodyRaw->name) ? $bodyRaw->name : '-';
+        $setPay['payment_id'] = isset($bodyRaw->id) ? $bodyRaw->id : '-';
+        $setPay['external_id'] = isset($bodyRaw->external_id) ? $bodyRaw->external_id : '-';
+        $setPay['amount'] = isset($bodyRaw->amount) ? $bodyRaw->amount : '-';
+        $setPay['transaction_timestamp'] = isset($bodyRaw->transaction_timestamp) ? $bodyRaw->transaction_timestamp : '-';
+        $setPay['channel_name'] = isset($bodyRaw->retail_outlet_name) ? $bodyRaw->retail_outlet_name : '-';
+        $setPay['code'] = isset($bodyRaw->payment_code) ? $bodyRaw->payment_code : '-';
+
+        $setBookingCode = $this->bookingModel->paymentRegistration($setPay);
 
         return $this->respond($bodyRaw, 200);
     }
@@ -72,16 +69,16 @@ class Callback extends ResourceController
     {
         $bodyRaw = $this->request->getVar();
         $bodyRaw = isset($bodyRaw->data) ? $bodyRaw->data : [];
-        $id = isset($bodyRaw->id) ? $bodyRaw->id : '-';
+        $setPay['payment_id'] = isset($bodyRaw->id) ? $bodyRaw->id : '-';
+        $setPay['external_id'] = isset($bodyRaw->reference_id) ? $bodyRaw->reference_id : '-';
+        $setPay['amount'] = isset($bodyRaw->charge_amount) ? $bodyRaw->charge_amount : '-';
+        $setPay['transaction_timestamp'] = isset($bodyRaw->created) ? $bodyRaw->created : '-';
+        $setPay['channel_name'] = isset($bodyRaw->channel_code) ? $bodyRaw->channel_code : '-';
+
         $status = isset($bodyRaw->status) ? $bodyRaw->status : '-';
-        $created = isset($bodyRaw->created) ? $bodyRaw->created : '-';
-        $customer_id = isset($bodyRaw->customer_id) ? $bodyRaw->customer_id : '-';
-        $channel_code = isset($bodyRaw->channel_code) ? $bodyRaw->channel_code : '-';
-        $reference_id = isset($bodyRaw->reference_id) ? $bodyRaw->reference_id : '-';
-        $charge_amount = isset($bodyRaw->charge_amount) ? $bodyRaw->charge_amount : '-';
-        $capture_amount = isset($bodyRaw->capture_amount) ? $bodyRaw->capture_amount : '-';
-        $checkout_method = isset($bodyRaw->checkout_method) ? $bodyRaw->checkout_method : '-';
-        $payment_method_id = isset($bodyRaw->payment_method_id) ? $bodyRaw->payment_method_id : '-';
+        if ($status == 'SUCCEEDED') {
+            $setBookingCode = $this->bookingModel->paymentRegistration($setPay);
+        }
 
         return $this->respond($bodyRaw, 200);
     }

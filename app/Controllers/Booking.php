@@ -71,6 +71,32 @@ class Booking extends ResourceController
         $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
 
         $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
+        
+        $payment_id = $setPayment['id']; 
+        $va_number = '-';
+        $mobile_link = '-';
+        $dekstop_link = '-';
+
+        if ($payment_method == 'VIRTUAL_ACCOUNT') {
+            $va_number = $setPayment['account_number']; 
+        } elseif ($payment_method == 'EWALLET') {
+            $mobile_link = $setPayment['actions']['mobile_web_checkout_url']; 
+            $dekstop_link = $setPayment['actions']['desktop_web_checkout_url']; 
+        }
+
+        $setBookingCode = $this->bookingModel->paymentRegistration([
+            'email' => $booker_email,
+            'booking_code' => $bookingCode,
+            'payment_method' => $payment_method,
+            'payment_channel_code' => $payment_channel_code,
+            'price' => $total_price,
+            'payment_id' => $payment_id,
+            'va_number' => $va_number,
+            'mobile_link' => $mobile_link,
+            'dekstop_link' => $dekstop_link,
+            'created_at' => $dateNow,
+        ]);
+        
         $data['payment'] = $setPayment;
         $data['payment']['total_price'] = $total_price;
 
@@ -361,5 +387,29 @@ class Booking extends ResourceController
 
         return $result;
     }
+
+    private function sendMail($mailTo,$subject,$message)
+	{
+        $nickname = getenv('EMAIL_CONFIG_SENDERNAME');
+        $mailFrom = getenv('EMAIL_CONFIG_SENDERMAIL');
+
+		// $config['protocol'] = getenv('EMAIL_CONFIG_PROTOCOL');
+		// $config['SMTPHost'] = getenv('EMAIL_CONFIG_HOST');
+		// $config['SMTPPort'] = getenv('EMAIL_CONFIG_PORT');
+		// $config['SMTPUser'] = getenv('EMAIL_CONFIG_USER');
+		// $config['SMTPPass'] = getenv('EMAIL_CONFIG_PASS');
+        // $config['SMTPCrypto'] = getenv('CRYPTO');
+
+        $this->email->clear();
+        // $this->email->initialize($config);
+        $this->email->setTo($mailTo);
+        $this->email->setFrom($mailFrom, $nickname);
+        
+        $this->email->setSubject($subject);
+        $this->email->setMessage($message);
+        $send = $this->email->send();
+		
+		return $send;
+	}
 
 }
