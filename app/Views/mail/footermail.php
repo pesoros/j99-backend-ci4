@@ -14,7 +14,8 @@
                 </td>
                 <td width="10" style="width: 10px;"></td>
                 <td align="center">
-                  <a href=""><img style="display:block;width:100%;max-width:250px;border:0px;margin-bottom:-50px;margin-top:-35px;" data-image-edit  width="117" src="<?= base_url('assets/playstorelogo.png') ?>" border="0" editable="true" alt="icon"></td></a>
+                  <a href=""><img style="display:block;width:100%;max-width:250px;border:0px;margin-bottom:-50px;margin-top:-35px;" data-image-edit  width="117" src="<?= base_url('assets/playstorelogo.png') ?>" border="0" editable="true" alt="icon"></a>
+                </td>
               </tr>
             </table>
             <!-- column -->
