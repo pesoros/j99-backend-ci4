@@ -41,6 +41,15 @@ class AccountModel extends Model
         return $query;
     }
 
+    public function detailBook($code)
+    {
+        $query = $this->db->table('tkt_booking')
+            ->where('booking_code',$code)
+            ->orderBy('id','DESC')
+            ->get();
+        return $query;
+    }
+
     public function updatePassword($email,$data)
     {
         $update = $this->db->table('users_client')

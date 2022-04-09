@@ -57,6 +57,13 @@ class Account extends ResourceController
             return $this->failNotFound('Email empty');
         }
         $getHistory = $this->accountModel->historyTicket($email)->getResult();
+        foreach ($getHistory as $key => $value) {
+            $getDetailBook = $this->accountModel->detailBook($value->booking_code)->getRow();
+            if (isset($getDetailBook)) {
+                $value->from = $getDetailBook->pickup_trip_location;
+                $value->to = $getDetailBook->drop_trip_location;
+            }
+        }
 
         if (empty($getHistory)) {
             return $this->failNotFound('Data Not Found');

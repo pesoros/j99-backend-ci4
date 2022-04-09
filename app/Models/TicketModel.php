@@ -14,6 +14,15 @@ class TicketModel extends Model
         return $query;
     }
 
+    public function detailBook($code)
+    {
+        $query = $this->db->table('tkt_booking')
+            ->where('booking_code',$code)
+            ->orderBy('id','DESC')
+            ->get();
+        return $query;
+    }
+
     public function getTicket($code, $type = null)
     {
         if ($type == 'book') {
