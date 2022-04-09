@@ -375,6 +375,12 @@ class Booking extends ResourceController
         return $createFPC;
     }
 
+    public function testemail()
+    {
+        return view('mail/test');
+        $sendMail = $this->sendMail($email,'test',$bodyMail);
+    }
+
     public function codeGenerate($head = 'J99', $length = 12)
     {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -61,6 +61,7 @@ $routes->post('email/send', 'Mail::index');
 $routes->post('otp/check', 'Otp::checkOtp');
 $routes->post('otp/set', 'Otp::createOtp');
 $routes->post('checkregis', 'MasterData::checkRegis');
+$routes->get('testemail', 'Booking::testemail');
 
 $routes->group("manifest", function($routes){
     $routes->post('login', 'LoginManifest::index');

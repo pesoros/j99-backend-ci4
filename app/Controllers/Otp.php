@@ -60,10 +60,13 @@ class Otp extends ResourceController
         $phone = isset($bodyRaw['phone']) ? $bodyRaw['phone'] : '';
         $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
         $sendBy = isset($bodyRaw['sendBy']) ? $bodyRaw['sendBy'] : '';
-        $otpNumber = mt_rand(1000,9999);
+        $otpNumber= mt_rand(1000,9999);
+        $data['otpNumber'] = $otpNumber;
+
+        $bodyOtp = view('mail/otp',$data);
 
         if ($sendBy == 'email') {
-            $sendMail = $this->sendMail($email,'OTP',$otpNumber);
+            $sendMail = $this->sendMail($email,'OTP',$bodyOtp);
         } else if ($sendBy == 'wa') {
             // waiting wa bussines api
         }
