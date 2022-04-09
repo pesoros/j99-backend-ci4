@@ -10,11 +10,11 @@
             <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
               <tr>
                 <td align="center">
-                  <a href=""><img style="display:block;width:100%;max-width:250px;border:0px;margin-bottom:-50px;margin-top:-35px;" data-image-edit  width="117" src="<?= base_url('assets/appstorelogo.png') ?>" border="0" editable="true" alt="icon"></a>
+                  <img style="display:block;width:100%;max-width:250px;border:0px;margin-bottom:-50px;margin-top:-35px;" data-image-edit  width="117" src="<?= base_url('assets/appstorelogo.png') ?>" border="0" editable="true" alt="icon">
                 </td>
                 <td width="10" style="width: 10px;"></td>
                 <td align="center">
-                  <a href=""><img style="display:block;width:100%;max-width:250px;border:0px;margin-bottom:-50px;margin-top:-35px;" data-image-edit  width="117" src="<?= base_url('assets/playstorelogo.png') ?>" border="0" editable="true" alt="icon"></a>
+                  <img style="display:block;width:100%;max-width:250px;border:0px;margin-bottom:-50px;margin-top:-35px;" data-image-edit  width="117" src="<?= base_url('assets/playstorelogo.png') ?>" border="0" editable="true" alt="icon">
                 </td>
               </tr>
             </table>
