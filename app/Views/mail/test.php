@@ -1,25 +1,5 @@
 <?= $this->include('mail/headermail') ?>
 
-<table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" class="row container-padding" width="640" style="width:640px;max-width:640px;" Simpli>
-  <!-- Preheader -->
-  <tr>
-    <td height="20" style="font-size:20px;line-height:20px;" Simpli>&nbsp;</td>
-  </tr>
-  <tr>
-    <td height="30" style="font-size:30px;line-height:30px;" Simpli>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="center" class="center-text">
-      <img style="width:400px;border:0px;display: inline!important;" src="<?= base_url('assets/logojuragan99.png') ?>" width="120" border="0" editable="true" Simpli data-image-edit  Simpli alt="logo">
-    </td>
-  </tr>
-  <tr>
-    <td height="30" style="font-size:30px;line-height:30px;" Simpli>&nbsp;</td>
-  </tr>
-  <!-- Preheader -->
-</table>
-
-
 <table border="0" align="center" cellpadding="0" cellspacing="0" class="row" role="presentation" width="640" style="width:640px;max-width:640px;" Simpli>
   <!-- simpli-header-7 -->
   <tr>

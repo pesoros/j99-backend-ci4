@@ -91,3 +91,22 @@ u + #body a {color:inherit;text-decoration:none;font-size:inherit;font-family:in
 <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:100%;">
   <tr><!-- Outer Table -->
     <td align="center" Simpli bgcolor="#1A1D24" data-composer>
+
+    <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" class="row container-padding" width="640" style="width:640px;max-width:640px;" Simpli>
+  <!-- Preheader -->
+  <tr>
+    <td height="20" style="font-size:20px;line-height:20px;" Simpli>&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="30" style="font-size:30px;line-height:30px;" Simpli>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" class="center-text">
+      <img style="width:400px;border:0px;display: inline!important;" src="<?= base_url('assets/logojuragan99.png') ?>" width="120" border="0" editable="true" Simpli data-image-edit  Simpli alt="logo">
+    </td>
+  </tr>
+  <tr>
+    <td height="30" style="font-size:30px;line-height:30px;" Simpli>&nbsp;</td>
+  </tr>
+  <!-- Preheader -->
+</table>
