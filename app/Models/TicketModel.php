@@ -45,4 +45,19 @@ class TicketModel extends Model
             ->get();
         return $query;
     }
+
+    public function getPaymentRegis($code)
+    {
+        $query = $this->db->table('payment_registration')
+            ->select('
+                payment_method,
+                payment_channel_code,
+                va_number,
+                dekstop_link,
+                mobile_link
+            ')
+            ->where('booking_code',$code)
+            ->get();
+        return $query;
+    }
 }

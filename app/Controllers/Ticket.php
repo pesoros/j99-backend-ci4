@@ -35,21 +35,20 @@ class Ticket extends ResourceController
         $alpha = $alpha[0];
 
         if ($alpha == "B") {
-            $result = $this->ticketModel->getBook($code)->getResult();
+            $result = $this->ticketModel->getBook($code)->getRow();
+            $result->payment_registration = $this->ticketModel->getPaymentRegis($code)->getRow();
             if (empty($result)) {
                 return $this->failNotFound('Data Not Found');
             } 
-            $result = $result[0];
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
         } else if ($alpha == "T") {
-            $result = $this->ticketModel->getTicket($code)->getResult();
+            $result = $this->ticketModel->getTicket($code)->getRow();
 
             $qrcode = $this->qrcodeGenerate($code);
             if (empty($result)) {
                 return $this->failNotFound('Data Not Found');
             } 
-            $result = $result[0];
             $result->code_type = 'ticket';
             $result->qrcode = $qrcode;
             // $result->print_url = base_url('print/ticket/thermal?code='.$code);
