@@ -43,8 +43,8 @@ class TripModel extends Model
             tr.dropoff_points,
             tras.closed_by_id,
             tras.resto_id,
-            tpool1.name AS pickup_trip_location,
-            tpool2.name AS drop_trip_location,
+            tl1.name AS pickup_trip_location,
+            tl2.name AS drop_trip_location,
             tpoint.dep_time as start,
             tpoint.arr_time as end,
             tpoint.price as price
