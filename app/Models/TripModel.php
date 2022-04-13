@@ -6,6 +6,13 @@ use CodeIgniter\Model;
 
 class TripModel extends Model
 {
+    // public function getCity()
+    // {
+    //     $query = $this->db->table('wil_city')->select('*')->get();
+
+    //     return $query;
+    // }
+
     public function getTripList($data = array())
     {
         $kelas = $data['fleet_type'];
@@ -23,8 +30,8 @@ class TripModel extends Model
             $whereext .= " AND fr.unit_id = ".$unit_type;
         }
 
-        $whereext .= " AND tpoint.dep_point = '".$start."'";
-        $whereext .= " AND tpoint.arr_point = '".$end."'";
+        $whereext .= " AND citydep.name = '".$start."'";
+        $whereext .= " AND cityarr.name = '".$end."'";
 
         $query = $this->db->query("SELECT
             ta.trip_id AS trip_id_no,
@@ -47,20 +54,22 @@ class TripModel extends Model
             tl2.name AS drop_trip_location,
             tpoint.dep_time as start,
             tpoint.arr_time as end,
-            tpoint.price as price
+            tpoint.price as price,
+            citydep.name as citydep,
+            cityarr.name as cityarr
             FROM trip AS ta
             LEFT JOIN shedule ON shedule.shedule_id = ta.shedule_id
             LEFT JOIN trip_route AS tr ON tr.id = ta.route
             LEFT JOIN trip_assign AS tras ON tras.trip = ta.trip_id
             LEFT JOIN fleet_type AS tp ON tp.id = ta.type
             LEFT JOIN fleet_registration AS fr ON fr.fleet_type_id = tp.id
-            LEFT JOIN trip_location AS tl1 ON tl1.name = '$start' 
-            LEFT JOIN trip_location AS tl2 ON tl2.name = '$end' 
-            LEFT JOIN trip_location_pool AS tpool1 ON tl1.id = tpool1.location_id 
-            LEFT JOIN trip_location_pool AS tpool2 ON tl2.id = tpool2.location_id 
             LEFT JOIN trip_point AS tpoint ON tras.id = tpoint.trip_assign_id
-            WHERE (FIND_IN_SET('$start',tr.pickup_points))
-            AND (FIND_IN_SET('$end',tr.dropoff_points))
+            LEFT JOIN trip_location AS tl1 ON tl1.name = tpoint.dep_point
+            LEFT JOIN trip_location AS tl2 ON tl2.name = tpoint.arr_point
+            LEFT JOIN wil_city AS citydep ON tl1.city = citydep.id 
+            LEFT JOIN wil_city AS cityarr ON tl2.city = cityarr.id 
+            WHERE (FIND_IN_SET(tpoint.dep_point,tr.pickup_points))
+            AND (FIND_IN_SET(tpoint.arr_point,tr.dropoff_points))
             AND (!FIND_IN_SET(DAYOFWEEK('$date'),ta.weekend)) 
             $whereext 
             GROUP BY ta.trip_id

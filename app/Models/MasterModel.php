@@ -8,9 +8,12 @@ class MasterModel extends Model
 {
     public function getLocation($keyword = '')
     {
-        $query = $this->db->table('trip_location')
-            ->select('id, name as namaKota')
-            ->like('name', $keyword, 'both')
+        $query = $this->db->table('trip_location as tl')
+            ->select('
+                city.id, city.name as namaKota
+            ')
+            ->join('wil_city as city','tl.city = city.id')
+            ->like('city.name', $keyword, 'both')
             ->get();
         return $query;
     }

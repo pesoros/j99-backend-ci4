@@ -40,6 +40,7 @@ class Trip extends ResourceController
 			'fleet_type'  => $kelas,
 			'unit_type'  => $unit_type,
         ];
+        
         $result = $this->tripModel->getTripList($filterData)->getResult();
 
         if (empty($result)) {
