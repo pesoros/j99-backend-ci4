@@ -14,6 +14,7 @@ class MasterModel extends Model
             ')
             ->join('wil_city as city','tl.city = city.id')
             ->like('city.name', $keyword, 'both')
+            ->groupBy('city.name')
             ->get();
         return $query;
     }
