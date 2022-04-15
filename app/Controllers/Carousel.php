@@ -7,7 +7,7 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\carouselModel;
 
 class Carousel extends ResourceController
-{
+{ 
     use ResponseTrait;
     protected $carouselModel;
     public function __construct()
