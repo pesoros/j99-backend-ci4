@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\carouselModel;
+use App\Models\CarouselModel;
 
 class Carousel extends ResourceController
 { 
