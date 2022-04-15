@@ -23,3 +23,4 @@ class Carousel extends ResourceController
         return $this->respond($result, 200);
     }
 }
+ 
