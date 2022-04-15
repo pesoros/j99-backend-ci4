@@ -62,6 +62,8 @@ $routes->post('otp/check', 'Otp::checkOtp');
 $routes->post('otp/set', 'Otp::createOtp');
 $routes->post('checkregis', 'MasterData::checkRegis');
 $routes->get('testemail', 'Booking::testemail');
+$routes->get('carousel/phone', 'Carousel::phone');
+
 
 $routes->group("manifest", function($routes){
     $routes->post('login', 'LoginManifest::index');
