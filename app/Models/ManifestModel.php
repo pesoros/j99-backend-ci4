@@ -10,11 +10,11 @@ class ManifestModel extends Model
     {
         $query = $this->db->table('trip_assign AS ta')
             ->select("
+                ta.id,
                 trt.name as route,
                 flr.reg_no,
                 flr.model_no as nopol,
                 flr.company as brand,
-                ftp.type as class,
                 rs.resto_name,
                 CONCAT(empdriver.first_name,' ',empdriver.second_name) as driver,
                 CONCAT(empassist1.first_name,' ',empassist1.second_name) as assistant_1,
@@ -22,7 +22,6 @@ class ManifestModel extends Model
                 CONCAT(empassist3.first_name,' ',empassist3.second_name) as assistant_3,
             ")
             ->join('fleet_registration AS flr', 'ta.fleet_registration_id = flr.id')
-            ->join('fleet_type AS ftp', 'flr.fleet_type_id = ftp.id')
             ->join('resto AS rs', 'ta.resto_id = rs.id')
             ->join('trip AS tr', 'ta.trip = tr.trip_id')
             ->join('trip_route AS trt', 'tr.route = trt.id')
@@ -30,7 +29,7 @@ class ManifestModel extends Model
             ->join('employee_history AS empassist1', 'ta.assistant_1 = empassist1.id','left')
             ->join('employee_history AS empassist2', 'ta.assistant_2 = empassist2.id','left')
             ->join('employee_history AS empassist3', 'ta.assistant_3 = empassist3.id','left')
-            ->where('ta.trip', $trip_id_no)
+            ->where('ta.id', $trip_id_no)
             ->get();
 
         return $query;
@@ -48,11 +47,23 @@ class ManifestModel extends Model
                 IF(cst.status_name IS NULL, 'Menunggu', cst.status_name) as checkin_status,
             ")
             ->join('tkt_booking AS tb', 'tps.booking_id = tb.id_no')
+            ->join('trip_assign AS tras', 'tb.trip_id_no = tras.trip')
             ->join('checkin AS cn', 'tps.ticket_number = cn.ticket_number','left')
             ->join('resto_menu AS rmen', 'tps.food = rmen.id','left')
             ->join('checkin_status AS cst', 'cn.status = cst.id','left')
-            ->where('tb.trip_id_no', $trip_id_no)
+            ->where('tras.id', $trip_id_no)
             ->where('DATE(tb.booking_date)', $booking_date)
+            ->get();
+
+        return $query;
+    }
+
+    public function getTripType($assign_id)
+    {
+        $query = $this->db->table('trip_point_price tpr')
+            ->join('trip_point AS tpoint', 'tpr.point_id = tpoint.id')
+            ->join('fleet_type AS ft', 'tpr.type = ft.id')
+            ->where('tpoint.trip_assign_id', $assign_id)
             ->get();
 
         return $query;
@@ -167,6 +178,13 @@ class ManifestModel extends Model
     public function getManifest($email)
     {
         $query = $this->db->table('manifest')
+            ->select('
+                id
+                ,trip_assign as trip_id_no
+                ,trip_date
+                ,email_assign
+                ,status
+            ')
             ->where('email_assign', $email)
             ->where('status', 1)
             ->orderBy('id','DESC')

@@ -38,7 +38,7 @@ class TripModel extends Model
             ta.route AS trip_route_id,
             ta.shedule_id,
             tr.name AS trip_route_name,
-            ta.type,
+            tp.id as type,
             tp.total_seat AS fleet_seats,
             tp.type AS class,
             fr.reg_no AS fleet_registration_id,
@@ -54,25 +54,23 @@ class TripModel extends Model
             tl2.name AS drop_trip_location,
             tpoint.dep_time as start,
             tpoint.arr_time as end,
-            tpoint.price as price,
+            tprs.price as price,
             citydep.name as citydep,
             cityarr.name as cityarr
-            FROM trip AS ta
+            FROM trip_point_price AS tprs
+            LEFT JOIN trip_point AS tpoint ON tpoint.id = tprs.point_id
+            LEFT JOIN trip_assign AS tras ON tras.id = tpoint.trip_assign_id
+            LEFT JOIN trip AS ta ON tras.trip = ta.trip_id
             LEFT JOIN shedule ON shedule.shedule_id = ta.shedule_id
             LEFT JOIN trip_route AS tr ON tr.id = ta.route
-            LEFT JOIN trip_assign AS tras ON tras.trip = ta.trip_id
-            LEFT JOIN fleet_type AS tp ON tp.id = ta.type
-            LEFT JOIN fleet_registration AS fr ON fr.fleet_type_id = tp.id
-            LEFT JOIN trip_point AS tpoint ON tras.id = tpoint.trip_assign_id
+            LEFT JOIN fleet_type AS tp ON tp.id = tprs.type
+            LEFT JOIN fleet_registration AS fr ON fr.id = tras.fleet_registration_id
             LEFT JOIN trip_location AS tl1 ON tl1.name = tpoint.dep_point
             LEFT JOIN trip_location AS tl2 ON tl2.name = tpoint.arr_point
             LEFT JOIN wil_city AS citydep ON tl1.city = citydep.id 
             LEFT JOIN wil_city AS cityarr ON tl2.city = cityarr.id 
-            WHERE (FIND_IN_SET(tpoint.dep_point,tr.pickup_points))
-            AND (FIND_IN_SET(tpoint.arr_point,tr.dropoff_points))
-            AND (!FIND_IN_SET(DAYOFWEEK('$date'),ta.weekend)) 
+            WHERE 1=1
             $whereext 
-            GROUP BY ta.trip_id
         ");
 
         return $query;
@@ -123,7 +121,7 @@ class TripModel extends Model
         return $query;
     }
 
-    public function getBookedSeats($trip_id_no, $booking_date)
+    public function getBookedSeats($trip_id_no, $booking_date, $fleet_type_id)
     {
         $query = $this->db->table('tkt_booking AS tb')
             ->select("
@@ -132,6 +130,7 @@ class TripModel extends Model
                 GROUP_CONCAT(tb.seat_numbers SEPARATOR ', ') AS booked_serial
             ")
             ->where('tb.trip_id_no', $trip_id_no)
+            ->where('tb.fleet_type', $fleet_type_id)
             ->like('tb.booking_date', $booking_date, 'after')
             ->groupStart()
             ->where("tb.tkt_refund_id IS NULL", null, false)

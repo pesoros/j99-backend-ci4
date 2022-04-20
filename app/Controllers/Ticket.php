@@ -36,6 +36,9 @@ class Ticket extends ResourceController
 
         if ($alpha == "B") {
             $result = $this->ticketModel->getBook($code)->getRow();
+            if (empty($result)) {
+                return $this->failNotFound('Data Not Found');
+            } 
             $getDetailBook = $this->ticketModel->detailBook($result->booking_code)->getRow();
             if (isset($getDetailBook)) {
                 $result->from = $getDetailBook->pickup_trip_location;
@@ -43,9 +46,6 @@ class Ticket extends ResourceController
             }
             
             $result->payment_registration = $this->ticketModel->getPaymentRegis($code)->getRow();
-            if (empty($result)) {
-                return $this->failNotFound('Data Not Found');
-            } 
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
         } else if ($alpha == "T") {

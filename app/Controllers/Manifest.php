@@ -25,6 +25,15 @@ class Manifest extends ResourceController
         $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
 
         $tripDetail = $this->manifestModel->getTripDetail($tripIdNo)->getRow();
+        $class = $this->manifestModel->getTripType($tripDetail->id)->getResult();
+        $className = '';
+        foreach ($class as $key => $value) {
+            if ($key > 0) {
+                $className .= ',';
+            }
+            $className .= $value->type;
+        }
+        $tripDetail->class = $className;
 
         $result['status'] = 200;
         $result['messages'] = 'success';
@@ -74,7 +83,7 @@ class Manifest extends ResourceController
 
         $result['status'] = 200;
         $result['messages'] = 'success';
-        $result['url_print'] = base_url('print/ticket/thermal?code='.$code);
+        $result['url_print'] = base_url('print/ticket/thermal?code='.$ticketNumber);
 
         return $this->respond($result, 200);
     }

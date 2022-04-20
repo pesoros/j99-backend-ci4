@@ -177,6 +177,7 @@ class Booking extends ResourceController
                 'agent_id' => null,
                 'booking_date' => $booking_date,
                 'date' => date('Y-m-d H:i:s'),
+                'fleet_type' => intval($fleet_type),
                 'status' => '0',
             ];
 

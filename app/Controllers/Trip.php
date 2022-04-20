@@ -79,7 +79,7 @@ class Trip extends ResourceController
         $data['bankinfo'] = $this->tripModel->getBankinfo()->getResult();
 
         #---------BOOKED SEAT(S)-----------#
-        $bookedSeats = $this->tripModel->getBookedSeats($trip_id_no, $booking_date)->getResult();
+        $bookedSeats = $this->tripModel->getBookedSeats($trip_id_no, $booking_date, $fleet_type_id)->getResult();
 
         // return $this->respond($bookedSeats);
         
@@ -91,7 +91,9 @@ class Trip extends ResourceController
 
         #---------FLEET SEAT(S)-----------#
         $fleetSeats = $this->tripModel->getfleetseats($fleet_type_id)->getResult();
-
+        if (empty($fleetSeats)) {
+            return $this->failNotFound('Data Not Found');
+        }
         if ($fleetSeats[0]->seat_numbers != null) {
             $seatArray = explode(',', $fleetSeats[0]->seat_numbers);
         } else {
