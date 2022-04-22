@@ -54,10 +54,13 @@ class TripModel extends Model
             tl2.name AS drop_trip_location,
             tpoint.dep_time as start,
             tpoint.arr_time as end,
+            tprs.price as normal_price,
             tprs.price as price,
+            tprs.sp_price as sp_price,
             citydep.name as citydep,
             cityarr.name as cityarr,
-            trext.price as price_ext
+            trext.price as price_ext,
+            tras.sp_day
             FROM trip_point_price AS tprs
             LEFT JOIN trip_point AS tpoint ON tpoint.id = tprs.point_id
             LEFT JOIN trip_assign AS tras ON tras.id = tpoint.trip_assign_id

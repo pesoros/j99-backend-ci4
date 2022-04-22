@@ -26,6 +26,17 @@ class Trip extends ResourceController
         $dateawal = isset($bodyRaw['tanggal']) ? $bodyRaw['tanggal'] : '';
         $kotaBerangkat = isset($bodyRaw['berangkat']) ? $bodyRaw['berangkat'] : '';
         $kotaTujuan = isset($bodyRaw['tujuan']) ? $bodyRaw['tujuan'] : '';
+        $dayforday = date("l", strtotime(!empty($dateawal)?$dateawal:date('Y-m-d')));
+
+        $dayArray = [
+            'Sunday' => '1'
+            ,'Monday' => '2'
+            ,'Tuesday' => '3'
+            ,'Wednesday' => '4'
+            ,'Thursday' => '5'
+            ,'Friday' => '6'
+            ,'Saturday' => '7'
+        ];
 
         if (empty($dateawal)) {
             return $this->failNotFound('Data Not Found');
@@ -52,6 +63,13 @@ class Trip extends ResourceController
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat)->getResult();
             $value->seatPicked = $checkSeat[0]->picked; 
             $value->seatAvail = intval($value->fleet_seats) - intval($checkSeat[0]->picked); 
+            $spday = explode(',', $value->sp_day);
+            for ($i=0; $i < count($spday); $i++) { 
+                if ($spday[$i] == $dayArray[$dayforday]) {
+                    $value->price = strval($value->sp_price);
+                    $i = count($spday);
+                }
+            }
             if ($value->price_ext !== null) {
                 $priceextsum = intval($value->price) + intval($value->price_ext);
                 $value->price = strval($priceextsum);
