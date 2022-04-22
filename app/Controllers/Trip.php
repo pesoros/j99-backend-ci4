@@ -23,19 +23,20 @@ class Trip extends ResourceController
         $kelas = isset($bodyRaw['kelas']) ? $bodyRaw['kelas'] : '';
         $unit_type = isset($bodyRaw['unit_type']) ? $bodyRaw['unit_type'] : '';
         $jumlahPenumpang = isset($bodyRaw['jumlahPenumpang']) ? $bodyRaw['jumlahPenumpang'] : '';
-        $tanggalBerangkat = isset($bodyRaw['tanggal']) ? $bodyRaw['tanggal'] : '';
+        $dateawal = isset($bodyRaw['tanggal']) ? $bodyRaw['tanggal'] : '';
         $kotaBerangkat = isset($bodyRaw['berangkat']) ? $bodyRaw['berangkat'] : '';
         $kotaTujuan = isset($bodyRaw['tujuan']) ? $bodyRaw['tujuan'] : '';
 
-        if (empty($tanggalBerangkat)) {
+        if (empty($dateawal)) {
             return $this->failNotFound('Data Not Found');
         } 
 
-        $tanggalBerangkat = date("Y-m-d", strtotime(!empty($tanggalBerangkat)?$tanggalBerangkat:date('Y-m-d')));
+        $tanggalBerangkat = date("Y-m-d", strtotime(!empty($dateawal)?$dateawal:date('Y-m-d')));
 
         $filterData = [
 			'start_point' => $kotaBerangkat,
 			'end_point'   => $kotaTujuan,
+			'dateawal'     => $dateawal,
 			'date'        => $tanggalBerangkat,
 			'fleet_type'  => $kelas,
 			'unit_type'  => $unit_type,
@@ -51,6 +52,10 @@ class Trip extends ResourceController
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat)->getResult();
             $value->seatPicked = $checkSeat[0]->picked; 
             $value->seatAvail = intval($value->fleet_seats) - intval($checkSeat[0]->picked); 
+            if ($value->price_ext !== null) {
+                $priceextsum = intval($value->price) + intval($value->price_ext);
+                $value->price = strval($priceextsum);
+            }
         }
         
         return $this->respond($result, 200);

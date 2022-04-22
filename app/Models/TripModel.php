@@ -56,7 +56,8 @@ class TripModel extends Model
             tpoint.arr_time as end,
             tprs.price as price,
             citydep.name as citydep,
-            cityarr.name as cityarr
+            cityarr.name as cityarr,
+            trext.price as price_ext
             FROM trip_point_price AS tprs
             LEFT JOIN trip_point AS tpoint ON tpoint.id = tprs.point_id
             LEFT JOIN trip_assign AS tras ON tras.id = tpoint.trip_assign_id
@@ -64,6 +65,7 @@ class TripModel extends Model
             LEFT JOIN shedule ON shedule.shedule_id = ta.shedule_id
             LEFT JOIN trip_route AS tr ON tr.id = ta.route
             LEFT JOIN fleet_type AS tp ON tp.id = tprs.type
+            LEFT JOIN trip_price_ext AS trext ON trext.assign_id = tras.id AND trext.date = '$date' AND trext.type = tprs.type 
             LEFT JOIN fleet_registration AS fr ON fr.id = tras.fleet_registration_id
             LEFT JOIN trip_location AS tl1 ON tl1.name = tpoint.dep_point
             LEFT JOIN trip_location AS tl2 ON tl2.name = tpoint.arr_point
