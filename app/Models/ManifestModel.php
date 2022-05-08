@@ -192,4 +192,14 @@ class ManifestModel extends Model
 
         return $query;
     }
+
+    public function getOrders($gen)
+    {
+        $query = $this->db->table('resto_orders')
+            ->where('generate', $gen)
+            ->orderBy('id','DESC')
+            ->get();
+
+        return $query;
+    }
 }

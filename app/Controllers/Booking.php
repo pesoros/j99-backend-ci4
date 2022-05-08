@@ -30,6 +30,7 @@ class Booking extends ResourceController
         $booker_email = isset($bodyRaw['booker_email']) ? $bodyRaw['booker_email'] : '';
         $booker_phone = isset($bodyRaw['booker_phone']) ? $bodyRaw['booker_phone'] : '';
         $offer_code = isset($bodyRaw['offer_code']) ? $bodyRaw['offer_code'] : '';
+        $agent = isset($bodyRaw['agent']) ? $bodyRaw['agent'] : 0;
         $pergi = isset($bodyRaw['pergi']) ? $bodyRaw['pergi'] : '';
         $pulang = isset($bodyRaw['pulang']) ? $bodyRaw['pulang'] : '';
         $dateNow = date('Y-m-d H:i:s');
@@ -65,12 +66,17 @@ class Booking extends ResourceController
             'payment_status' => '0',
             'offer_code' => $offer_code,
             'created_at' => $dateNow,
+            'agent' => $booker_id,
         ]);
 
         $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
         $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
 
-        $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
+        if ($payment_method != 'CASH') {
+            $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
+        } else {
+            $setPayment = [];
+        }
         
         $payment_id = $setPayment['id']; 
         $va_number = '-';

@@ -63,7 +63,7 @@ $routes->post('otp/set', 'Otp::createOtp');
 $routes->post('checkregis', 'MasterData::checkRegis');
 $routes->get('testemail', 'Booking::testemail');
 $routes->get('carousel/phone', 'Carousel::phone');
-
+$routes->get('resto/(:any)', 'Resto::foodList/$1');
 
 $routes->group("manifest", function($routes){
     $routes->post('login', 'LoginManifest::index');
