@@ -74,11 +74,12 @@ class Booking extends ResourceController
 
         if ($payment_method != 'CASH') {
             $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
-        } else {
+            $payment_id = $setPayment['id']; 
+    } else {
             $setPayment = [];
-        }
+            $payment_id = 0; 
+    }
         
-        $payment_id = $setPayment['id']; 
         $va_number = '-';
         $mobile_link = '-';
         $dekstop_link = '-';
@@ -270,7 +271,12 @@ class Booking extends ResourceController
         $fleetSeats = $this->bookingModel->checkBooking($fleetId)->getResult();
 
         $seatArray = array();
-        $seatArray = array_map('trim', explode(',', $fleetSeats[0]->seat_numbers));
+        if ($fleetSeats) {
+            # code...
+            $seatArray = array_map('trim', explode(',', $fleetSeats[0]->seat_numbers));
+        } else {
+            $seatArray = '';
+        }
         //-----------------booked seats-------------------
         $bookedSeats = $this->bookingModel->getBookedSeat($tripIdNo, $booking_date)->getResult();
 
