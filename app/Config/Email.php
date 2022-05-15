@@ -38,14 +38,14 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPHost = 'smtp.googlemail.com';
+	public $SMTPHost = 'mail.tiketjuragan99.id';
 	/**
 	 * SMTP Username
 	 *
 	 * @var string
 	 */
 	// Enter your email id from where you send email
-	public $SMTPUser = 'pesorossmtp@gmail.com';
+	public $SMTPUser = 'otp@tiketjuragan99.id';
 	
 	/**
 	 * SMTP Password
@@ -53,7 +53,7 @@ class Email extends BaseConfig
 	 * @var string
 	 */
 	// Enter your email's password
-	public $SMTPPass = 'smtppass';
+	public $SMTPPass = 'Suksess2022!';
 	/**
 	 * SMTP Port
 	 *
