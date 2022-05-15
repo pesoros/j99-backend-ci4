@@ -23,7 +23,7 @@ class TripModel extends Model
         $whereext = '';
 
         if ($kelas !== "") {
-            $whereext .= " AND ta.type = ".$kelas;
+            $whereext .= " AND tp.id = ".$kelas;
         }
 
         if ($unit_type !== "") {
