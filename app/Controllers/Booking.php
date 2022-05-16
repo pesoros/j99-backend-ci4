@@ -45,7 +45,7 @@ class Booking extends ResourceController
         unset($data['pergi']['price']);
         unset($data['pergi']['message']);
         $total_seat = count($pergi['seatPicked']);
-
+ 
         if ($pulang) {
             $roundTrip = 1;
             $total_seat = $total_seat + count($pulang['seatPicked']);
