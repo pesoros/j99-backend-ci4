@@ -104,6 +104,7 @@ class Booking extends ResourceController
             'created_at' => $dateNow,
         ]);
         
+        $data['bookingCode'] = $bookingCode;
         $data['payment'] = $setPayment;
         $data['payment']['total_price'] = $total_price;
 
