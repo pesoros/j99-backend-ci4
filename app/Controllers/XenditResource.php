@@ -66,7 +66,15 @@ class XenditResource extends ResourceController
     {
         $getPaymentChannels = \Xendit\PaymentChannels::list();
 
-        return $this->respond($getPaymentChannels, 200);
+        $result = [];
+
+        foreach ($getPaymentChannels as $key => $value) {
+            if ($value['channel_category'] != 'CREDIT_CARD') {
+                $result[$key] = $value;
+            }
+        }
+
+        return $this->respond($result, 200);
     }
 
     public function paymentMethodStatus()
