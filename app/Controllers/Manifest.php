@@ -23,6 +23,27 @@ class Manifest extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $tripIdNo = isset($bodyRaw['tripIdNo']) ? $bodyRaw['tripIdNo'] : '';
+        $tripDate = isset($bodyRaw['tripDate']) ? $bodyRaw['tripDate'] : '';
+
+        $penumpangAkum = 0;
+        $menungguAkum = 0;
+        $baggageAkum = 0;
+        $foodAkum = [];
+        $checkinList = $this->manifestModel->getCheckinList($tripIdNo,$tripDate)->getResult();
+        foreach ($checkinList as $key => $value) {
+            if (!isset($foodAkum[$value->food_name])) {
+                $foodAkum[$value->food_name] = 1;
+            } else {
+                $foodAkum[$value->food_name] += 1;
+            }
+            if ($value->baggage == 'Bawa') {
+                $baggageAkum += 1;
+            }
+            if ($value->checkin_status == 'Menunggu') {
+                $menungguAkum += 1;
+            }
+            $penumpangAkum += 1;
+        }
 
         $tripDetail = $this->manifestModel->getTripDetail($tripIdNo)->getRow();
         $class = $this->manifestModel->getTripType($tripDetail->id)->getResult();
@@ -34,6 +55,10 @@ class Manifest extends ResourceController
             $className .= $value->type;
         }
         $tripDetail->class = $className;
+        $tripDetail->totalpenumpang = $penumpangAkum;
+        $tripDetail->penumpang_belum_checkin = $menungguAkum;
+        $tripDetail->totalbagasi = $baggageAkum;
+        $tripDetail->akumulasi_makanan = $foodAkum;
 
         $result['status'] = 200;
         $result['messages'] = 'success';
