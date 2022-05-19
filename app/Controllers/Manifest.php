@@ -29,6 +29,7 @@ class Manifest extends ResourceController
         $menungguAkum = 0;
         $baggageAkum = 0;
         $foodAkum = [];
+        $foodAkumResult = [];
         $checkinList = $this->manifestModel->getCheckinList($tripIdNo,$tripDate)->getResult();
         foreach ($checkinList as $key => $value) {
             if (!isset($foodAkum[$value->food_name])) {
@@ -45,6 +46,13 @@ class Manifest extends ResourceController
             $penumpangAkum += 1;
         }
 
+        foreach ($foodAkum as $key => $value) {
+            $des = [];
+            $des['nama_makanan'] = $key;
+            $des['qty'] = $value;
+            $foodAkumResult[] = $des;
+        }
+
         $tripDetail = $this->manifestModel->getTripDetail($tripIdNo)->getRow();
         $class = $this->manifestModel->getTripType($tripDetail->id)->getResult();
         $className = '';
@@ -58,7 +66,7 @@ class Manifest extends ResourceController
         $tripDetail->totalpenumpang = $penumpangAkum;
         $tripDetail->penumpang_belum_checkin = $menungguAkum;
         $tripDetail->totalbagasi = $baggageAkum;
-        $tripDetail->akumulasi_makanan = $foodAkum;
+        $tripDetail->akumulasi_makanan = $foodAkumResult;
 
         $result['status'] = 200;
         $result['messages'] = 'success';
