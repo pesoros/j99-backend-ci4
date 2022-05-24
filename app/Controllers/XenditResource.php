@@ -70,7 +70,7 @@ class XenditResource extends ResourceController
 
         foreach ($getPaymentChannels as $key => $value) {
             if ($value['channel_category'] != 'CREDIT_CARD') {
-                $result[$key] = $value;
+                $result[] = $value;
             }
         }
 

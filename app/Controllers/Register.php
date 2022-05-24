@@ -22,7 +22,6 @@ class Register extends ResourceController
             'password' => 'required|min_length[6]',
             'firstName' => 'required',
             'lastName' => 'required',
-            'address' => 'required',
             'phone' => 'required',
         ];
 
