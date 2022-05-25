@@ -16,7 +16,7 @@ class PaketModel extends Model
 
     public function getPool($id)
     {
-        $query = $this->db->table('trip_location_pool')
+        $query = $this->db->table('trip_location')
             ->where('id',$id)
             ->get();
         return $query;
