@@ -49,7 +49,7 @@ class Ticket extends ResourceController
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
         } else if ($alpha == "T") {
-            $result = $this->ticketModel->getTicket($code)->getRow();
+            $result = $this->ticketModel->getTicket('T-88RUO6IK')->getRow();
 
             $qrcode = $this->qrcodeGenerate($code);
             if (empty($result)) {

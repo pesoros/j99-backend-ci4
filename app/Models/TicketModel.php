@@ -48,7 +48,7 @@ class TicketModel extends Model
             ")
             ->join('tkt_booking AS tbook', 'tps.booking_id = tbook.id_no')
             ->join('trip', 'tbook.trip_id_no = trip.trip_id')
-            ->join('fleet_type AS ft', 'trip.type = ft.id')
+            ->join('fleet_type AS ft', 'tps.fleet_type = ft.id')
             ->join('resto_menu AS resto', 'tps.food = resto.id')
             ->where($wherefield,$code)
             ->get();
