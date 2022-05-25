@@ -53,7 +53,7 @@ class Ticket extends ResourceController
 
             $qrcode = $this->qrcodeGenerate($code);
             if (empty($result)) {
-                return $this->failNotFound('Data Not Found');
+                return $this->failNotFound('Data Not Found ..');
             } 
             $result->code_type = 'ticket';
             $result->qrcode = $qrcode;
