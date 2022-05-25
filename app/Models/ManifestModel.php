@@ -187,7 +187,7 @@ class ManifestModel extends Model
             ')
             ->where('email_assign', $email)
             ->where('status', 1)
-            ->orderBy('id','DESC')
+            ->orderBy('id','ASC')
             ->get();
 
         return $query;
