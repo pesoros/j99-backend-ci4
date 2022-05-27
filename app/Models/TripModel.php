@@ -62,9 +62,9 @@ class TripModel extends Model
             trext.price as price_ext,
             tras.sp_day
             FROM trip_point_price AS tprs
-            LEFT JOIN trip_point AS tpoint ON tpoint.id = tprs.point_id
-            LEFT JOIN trip_assign AS tras ON tras.id = tpoint.trip_assign_id
-            LEFT JOIN trip AS ta ON tras.trip = ta.trip_id
+            INNER JOIN trip_point AS tpoint ON tpoint.id = tprs.point_id
+            INNER JOIN trip_assign AS tras ON tras.id = tpoint.trip_assign_id
+            INNER JOIN trip AS ta ON tras.trip = ta.trip_id
             LEFT JOIN shedule ON shedule.shedule_id = ta.shedule_id
             LEFT JOIN trip_route AS tr ON tr.id = ta.route
             LEFT JOIN fleet_type AS tp ON tp.id = tprs.type
