@@ -17,6 +17,7 @@
             -o-transform: rotate(90deg);
             transform: rotate(90deg);
             margin-bottom: 240px;
+            margin-top: 0px;
         }
 
         .footer {
@@ -30,7 +31,7 @@
         }
 
         @page {
-            size: 2.8in 5.9in;
+            size: 2.2in 5.9in;
             margin-top: 0cm;
             margin-left: 0cm;
             margin-right: 0cm;
@@ -38,8 +39,8 @@
         }
 
         #logo img {
-            width: 490px;
-            height: 100px;
+            width: 180px;
+            height: 50px;
             margin-top: 0px;
             margin-left: -20px;
         }
@@ -52,13 +53,13 @@
         }
 
         .detailer {
-            font-size: 9px;
+            font-size: 11px;
             width: 180px;
         }
 
         .qrcode img {
-            width: 80px;
-            margin-left: 0px;
+            width: 75px;
+            margin-left: 5px;
         }
 
         hr {
@@ -67,7 +68,7 @@
         }
 
         .footer p {
-            margin-top: 0px;
+            margin-top: 65px;
         }
         .page_break {
             page-break-before: always;
@@ -78,10 +79,12 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="center-align">
         <div id="logo" class="media" >
             <img src="https://juragan99trans.id/images/logo-1.png"/>
         </div>
+    </div>
+    <div class="container">
         <table>
             <tr>
                 <td class="detailer">
@@ -161,18 +164,19 @@
             penumpang diimbau untuk datang paling lambat 30 menit sebelum jadwal keberangkatan. Hal tersebut dikarenakan pada saat proses boarding ada tahapan verifikasi berkas oleh petugas.
         </div>
     </div>
-    <hr>
     <div class="footer center-align">
         <p>
-            web:juragan99trans.id | phone:081277755485 <br> email:humas@juragan99trans.id | wa:031847653
+            web:tiketjuragan99.id | phone:081277755485 <br> email:admin@tiketjuragan99.id
         </p>
     </div>
     <?php if ($tickedData->baggage == 'Bawa') { ?>
     <div class="page_break"></div>
-    <div class="container">
+    <div class="center-align">
         <div id="logo" class="media" >
             <img src="https://juragan99trans.id/images/logo-1.png"/>
         </div>
+    </div>
+    <div class="container">
         <table>
             <tr>
                 <td class="detailer">
@@ -252,10 +256,9 @@
             penumpang diimbau untuk datang paling lambat 30 menit sebelum jadwal keberangkatan. Hal tersebut dikarenakan pada saat proses boarding ada tahapan verifikasi berkas oleh petugas.
         </div>
     </div>
-    <hr>
     <div class="footer center-align">
         <p>
-            web:juragan99trans.id | phone:081277755485 <br> email:humas@juragan99trans.id | wa:031847653
+            web:tiketjuragan99.id | phone:081277755485 <br> email:admin@tiketjuragan99.id
         </p>
     </div>
     <?php } ?>
