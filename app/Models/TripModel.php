@@ -65,15 +65,15 @@ class TripModel extends Model
             INNER JOIN trip_point AS tpoint ON tpoint.id = tprs.point_id
             INNER JOIN trip_assign AS tras ON tras.id = tpoint.trip_assign_id
             INNER JOIN trip AS ta ON tras.trip = ta.trip_id
-            LEFT JOIN shedule ON shedule.shedule_id = ta.shedule_id
-            LEFT JOIN trip_route AS tr ON tr.id = ta.route
-            LEFT JOIN fleet_type AS tp ON tp.id = tprs.type
-            LEFT JOIN trip_price_ext AS trext ON trext.assign_id = tras.id AND trext.date = '$date' AND trext.type = tprs.type 
-            LEFT JOIN fleet_registration AS fr ON fr.id = tras.fleet_registration_id
-            LEFT JOIN trip_location AS tl1 ON tl1.name = tpoint.dep_point
-            LEFT JOIN trip_location AS tl2 ON tl2.name = tpoint.arr_point
-            LEFT JOIN wil_city AS citydep ON tl1.city = citydep.id 
-            LEFT JOIN wil_city AS cityarr ON tl2.city = cityarr.id 
+            INNER JOIN shedule ON shedule.shedule_id = ta.shedule_id
+            INNER JOIN trip_route AS tr ON tr.id = ta.route
+            INNER JOIN fleet_type AS tp ON tp.id = tprs.type
+            INNER JOIN trip_price_ext AS trext ON trext.assign_id = tras.id AND trext.date = '$date' AND trext.type = tprs.type 
+            INNER JOIN fleet_registration AS fr ON fr.id = tras.fleet_registration_id
+            INNER JOIN trip_location AS tl1 ON tl1.name = tpoint.dep_point
+            INNER JOIN trip_location AS tl2 ON tl2.name = tpoint.arr_point
+            INNER JOIN wil_city AS citydep ON tl1.city = citydep.id 
+            INNER JOIN wil_city AS cityarr ON tl2.city = cityarr.id 
             WHERE 1=1
             $whereext 
         ");
