@@ -16,14 +16,15 @@
             -moz-transform: rotate(90deg);
             -o-transform: rotate(90deg);
             transform: rotate(90deg);
-            margin-bottom: 240px;
-            margin-top: 0px;
+            margin-bottom: 220px;
+            margin-top: 5px;
+            margin-left: 5px;
         }
 
         .footer {
-            margin: 5px 15px;
-            margin-right: 10px;
-            font-size: 9px;
+            margin: 5px 20px;
+            margin-right: 25px;
+            font-size: 8px;
         }
 
         .center-align {
@@ -31,7 +32,7 @@
         }
 
         @page {
-            size: 2.2in 5.9in;
+            size: 2.0in 5.9in;
             margin-top: 0cm;
             margin-left: 0cm;
             margin-right: 0cm;
@@ -166,7 +167,7 @@
     </div>
     <div class="footer center-align">
         <p>
-            web:tiketjuragan99.id | phone:081277755485 <br> email:admin@tiketjuragan99.id
+            web:tiketjuragan99.id <br> phone:081277755485 <br> email:admin@tiketjuragan99.id
         </p>
     </div>
     <?php if ($tickedData->baggage == 'Bawa') { ?>
@@ -258,7 +259,7 @@
     </div>
     <div class="footer center-align">
         <p>
-            web:tiketjuragan99.id | phone:081277755485 <br> email:admin@tiketjuragan99.id
+            web:tiketjuragan99.id <br> phone:081277755485 <br> email:admin@tiketjuragan99.id
         </p>
     </div>
     <?php } ?>
