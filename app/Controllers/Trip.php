@@ -128,7 +128,7 @@ class Trip extends ResourceController
         $result['seatsInfo'] = $layoutset[0];
         $result['seatsInfo']->picked = $bookArray;
         
-        if ($layoutset[0]->layout == "2-1") {
+        if ($layoutset[0]->layout == "2-2") {
             $separate = [2,6,10,14,18,22];
 
             foreach ($seatArray as $key => $value) {
@@ -188,7 +188,7 @@ class Trip extends ResourceController
                     ];
                 }
             }
-        } elseif ($layoutset[0]->layout == "2-2") {
+        } elseif ($layoutset[0]->layout == "1-1-1") {
             $separate = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
             $separate_2 = [3,6,12,15,18,21];
 
