@@ -129,9 +129,9 @@ class Trip extends ResourceController
         $result['seatsInfo']->picked = $bookArray;
         
         if ($layoutset[0]->layout == "2-2") {
-            $separate = [2,6,10,14,18,22];
+            $separate = [3,7,11,15,19,23];
         } elseif ($layoutset[0]->layout == "1-1") {
-            $separate = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20];
+            $separate = [1,2,4,];
         } else {
             $separate = [];
         }
@@ -149,7 +149,7 @@ class Trip extends ResourceController
                 'isSeat' => true,
             ];
 
-            if (in_array($key+1, $separate)) {
+            if (in_array($key, $separate)) {
                 $result['seats'][] = [
                     'id' => 00,
                     'name' => '-',
