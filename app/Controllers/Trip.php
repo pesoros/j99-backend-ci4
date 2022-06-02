@@ -137,7 +137,7 @@ class Trip extends ResourceController
         }
 
         for ($key=0; $key < count($seatArray);) { 
-            $value = $seatArray[$i];
+            $value = $seatArray[$key];
 
             if (in_array(trim($value), $bookArray)) {
                 $avail = false;
