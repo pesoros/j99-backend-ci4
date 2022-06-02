@@ -159,7 +159,7 @@ class Trip extends ResourceController
                     'isAvailable' => $avail,
                     'isSeat' => true,
                 ];
-                $key++;
+                $key += 1;
             }
         }
 
