@@ -128,7 +128,7 @@ class Trip extends ResourceController
         $result['seatsInfo'] = $layoutset[0];
         $result['seatsInfo']->picked = $bookArray;
         
-        if ($layoutset[0]->layout == "2-2") {
+        if ($layoutset[0]->layout == "2-1") {
             $separate = [2,6,10,14,18,22];
 
             foreach ($seatArray as $key => $value) {
