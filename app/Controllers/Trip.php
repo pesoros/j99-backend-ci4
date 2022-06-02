@@ -188,6 +188,40 @@ class Trip extends ResourceController
                     ];
                 }
             }
+        } elseif ($layoutset[0]->layout == "1-1-1") {
+            $separate = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+            $separate_2 = [3,6,12,15,18,21];
+
+            foreach ($seatArray as $key => $value) {
+                if (in_array(trim($value), $bookArray)) {
+                    $avail = false;
+                } else {
+                    $avail = true;
+                }
+                $result['seats'][] = [
+                    'id' => $key+1,
+                    'name' => trim($value),
+                    'isAvailable' => $avail,
+                    'isSeat' => true,
+                ];
+    
+                if (in_array($key+1, $separate)) {
+                    $result['seats'][] = [
+                        'id' => 00,
+                        'name' => '-',
+                        'isAvailable' => $avail,
+                        'isSeat' => false,
+                    ];
+                }
+                if (in_array($key+1, $separate_2)) {
+                    $result['seats'][] = [
+                        'id' => 00,
+                        'name' => '-',
+                        'isAvailable' => $avail,
+                        'isSeat' => false,
+                    ];
+                }
+            }
         } else {
             $separate = [];
         }
