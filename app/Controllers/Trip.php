@@ -129,25 +129,21 @@ class Trip extends ResourceController
         $result['seatsInfo']->picked = $bookArray;
         
         if ($layoutset[0]->layout == "2-2") {
-            $separate = [3,7,11,15,19,23];
+            $separate = [3,8,13,18,23];
         } elseif ($layoutset[0]->layout == "1-1") {
             $separate = [1,2,4,];
         } else {
             $separate = [];
         }
 
-        foreach ($seatArray as $key => $value) {
+        for ($key=0; $key < count($seatArray);) { 
+            $value = $seatArray[$i];
+
             if (in_array(trim($value), $bookArray)) {
                 $avail = false;
             } else {
                 $avail = true;
             }
-            $result['seats'][] = [
-                'id' => $key+1,
-                'name' => trim($value),
-                'isAvailable' => $avail,
-                'isSeat' => true,
-            ];
 
             if (in_array($key, $separate)) {
                 $result['seats'][] = [
@@ -156,6 +152,14 @@ class Trip extends ResourceController
                     'isAvailable' => $avail,
                     'isSeat' => false,
                 ];
+            } else {
+                $result['seats'][] = [
+                    'id' => $key,
+                    'name' => trim($value),
+                    'isAvailable' => $avail,
+                    'isSeat' => true,
+                ];
+                $key++;
             }
         }
 
