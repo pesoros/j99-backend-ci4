@@ -11,19 +11,19 @@
 
         .container {
             margin: 15px 28px;
-            margin-right: 17px;
+            margin-right: 70px;
             -webkit-transform: rotate(90deg);
             -moz-transform: rotate(90deg);
             -o-transform: rotate(90deg);
             transform: rotate(90deg);
             margin-bottom: 220px;
-            margin-top: 5px;
-            margin-left: 5px;
+            margin-top: 25px;
+            margin-left: 0px;
         }
 
         .footer {
             margin: 5px 20px;
-            margin-right: 25px;
+            margin-right: 95px;
             font-size: 8px;
         }
 
@@ -32,7 +32,7 @@
         }
 
         @page {
-            size: 2.0in 5.9in;
+            size: 2.8in 5.9in;
             margin-top: 0cm;
             margin-left: 0cm;
             margin-right: 0cm;
@@ -40,10 +40,10 @@
         }
 
         #logo img {
-            width: 180px;
-            height: 50px;
+            width: 140px;
+            height: 40px;
             margin-top: 0px;
-            margin-left: -20px;
+            margin-left: -100px;
         }
 
         .intro {
@@ -54,7 +54,7 @@
         }
 
         .detailer {
-            font-size: 11px;
+            font-size: 9px;
             width: 180px;
         }
 
@@ -69,7 +69,7 @@
         }
 
         .footer p {
-            margin-top: 65px;
+            margin-top: 60px;
         }
         .page_break {
             page-break-before: always;
