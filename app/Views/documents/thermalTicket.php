@@ -17,8 +17,8 @@
             -o-transform: rotate(90deg);
             transform: rotate(90deg);
             margin-bottom: 220px;
-            margin-top: 25px;
-            margin-left: 0px;
+            margin-top: 35px;
+            margin-left: -20px;
         }
 
         .footer {
@@ -41,9 +41,9 @@
 
         #logo img {
             width: 140px;
-            height: 40px;
+            height: 25px;
             margin-top: 0px;
-            margin-left: -100px;
+            margin-left: -115px;
         }
 
         .intro {
