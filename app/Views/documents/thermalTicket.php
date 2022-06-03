@@ -23,7 +23,7 @@
 
         .footer {
             margin: 5px 20px;
-            margin-right: 95px;
+            margin-right: 120px;
             font-size: 8px;
         }
 
