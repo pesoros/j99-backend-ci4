@@ -36,10 +36,10 @@ class LoginManifest extends ResourceController
         }
 
         $model = new UserManifestModel();
-        $user = $model->where("email", $this->request->getVar('email'))->first();
-        if (!$user) {
-            return $this->failNotFound('Email Not Found');
-        }
+        // $user = $model->where("email", $this->request->getVar('email'))->first();
+        // if (!$user) {
+        //     return $this->failNotFound('Email Not Found');
+        // }
 
         // $verify = password_verify($this->request->getVar('password'), $user['password']);
         // $verify = md5($this->request->getVar('password')) == $user['password'];
