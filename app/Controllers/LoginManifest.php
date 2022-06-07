@@ -42,7 +42,7 @@ class LoginManifest extends ResourceController
         }
 
         $verify = password_verify($this->request->getVar('password'), $user['password']);
-        $verify = md5($this->request->getVar('password')) == $user['password'];
+        // $verify = md5($this->request->getVar('password')) == $user['password'];
         if (!$verify) {
             return $this->fail('Wrong Password');
         }
