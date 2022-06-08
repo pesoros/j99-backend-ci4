@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\AccountModel;
+use App\Models\UserModel;
 
 class Account extends ResourceController
 {
@@ -41,6 +42,12 @@ class Account extends ResourceController
         $phone = isset($bodyRaw['phone']) ? $bodyRaw['phone'] : '';
         $identity = isset($bodyRaw['identity']) ? $bodyRaw['identity'] : '';
         $identity_number = isset($bodyRaw['identity_number']) ? $bodyRaw['identity_number'] : '';
+
+        // $model = new UserModel();
+        // $checkNik = $model->where("identity_number", $identity_number)->first();
+        // if ($checkNik) {
+        //     return $this->fail('identity number was exist');
+        // }
 
         unset($bodyRaw['email']);
 

@@ -29,6 +29,16 @@ class Register extends ResourceController
         $identityNumber = $this->request->getVar('identityNumber') ? $this->request->getVar('identityNumber') : '';
 
         if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
+
+        if ($identityNumber != '') {
+            $model = new UserModel();
+            $checkNik = $model->where("identity_number", $identityNumber)->first();
+            if ($checkNik) {
+                return $this->fail('identity number was exist');
+            }
+        }
+        
+
         $data = [
             'email'     => $this->request->getVar('email'),
             'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
