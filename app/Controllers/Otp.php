@@ -68,7 +68,7 @@ class Otp extends ResourceController
         if ($sendBy == 'email') {
             $sendMail = $this->sendMail($email,'OTP',$bodyOtp);
         } else if ($sendBy == 'wa') {
-            // waiting wa bussines api
+            $sendWa = $this->sendWa($phone,$otpNumber);
         }
 
         $untilTime = date("Y-m-d H:i:s", strtotime('+15 minutes'));
@@ -116,4 +116,50 @@ class Otp extends ResourceController
 		
 		return $send;
 	}
+
+    public function sendWa($waTo,$otpNumber)
+    {
+        $reqData = '{
+            "channel_id": '.getenv('QSC_channel_id').',
+            "template_name": "sample_shipping_confirmation",
+            "namespace": "e24690f7_bbde_44d8_b7d4_9e25808b52dc",
+            "language": "id",
+            "variables": ["'.$otpNumber.'"],
+            "phone_numbers": ["'.$waTo.'"],
+            "hide_variables": false
+        }';
+
+        return $this->httpPostXformQsc($reqData);
+    }
+
+    public function httpPostXformQsc($reqData)
+    {
+        $QSC_BaseUrl = getenv('QSC_BaseUrl').'/api/v2/admin/broadcast/client_broadcast';
+        $QSC_AdminToken = getenv('QSC_AdminToken');
+        $QSC_AppCode = getenv('QSC_AppCode');
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://multichannel.qiscus.com/api/v2/admin/broadcast/client_broadcast',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => $reqData,
+        CURLOPT_HTTPHEADER => array(
+                'Authorization: '.$QSC_AdminToken,
+                'Content-Type: application/json',
+                'Qiscus-App-Id: '.$QSC_AppCode
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+    }
 }
