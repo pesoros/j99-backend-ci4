@@ -125,7 +125,7 @@ class Otp extends ResourceController
             "namespace": "e24690f7_bbde_44d8_b7d4_9e25808b52dc",
             "language": "id",
             "variables": ["'.$otpNumber.'"],
-            "phone_numbers": ["'.$waTo.'"],
+            "phone_numbers": ["'.$waTo.'"], 
             "hide_variables": false
         }';
 
