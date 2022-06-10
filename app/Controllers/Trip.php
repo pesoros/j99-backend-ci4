@@ -135,7 +135,11 @@ class Trip extends ResourceController
                 if (in_array(trim($value), $bookArray)) {
                     $avail = false;
                 } else {
-                    $avail = true;
+                    if ($value == 'X') {
+                        $avail = false;
+                    } else {
+                        $avail = true;
+                    }
                 }
                 $result['seats'][] = [
                     'id' => $key+1,
