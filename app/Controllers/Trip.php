@@ -171,6 +171,13 @@ class Trip extends ResourceController
                 } else {
                     $avail = true;
                 }
+
+                if (trim($value) == 'X') {
+                    $avail = false;
+                } else {
+                    $avail = true;
+                }
+
                 $result['seats'][] = [
                     'id' => $key+1,
                     'name' => trim($value),
@@ -205,6 +212,13 @@ class Trip extends ResourceController
                 } else {
                     $avail = true;
                 }
+
+                if (trim($value) == 'X') {
+                    $avail = false;
+                } else {
+                    $avail = true;
+                }
+                
                 $result['seats'][] = [
                     'id' => $key+1,
                     'name' => trim($value),
