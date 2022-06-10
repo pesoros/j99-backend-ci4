@@ -140,6 +140,7 @@ class Trip extends ResourceController
 
                 if (trim($value) == 'X') {
                     $avail = false;
+                    $value = '-';
                 } else {
                     $avail = true;
                 }
@@ -174,6 +175,7 @@ class Trip extends ResourceController
 
                 if (trim($value) == 'X') {
                     $avail = false;
+                    $value = '-';
                 } else {
                     $avail = true;
                 }
@@ -215,10 +217,11 @@ class Trip extends ResourceController
 
                 if (trim($value) == 'X') {
                     $avail = false;
+                    $value = '-';
                 } else {
                     $avail = true;
                 }
-                
+
                 $result['seats'][] = [
                     'id' => $key+1,
                     'name' => trim($value),
