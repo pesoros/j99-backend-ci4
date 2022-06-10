@@ -141,7 +141,7 @@ class Otp extends ResourceController
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://multichannel.qiscus.com/api/v2/admin/broadcast/client_broadcast',
+        CURLOPT_URL => $QSC_BaseUrl,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
