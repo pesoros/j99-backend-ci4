@@ -121,7 +121,7 @@ class Otp extends ResourceController
     {
         $reqData = '{
             "channel_id": '.getenv('QSC_channel_id').',
-            "template_name": "sample_shipping_confirmation",
+            "template_name": "j99_otp",
             "namespace": "e24690f7_bbde_44d8_b7d4_9e25808b52dc",
             "language": "id",
             "variables": ["'.$otpNumber.'"],
