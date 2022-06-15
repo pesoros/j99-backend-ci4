@@ -65,6 +65,10 @@ $routes->get('testemail', 'Booking::testemail');
 $routes->get('carousel/phone', 'Carousel::phone');
 $routes->get('resto/(:any)', 'Resto::foodList/$1');
 
+$routes->group("content", function($routes){
+    $routes->get('disclaimer', 'content::disclaimer');
+});
+
 $routes->group("manifest", function($routes){
     $routes->post('login', 'LoginManifest::index');
     $routes->post('trip', 'Manifest::tripDetail');

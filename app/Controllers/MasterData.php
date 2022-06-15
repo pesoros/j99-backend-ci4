@@ -54,8 +54,9 @@ class MasterData extends ResourceController
     {
         $bodyRaw = $this->request->getRawInput();
         $idResto = isset($bodyRaw['idResto']) ? $bodyRaw['idResto'] : '';
+        $class = isset($bodyRaw['class']) ? $bodyRaw['class'] : '';
 
-        $result = $this->masterModel->getRestoMenu($idResto)->getResult();
+        $result = $this->masterModel->getRestoMenu($idResto,$class)->getResult();
         return $this->respond($result, 200);
     }
 

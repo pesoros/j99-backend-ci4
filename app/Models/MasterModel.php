@@ -44,12 +44,20 @@ class MasterModel extends Model
         return $query;
     }
 
-    public function getRestoMenu($idResto)
+    public function getRestoMenu($idResto,$class)
     {
-        $query = $this->db->table('resto_menu')
+        if ($class != '') {
+            $query = $this->db->table('resto_menu')
+            ->where('id_resto', $idResto)
+            ->where('class', $class)
+            ->where('status',1)
+            ->get();
+        } else {
+            $query = $this->db->table('resto_menu')
             ->where('id_resto', $idResto)
             ->where('status',1)
             ->get();
+        }
         return $query;
     }
 
