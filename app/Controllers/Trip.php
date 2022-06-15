@@ -74,6 +74,12 @@ class Trip extends ResourceController
                 $priceextsum = intval($value->price) + intval($value->price_ext);
                 $value->price = strval($priceextsum);
             }
+
+            if ($value->image != null) {
+                $value->image = getenv('ADMIN_ENDPOINT').$value->image;
+            } else {
+                $value->image = base_url('assets/default_bus.jpeg');
+            }
         }
         
         return $this->respond($result, 200);

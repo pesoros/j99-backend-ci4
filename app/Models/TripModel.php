@@ -41,6 +41,7 @@ class TripModel extends Model
             tp.id as type,
             tp.total_seat AS fleet_seats,
             tp.type AS class,
+            tp.image,
             fr.reg_no AS fleet_registration_id,
             fr.unit_id AS unit_type,
             tr.approximate_time AS duration,
