@@ -66,7 +66,7 @@ $routes->get('carousel/phone', 'Carousel::phone');
 $routes->get('resto/(:any)', 'Resto::foodList/$1');
 
 $routes->group("content", function($routes){
-    $routes->get('disclaimer', 'content::disclaimer');
+    $routes->get('disclaimer', 'Content::disclaimer');
 });
 
 $routes->group("manifest", function($routes){
