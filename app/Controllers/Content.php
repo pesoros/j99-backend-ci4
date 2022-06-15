@@ -16,7 +16,7 @@ class Content extends ResourceController
         $this->contentModel = new ContentModel();
     }
 
-    public function disclaimer()
+    public function getDisclaimer()
     {
         $result = $this->contentModel->getDisclaimer()->getRow();
         return $this->respond($result, 200);
