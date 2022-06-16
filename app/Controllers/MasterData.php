@@ -57,6 +57,15 @@ class MasterData extends ResourceController
         $class = isset($bodyRaw['class']) ? $bodyRaw['class'] : '';
 
         $result = $this->masterModel->getRestoMenu($idResto,$class)->getResult();
+
+        foreach ($result as $key => $value) {
+            if ($value->image != null) {
+                $value->image = getenv('ADMIN_ENDPOINT').$value->image;
+            } else {
+                $value->image = base_url('assets/default_food.jpeg');
+            }
+        }
+
         return $this->respond($result, 200);
     }
 
