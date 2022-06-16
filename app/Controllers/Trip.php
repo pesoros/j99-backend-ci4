@@ -173,41 +173,43 @@ class Trip extends ResourceController
             $separate_2 = [1,3,5,7,9,11,13,14,15,17,19,21];
 
             foreach ($seatArray as $key => $value) {
-                if (in_array(trim($value), $bookArray)) {
-                    $avail = false;
-                } else {
-                    $avail = true;
-                }
+                if ($value != "") {
+                    if (in_array(trim($value), $bookArray)) {
+                        $avail = false;
+                    } else {
+                        $avail = true;
+                    }
 
-                if (trim($value) == 'X') {
-                    $avail = false;
-                    $value = '-';
-                } else {
-                    $avail = true;
-                }
+                    if (trim($value) == 'X') {
+                        $avail = false;
+                        $value = '-';
+                    } else {
+                        $avail = true;
+                    }
 
-                $result['seats'][] = [
-                    'id' => $key+1,
-                    'name' => trim($value),
-                    'isAvailable' => $avail,
-                    'isSeat' => true,
-                ];
-    
-                if (in_array($key+1, $separate)) {
                     $result['seats'][] = [
-                        'id' => 00,
-                        'name' => '-',
+                        'id' => $key+1,
+                        'name' => trim($value),
                         'isAvailable' => $avail,
-                        'isSeat' => false,
+                        'isSeat' => true,
                     ];
-                }
-                if (in_array($key+1, $separate_2)) {
-                    $result['seats'][] = [
-                        'id' => 00,
-                        'name' => '-',
-                        'isAvailable' => $avail,
-                        'isSeat' => false,
-                    ];
+        
+                    if (in_array($key+1, $separate)) {
+                        $result['seats'][] = [
+                            'id' => 00,
+                            'name' => '-',
+                            'isAvailable' => $avail,
+                            'isSeat' => false,
+                        ];
+                    }
+                    if (in_array($key+1, $separate_2)) {
+                        $result['seats'][] = [
+                            'id' => 00,
+                            'name' => '-',
+                            'isAvailable' => $avail,
+                            'isSeat' => false,
+                        ];
+                    }
                 }
             }
         } elseif ($layoutset[0]->layout == "1-1-1") {
@@ -215,33 +217,35 @@ class Trip extends ResourceController
             $separate_2 = [3,6,12,15,18,21];
 
             foreach ($seatArray as $key => $value) {
-                if (in_array(trim($value), $bookArray)) {
-                    $avail = false;
-                } else {
-                    $avail = true;
-                }
+                if ($value != "") {
+                    if (in_array(trim($value), $bookArray)) {
+                        $avail = false;
+                    } else {
+                        $avail = true;
+                    }
 
-                if (trim($value) == 'X') {
-                    $avail = false;
-                    $value = '-';
-                } else {
-                    $avail = true;
-                }
+                    if (trim($value) == 'X') {
+                        $avail = false;
+                        $value = '-';
+                    } else {
+                        $avail = true;
+                    }
 
-                $result['seats'][] = [
-                    'id' => $key+1,
-                    'name' => trim($value),
-                    'isAvailable' => $avail,
-                    'isSeat' => true,
-                ];
-    
-                if (in_array($key+1, $separate)) {
                     $result['seats'][] = [
-                        'id' => 00,
-                        'name' => '-',
+                        'id' => $key+1,
+                        'name' => trim($value),
                         'isAvailable' => $avail,
-                        'isSeat' => false,
+                        'isSeat' => true,
                     ];
+        
+                    if (in_array($key+1, $separate)) {
+                        $result['seats'][] = [
+                            'id' => 00,
+                            'name' => '-',
+                            'isAvailable' => $avail,
+                            'isSeat' => false,
+                        ];
+                    }
                 }
             }
         } else {
