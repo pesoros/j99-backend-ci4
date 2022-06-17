@@ -138,7 +138,7 @@ class Trip extends ResourceController
             $separate = [2,6,10,14,18,22];
 
             foreach ($seatArray as $key => $value) {
-                if (in_array($value, $bookArray)) {
+                if (in_array(trim($value), $bookArray)) {
                     $avail = false;
                 } else {
                     $avail = true;
@@ -172,27 +172,12 @@ class Trip extends ResourceController
 
             foreach ($seatArray as $key => $value) {
                 if (trim($value) != "") {
-                    if (in_array($value, $bookArray)) {
+                    if (in_array(trim($value), $bookArray)) {
                         $avail = false;
                     } else {
                         $avail = true;
                     }
 
-                    if (trim($value) == 'X') {
-                        $result['seats'][] = [
-                            'id' => 00,
-                            'name' => '-',
-                            'isAvailable' => $avail,
-                            'isSeat' => false,
-                        ];
-                    } else {
-                        $result['seats'][] = [
-                            'id' => $key+1,
-                            'name' => trim($value),
-                            'isAvailable' => $avail,
-                            'isSeat' => true,
-                        ];
-                    }
         
                     if (in_array($key+1, $separate)) {
                         $result['seats'][] = [
