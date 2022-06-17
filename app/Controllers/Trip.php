@@ -194,7 +194,7 @@ class Trip extends ResourceController
                         ];
                     }
         
-                    if (in_array($key, $separate)) {
+                    if (in_array($key+1, $separate)) {
                         $result['seats'][] = [
                             'id' => 00,
                             'name' => '-',
@@ -202,7 +202,7 @@ class Trip extends ResourceController
                             'isSeat' => false,
                         ];
                     }
-                    if (in_array($key, $separate_2)) {
+                    if (in_array($key+1, $separate_2)) {
                         $result['seats'][] = [
                             'id' => 00,
                             'name' => '-',
