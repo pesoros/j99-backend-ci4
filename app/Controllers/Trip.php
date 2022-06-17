@@ -172,7 +172,7 @@ class Trip extends ResourceController
 
             foreach ($seatArray as $key => $value) {
                 if (trim($value) != "") {
-                    if (in_array(trim($value), $bookArray)) {
+                    if (in_array($value, $bookArray)) {
                         $avail = false;
                     } else {
                         $avail = true;
