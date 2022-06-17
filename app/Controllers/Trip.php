@@ -254,6 +254,6 @@ class Trip extends ResourceController
             $separate = [];
         }
 
-        return $this->respond($result, 200);
+        return $this->respond($bookArray, 200);
     }
 }
