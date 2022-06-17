@@ -129,7 +129,7 @@ class Booking extends ResourceController
 
         $seatPicked = $datas['seatPicked'];
         $seatCount = count($seatPicked);
-        $seat_number = '';
+        $seat_number = ',';
         foreach ($seatPicked as $key => $value) {
             if ($key > 0) {
                 $seat_number .= ',';
