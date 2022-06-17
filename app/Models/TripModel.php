@@ -133,7 +133,7 @@ class TripModel extends Model
             ->select("
                 tb.trip_id_no,
                 SUM(tb.total_seat) AS booked_seats,
-                GROUP_CONCAT(tb.seat_numbers SEPARATOR ', ') AS booked_serial
+                GROUP_CONCAT(tb.seat_numbers SEPARATOR ',') AS booked_serial
             ")
             ->where('tb.trip_id_no', $trip_id_no)
             ->where('tb.fleet_type', $fleet_type_id)
