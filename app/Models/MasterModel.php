@@ -54,7 +54,6 @@ class MasterModel extends Model
             ->get();
         } else {
             $query = $this->db->table('resto_menu')
-            ->where('id_resto', $idResto)
             ->where('status',1)
             ->get();
         }
