@@ -75,4 +75,34 @@ class MasterModel extends Model
             ->get();
         return $query;
     }
+
+    public function clearTicket()
+    {
+        $query = $this->db->table('tkt_booking_head as a')
+            ->select('
+                a.booking_code
+                ,b.id_no
+                ,a.created_at
+            ')
+            ->join('tkt_booking as b','b.booking_code = a.booking_code')
+            ->where('a.payment_status',0)
+            ->orderBy('a.id','ASC')
+            ->get();
+        return $query;
+    }
+
+    public function deleteTicket($bookingCode,$id_no)
+    {
+        $query1 = $this->db->table('tkt_booking_head')
+            ->where('booking_code', $bookingCode)
+            ->delete();
+
+        $query2 = $this->db->table('tkt_booking')
+            ->where('booking_code', $bookingCode)
+            ->delete();
+
+        $query3 = $this->db->table('tkt_passenger_pcs')
+            ->where('booking_id', $id_no)
+            ->delete();
+    }
 }

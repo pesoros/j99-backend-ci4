@@ -6,6 +6,7 @@ use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\MasterModel;
 use App\Models\TripModel;
+use CodeIgniter\I18n\Time;
 
 class MasterData extends ResourceController
 {
@@ -90,6 +91,23 @@ class MasterData extends ResourceController
             $result['message'] = 'email taken';
         }
         
+        return $this->respond($result, 200);
+    }
+
+    public function clearticket()
+    {
+        $ticket = $this->masterModel->clearTicket()->getResult();
+        $now = new Time('-60 minutes');
+
+        foreach ($ticket as $key => $value) {
+            if ($value->created_at < $now) {
+                $value->delete = true;
+                $this->masterModel->deleteTicket($value->booking_code,$value->id_no);
+            }
+        }
+
+        $result['ticket'] = $ticket;
+        $result['datetimenow'] = $now;
         return $this->respond($result, 200);
     }
 }
