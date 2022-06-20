@@ -16,6 +16,8 @@ use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\QrCode;
 use Spatie;
+use DateTime;
+use DateInterval;
 
 class Ticket extends ResourceController
 {
@@ -41,6 +43,13 @@ class Ticket extends ResourceController
             } 
             $getDetailBook = $this->ticketModel->detailBook($result->booking_code)->getRow();
             if (isset($getDetailBook)) {
+
+                $minutes_to_add = 60;
+                $time = new DateTime($getDetailBook->date);
+                $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
+                $expired = $time->format('Y-m-d H:i:s');
+
+                $result->expired = $expired;
                 $result->from = $getDetailBook->pickup_trip_location;
                 $result->to = $getDetailBook->drop_trip_location;
             }
