@@ -57,6 +57,13 @@ class Ticket extends ResourceController
             $result->payment_registration = $this->ticketModel->getPaymentRegis($code)->getRow();
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
+            foreach ($result->ticket as $key => $value) {
+                $timebook = new DateTime($value->booking_date);
+                $timebook = $timebook->format('Y-m-d');
+
+                $hour = $this->ticketModel->getHour($value->trip_id,$value->pickup_trip_location,$value->drop_trip_location)->getRow();
+                $value->booking_date = $timebook.' '.$hour->dep_time;
+            }
         } else if ($alpha == "T") {
             $result = $this->ticketModel->getTicket($code)->getRow();
 

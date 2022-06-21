@@ -45,6 +45,7 @@ class TicketModel extends Model
                 IF(tps.baggage = 1, 'Bawa', 'Tidak Bawa') as baggage,
                 resto.food_name,
                 tbook.price,
+                trip.trip_id,
             ")
             ->join('tkt_booking AS tbook', 'tps.booking_id = tbook.id_no')
             ->join('trip', 'tbook.trip_id_no = trip.trip_id')
@@ -54,6 +55,23 @@ class TicketModel extends Model
             ->get();
         return $query;
     }
+
+    public function getHour($trip,$pickup,$drop)
+    {
+        $query = $this->db->table('trip_point')
+            ->select("
+                trip_point.dep_time,
+                trip_point.arr_time
+            ")
+            ->join('trip_assign', 'trip_assign.id = trip_point.trip_assign_id')
+            ->join('trip', 'trip.trip_id = trip_assign.trip')
+            ->where('trip_point.dep_point',$pickup)
+            ->where('trip_point.arr_point',$drop)
+            ->where('trip.trip_id',$trip)
+            ->get();
+        return $query;
+    }
+
 
     public function getPaymentRegis($code)
     {
