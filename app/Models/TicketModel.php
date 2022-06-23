@@ -45,12 +45,15 @@ class TicketModel extends Model
                 IF(tps.baggage = 1, 'Bawa', 'Tidak Bawa') as baggage,
                 resto.food_name,
                 tbook.price,
+                tbook.adult,
                 trip.trip_id,
+                r.resto_name,
             ")
             ->join('tkt_booking AS tbook', 'tps.booking_id = tbook.id_no')
             ->join('trip', 'tbook.trip_id_no = trip.trip_id')
             ->join('fleet_type AS ft', 'tps.fleet_type = ft.id')
             ->join('resto_menu AS resto', 'tps.food = resto.id')
+            ->join('resto AS r', 'r.id = resto.id_resto')
             ->where($wherefield,$code)
             ->get();
         return $query;

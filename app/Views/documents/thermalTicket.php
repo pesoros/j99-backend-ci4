@@ -108,17 +108,17 @@
                         <tr>
                             <td>Asal</td>
                             <td>:</td>
-                            <td>Agen Pare - Kediri</td>
+                            <td><?= $tickedData->pickup_trip_location ?></td>
                         </tr>
                         <tr>
                             <td>Tujuan</td>
                             <td>:</td>
-                            <td>J99 Kalideres - Jakarta</td>
+                            <td><?= $tickedData->drop_trip_location ?></td>
                         </tr>
                         <tr>
                             <td>Tarif</td>
                             <td>:</td>
-                            <td>Rp. <?= $tickedData->price ?></td>
+                            <td>Rp. <?= $tickedData->price / $tickedData->adult ?></td>
                         </tr>
                     </table>
                 </td>
@@ -140,6 +140,11 @@
                             <td><?= $tickedData->seat_number ?></</td>
                         </tr>
                         <tr>
+                            <td>Restaurant</td>
+                            <td>:</td>
+                            <td><?= $tickedData->resto_name ?></</td>
+                        </tr>
+                        <tr>
                             <td>Menu Makan</td>
                             <td>:</td>
                             <td><?= $tickedData->food_name ?></</td>
@@ -148,11 +153,6 @@
                             <td>Bagasi</td>
                             <td>:</td>
                             <td><?= $tickedData->baggage ?></</td>
-                        </tr>
-                        <tr>
-                            <td>No Polisi</td>
-                            <td>:</td>
-                            <td>B 3877 NY</td>
                         </tr>
                     </table>
                 </td>
