@@ -132,27 +132,27 @@
                         <tr>
                             <td>Kelas</td>
                             <td>:</td>
-                            <td><?= $tickedData->type ?></</td>
+                            <td><?= $tickedData->type ?></td>
                         </tr>
                         <tr>
                             <td>No Kursi</td>
                             <td>:</td>
-                            <td><?= $tickedData->seat_number ?></</td>
+                            <td><?= $tickedData->seat_number ?></td>
                         </tr>
                         <tr>
                             <td>Restaurant</td>
                             <td>:</td>
-                            <td><?= $tickedData->resto_name ?></</td>
+                            <td><?= $tickedData->resto_name ?></td>
                         </tr>
                         <tr>
                             <td>Menu Makan</td>
                             <td>:</td>
-                            <td><?= $tickedData->food_name ?></</td>
+                            <td><?= $tickedData->food_name ?></td>
                         </tr>
                         <tr>
                             <td>Bagasi</td>
                             <td>:</td>
-                            <td><?= $tickedData->baggage ?></</td>
+                            <td><?= $tickedData->baggage ?></td>
                         </tr>
                     </table>
                 </td>
