@@ -15,6 +15,7 @@ class Account extends ResourceController
     {
         $this->accountModel = new AccountModel();
         $this->db = \Config\Database::connect();
+        $this->email = \Config\Services::email();
     }
     
     public function getProfile()
@@ -99,4 +100,115 @@ class Account extends ResourceController
 
         return $this->respond($result);
     }
+
+    public function forgotPassword()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+        $token = md5($email.'+'.date('Y-m-d H:i:s'));
+
+        $getEmail = $this->accountModel->getregis($email)->getRow();
+
+        if (!$getEmail) {
+            $result['status'] = 404;
+            $result['message'] = 'email not found';
+        } else {
+            $data['email'] = $email;
+            $data['token'] = $token;
+            $data['status'] = 0;
+
+            $createReset = $this->accountModel->createReset($data); 
+
+            $data['link'] = getenv('FE_ENDPOINT').'passwordreset/'.$token;
+            $bodyMail = view('mail/passwordreset',$data);
+            $sendMail = $this->sendMail($email,'Password Reset',$bodyMail);
+
+            $result['status'] = 200;
+            $result['message'] = 'forgot password send';
+        }
+
+        return $this->respond($result, 200);
+    }
+
+    public function checkResetToken()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $token = isset($bodyRaw['token']) ? $bodyRaw['token'] : '';
+
+        $getToken = $this->accountModel->getResetToken($token)->getRow();
+
+        if (!$getToken) {
+            $result['status'] = 404;
+            $result['message'] = 'token not found';
+        } else {
+            if ($getToken->status == 1) {
+                $result['status'] = 404;
+                $result['message'] = 'token not found';
+            } else {
+                $result['status'] = 200;
+                $result['message'] = 'token valid';
+                $result['email'] = $getToken->email;
+                $result['token'] = $getToken->token;
+            }
+        }
+        
+        return $this->respond($result, 200);
+    }
+
+    public function resetPassword()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $token = isset($bodyRaw['token']) ? $bodyRaw['token'] : '';
+        $password = isset($bodyRaw['password']) ? $bodyRaw['password'] : '';
+        $password_second = isset($bodyRaw['password_second']) ? $bodyRaw['password_second'] : '';
+
+        if ($password != $password_second) {
+            $result['status'] = 400;
+            $result['message'] = 'password not match';
+
+            return $this->respond($result, 200);
+        }
+
+        $getToken = $this->accountModel->getResetToken($token)->getRow();
+
+        if (!$getToken) {
+            $result['status'] = 404;
+            $result['message'] = 'token not found';
+        } else {
+            $email = $getToken->email;
+            $data['password'] = password_hash($password, PASSWORD_BCRYPT);
+
+            $reset = $this->accountModel->updatePassword($email,$data);
+            $reset = $this->accountModel->statusReset($email,['status' => 1]);
+
+            $result['status'] = 200;
+            $result['message'] = 'password reset succeed';
+        }
+        
+        return $this->respond($result, 200);
+    }
+
+    private function sendMail($mailTo,$subject,$message)
+	{
+        $nickname = getenv('EMAIL_CONFIG_SENDERNAME');
+        $mailFrom = getenv('EMAIL_CONFIG_SENDERMAIL');
+
+		// $config['protocol'] = getenv('EMAIL_CONFIG_PROTOCOL');
+		// $config['SMTPHost'] = getenv('EMAIL_CONFIG_HOST');
+		// $config['SMTPPort'] = getenv('EMAIL_CONFIG_PORT');
+		// $config['SMTPUser'] = getenv('EMAIL_CONFIG_USER');
+		// $config['SMTPPass'] = getenv('EMAIL_CONFIG_PASS');
+        // $config['SMTPCrypto'] = getenv('CRYPTO');
+
+        $this->email->clear();
+        // $this->email->initialize($config);
+        $this->email->setTo($mailTo);
+        $this->email->setFrom($mailFrom, $nickname);
+        
+        $this->email->setSubject($subject);
+        $this->email->setMessage($message);
+        $send = $this->email->send();
+		
+		return $send;
+	}
 }

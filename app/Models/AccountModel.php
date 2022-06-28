@@ -58,4 +58,38 @@ class AccountModel extends Model
 
         return $update;
     }
+
+    public function getregis($email)
+    {
+        $query = $this->db->table('users_client')
+            ->where('email',$email)
+            ->get();
+        return $query;
+    }
+
+    public function createReset($data)
+    {
+        $save = $this->db->table('password_reset')
+            ->insert($data);
+
+        return $save;
+    }
+
+    public function getResetToken($token)
+    {
+        $query = $this->db->table('password_reset')
+            ->where('token',$token)
+            ->orderBy('id','DESC')
+            ->get();
+        return $query;
+    }
+
+    public function statusReset($email,$data)
+    {
+        $update = $this->db->table('password_reset')
+            ->where('email',$email)
+            ->update($data);
+
+        return $update;
+    }
 }

@@ -65,6 +65,9 @@ $routes->get('testemail', 'Booking::testemail');
 $routes->get('carousel/phone', 'Carousel::phone');
 $routes->get('resto/(:any)', 'Resto::foodList/$1');
 $routes->get('clearticket', 'MasterData::clearTicket');
+$routes->post('forgotpassword', 'Account::forgotPassword');
+$routes->post('checkresettoken', 'Account::checkResetToken');
+$routes->post('passwordreset', 'Account::resetPassword');
 
 $routes->group("content", function($routes){
     $routes->get('disclaimer', 'Content::getDisclaimer');
