@@ -75,7 +75,7 @@ class TripModel extends Model
             LEFT JOIN trip_location AS tl2 ON tl2.name = tpoint.arr_point
             LEFT JOIN wil_city AS citydep ON tl1.city = citydep.id 
             LEFT JOIN wil_city AS cityarr ON tl2.city = cityarr.id 
-            WHERE tras.status == 1
+            WHERE 1=1
             $whereext 
         ");
 
