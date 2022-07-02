@@ -30,8 +30,20 @@ class TripModel extends Model
             $whereext .= " AND fr.unit_id = ".$unit_type;
         }
 
-        $whereext .= " AND citydep.name = '".$start."'";
-        $whereext .= " AND cityarr.name = '".$end."'";
+        $fstart = explode("-",$start);
+        $fend = explode("-",$end);
+
+        if (count($fstart) > 1) {
+            $whereext .= " AND tl1.name = '".trim($fstart[1])."'";
+        } else {
+            $whereext .= " AND citydep.name = '".$start."'";
+        }
+
+        if (count($fend) > 1) {
+            $whereext .= " AND tl2.name = '".trim($fend[1])."'";
+        } else {
+            $whereext .= " AND cityarr.name = '".$end."'";
+        }
 
         $query = $this->db->query("SELECT
             ta.trip_id AS trip_id_no,

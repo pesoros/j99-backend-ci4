@@ -22,11 +22,22 @@ class MasterData extends ResourceController
         $bodyRaw = $this->request->getRawInput();
         $q = isset($bodyRaw['keyword']) ? $bodyRaw['keyword'] : '';
 
-        $result = $this->masterModel->getLocation($q)->getResult();
+        $result = $this->masterModel->getCity($q)->getResult();
+        $locationpool = [];
 
         foreach ($result as $key => $value) {
-            $value->row = $key;
+            $locat = $this->masterModel->getLocation($value->id)->getResult();
+            foreach ($locat as $keylo => $valuelo) {
+                $locationpool[$key+$keylo]['id'] = $valuelo->id;
+                $locationpool[$key+$keylo]['namaKota'] = $value->namaKota.' - '.$valuelo->name;
+            }
         }
+
+        $result = array_merge($result, $locationpool);
+
+        // foreach ($result as $key => $value) {
+        //     $value->row = $key;
+        // }
         return $this->respond($result, 200);
     }
 

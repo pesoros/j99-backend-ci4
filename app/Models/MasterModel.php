@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class MasterModel extends Model
 {
-    public function getLocation($keyword = '')
+    public function getCity($keyword = '')
     {
         $query = $this->db->table('trip_location as tl')
             ->select('
@@ -15,6 +15,16 @@ class MasterModel extends Model
             ->join('wil_city as city','tl.city = city.id')
             ->like('city.name', $keyword, 'both')
             ->groupBy('city.name')
+            ->get();
+        return $query;
+    }
+    public function getLocation($cityid)
+    {
+        $query = $this->db->table('trip_location')
+            ->select('
+                id,name
+            ')
+            ->where('city', $cityid)
             ->get();
         return $query;
     }
