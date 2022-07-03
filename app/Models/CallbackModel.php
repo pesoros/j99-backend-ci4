@@ -11,8 +11,6 @@ class CallbackModel extends Model
         $save = $this->db->table('payment_receive')
             ->insert($data);
 
-        $updatPaymentstatus = $this->updateStatusPayment($data['external_id'],1);
-
         return $save;
     }
 
@@ -24,5 +22,14 @@ class CallbackModel extends Model
             ->update($data);
 
         return $update;
+    }
+
+    public function getBooking($booking_code)
+    {
+        $booking = $this->db->table('tkt_booking_head')
+            ->where('booking_code',$booking_code)
+            ->get();
+
+        return $booking;
     }
 }

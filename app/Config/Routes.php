@@ -46,10 +46,6 @@ $routes->get('datapaymentmethod', 'XenditResource::paymentMethodList');
 $routes->get('paymentmethodstatus', 'XenditResource::paymentMethodStatus');
 $routes->get('xendit', 'XenditResource::index');
 $routes->post('booking/add', 'Booking::storeBook');
-$routes->post('callback/xendit/va/create', 'Callback::virtualAccountCreate');
-$routes->post('callback/xendit/va', 'Callback::virtualAccountPay');
-$routes->post('callback/xendit/retailoutlet', 'Callback::retailOutletPay');
-$routes->post('callback/xendit/ewallet', 'Callback::ewalletPay');
 $routes->post('paket/cek', 'Paket::cekPaket');
 $routes->post('ticket/cek', 'Ticket::cekTicket');
 $routes->post('account/profile', 'Account::getProfile');
@@ -68,6 +64,13 @@ $routes->get('clearticket', 'MasterData::clearTicket');
 $routes->post('forgotpassword', 'Account::forgotPassword');
 $routes->post('checkresettoken', 'Account::checkResetToken');
 $routes->post('passwordreset', 'Account::resetPassword');
+
+$routes->group("callback", function($routes){
+    $routes->post('xendit/va/create', 'Callback::virtualAccountCreate');
+    $routes->post('xendit/va', 'Callback::virtualAccountPay');
+    $routes->post('xendit/retailoutlet', 'Callback::retailOutletPay');
+    $routes->post('xendit/ewallet', 'Callback::ewalletPay');
+});
 
 $routes->group("content", function($routes){
     $routes->get('disclaimer', 'Content::getDisclaimer');

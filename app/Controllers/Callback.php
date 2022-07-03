@@ -45,7 +45,21 @@ class Callback extends ResourceController
         $setPay['channel_name'] = isset($bodyRaw->bank_code) ? $bodyRaw->bank_code : '-';
         $setPay['code'] = isset($bodyRaw->account_number) ? $bodyRaw->account_number : '-';
 
+        $getBooking = $this->callbackModel->getBooking($setPay['external_id'])->getRow();
+
+        if (!$getBooking) {
+            return $this->respond(['respond'=>'booking not found'], 200);
+        }
+
         $setBookingCode = $this->callbackModel->savePayment($setPay);
+
+        if (intval($setPay['amount']) >= intval($getBooking->total_price)) {
+            $status = 1;
+        } else {
+            $status = 0;
+        }
+
+        $updatPaymentstatus = $this->callbackModel->updateStatusPayment($setPay['external_id'],$status);
 
         return $this->respond($bodyRaw, 200);
     }
