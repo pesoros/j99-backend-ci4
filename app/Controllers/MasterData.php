@@ -28,10 +28,8 @@ class MasterData extends ResourceController
         foreach ($result as $key => $value) {
             $locat = $this->masterModel->getLocation($value->id)->getResult();
             foreach ($locat as $keylo => $valuelo) {
-                $ded = [];
-                $ded['id'] = $valuelo->id;
-                $ded['namaKota'] = $value->namaKota.' - '.$valuelo->name;
-                $locationpool[] = $ded;
+                $locationpool[$key+$keylo]['id'] = $valuelo->id;
+                $locationpool[$key+$keylo]['namaKota'] = $value->namaKota.' - '.$valuelo->name;
             }
         }
 
