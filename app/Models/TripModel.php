@@ -94,11 +94,13 @@ class TripModel extends Model
         return $query;
     }
 
-    public function checkSeatAvail($trip_id_no, $date)
+    public function checkSeatAvail($trip_id_no, $date, $class)
     {
         $bookingResult = $this->db->table("tkt_booking AS tb")
             ->select("SUM(tb.total_seat) AS picked")
+            ->join('tkt_passenger_pcs AS tpc', "tpc.booking_id = tb.id_no")
             ->join('trip AS ta', "ta.trip_id = tb.trip_id_no")
+            ->where('tpc.fleet_type', $class)
             ->where('tb.trip_id_no', $trip_id_no)
             ->like('tb.booking_date', $date, 'after')
             ->groupStart()

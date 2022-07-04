@@ -60,9 +60,10 @@ class Trip extends ResourceController
         } 
 
         foreach ($result as $key => $value) {
-            $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat)->getResult();
+            $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat, $value->type)->getResult();
             $value->seatPicked = $checkSeat[0]->picked; 
             $value->seatAvail = intval($value->fleet_seats) - intval($checkSeat[0]->picked); 
+            $value->ddd = $checkSeat;
             $spday = explode(',', $value->sp_day);
             for ($i=0; $i < count($spday); $i++) { 
                 if ($spday[$i] == $dayArray[$dayforday]) {
