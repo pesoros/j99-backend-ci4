@@ -92,4 +92,13 @@ class AccountModel extends Model
 
         return $update;
     }
+
+    public function deleteAccount($email)
+    {
+        $delete = $this->db->table('users_client')
+            ->where('email',$email)
+            ->delete();
+
+        return $delete;
+    }
 }

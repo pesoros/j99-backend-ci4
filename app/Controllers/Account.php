@@ -188,6 +188,19 @@ class Account extends ResourceController
         return $this->respond($result, 200);
     }
 
+    public function deleteAccount()
+    {
+        $bodyRaw = $this->request->getRawInput();
+        $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
+
+        $delete = $this->accountModel->deleteAccount($email)->getRow();
+
+        $result['status'] = 200;
+        $result['message'] = 'account delete succeed';
+
+        return $this->respond($result, 200);
+    }
+
     private function sendMail($mailTo,$subject,$message)
 	{
         $nickname = getenv('EMAIL_CONFIG_SENDERNAME');

@@ -52,6 +52,7 @@ $routes->post('account/profile', 'Account::getProfile');
 $routes->post('account/profile/update', 'Account::updateProfile');
 $routes->post('account/profile/historyticket', 'Account::historyTicket');
 $routes->post('account/password/change', 'Account::changePassword');
+$routes->post('account/delete', 'Account::deleteAccount');
 $routes->post('contact/pariwisata', 'Enquiry::pariwisata');
 $routes->post('email/send', 'Mail::index');
 $routes->post('otp/check', 'Otp::checkOtp');
