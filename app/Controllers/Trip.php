@@ -61,7 +61,7 @@ class Trip extends ResourceController
 
         foreach ($result as $key => $value) {
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat, $value->type)->getResult();
-            $value->seatPicked = COUNT($checkSeat); 
+            $value->seatPicked = strval(COUNT($checkSeat)); 
             $value->seatAvail = intval($value->fleet_seats) - intval(COUNT($checkSeat)); 
             $spday = explode(',', $value->sp_day);
             for ($i=0; $i < count($spday); $i++) { 
