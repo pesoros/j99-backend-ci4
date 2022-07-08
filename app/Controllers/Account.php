@@ -193,7 +193,7 @@ class Account extends ResourceController
         $bodyRaw = $this->request->getRawInput();
         $email = isset($bodyRaw['email']) ? $bodyRaw['email'] : '';
 
-        $delete = $this->accountModel->deleteAccount($email)->getRow();
+        $delete = $this->accountModel->deleteAccount($email);
 
         $result['status'] = 200;
         $result['message'] = 'account delete succeed';
