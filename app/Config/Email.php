@@ -38,14 +38,14 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPHost = 'mail.tiketjuragan99.id';
+	public $SMTPHost = 'mail.pesoros.com';
 	/**
 	 * SMTP Username
 	 *
 	 * @var string
 	 */
 	// Enter your email id from where you send email
-	public $SMTPUser = 'otp@tiketjuragan99.id';
+	public $SMTPUser = 'juragan99@pesoros.com';
 	
 	/**
 	 * SMTP Password
