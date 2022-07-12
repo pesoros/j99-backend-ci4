@@ -296,7 +296,7 @@ class Booking extends ResourceController
                 if (!empty($seat)) {
                     if (in_array($seat, $bookArray)) {
                         return false;
-                    } else if (!in_array($seat, $seatArray)) {
+                    } else {
                         return true;
                     }
                 }
@@ -345,6 +345,10 @@ class Booking extends ResourceController
             "bank_code" => strval($payment_channel_code),
             "name" => $name,
             "expiration_date" => $dateExpired,
+            "expected_amount" => $amount,
+            "suggested_amount" => $amount,
+            "is_single_use" => true,
+            "is_closed" => true,
         ];
 
         $createVA = \Xendit\VirtualAccounts::create($params);
