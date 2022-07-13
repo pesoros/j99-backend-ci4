@@ -346,7 +346,6 @@ class Booking extends ResourceController
             "name" => $name,
             "expiration_date" => $dateExpired,
             "expected_amount" => $amount,
-            "suggested_amount" => $amount,
             "is_single_use" => true,
             "is_closed" => true,
         ];
