@@ -162,7 +162,7 @@
             </tr>
         </table>
         <div class="center-align intro">
-            penumpang diimbau untuk datang paling lambat 30 menit sebelum jadwal keberangkatan. Hal tersebut dikarenakan pada saat proses boarding ada tahapan verifikasi berkas oleh petugas.
+        Penumpang diimbau datang paling lambat 30 menit sebelum jadwal keberangkatan, <br> Penumpang tunduk dan patuh terhadap peraturan perusahaan dan undang-undang yang berlaku.
         </div>
     </div>
     <div class="footer center-align">
@@ -200,12 +200,12 @@
                         <tr>
                             <td>Asal</td>
                             <td>:</td>
-                            <td>Agen Pare - Kediri</td>
+                            <td><?= $tickedData->pickup_trip_location ?></td>
                         </tr>
                         <tr>
                             <td>Tujuan</td>
                             <td>:</td>
-                            <td>J99 Kalideres - Jakarta</td>
+                            <td><?= $tickedData->drop_trip_location ?></td>
                         </tr>
                         <tr>
                             <td>Tarif</td>
@@ -254,7 +254,7 @@
             </tr>
         </table>
         <div class="center-align intro">
-            penumpang diimbau untuk datang paling lambat 30 menit sebelum jadwal keberangkatan. Hal tersebut dikarenakan pada saat proses boarding ada tahapan verifikasi berkas oleh petugas.
+        Penumpang diimbau datang paling lambat 30 menit sebelum jadwal keberangkatan, <br> Penumpang tunduk dan patuh terhadap peraturan perusahaan dan undang-undang yang berlaku.
         </div>
     </div>
     <div class="footer center-align">
