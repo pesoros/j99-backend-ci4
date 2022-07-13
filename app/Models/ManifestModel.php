@@ -45,6 +45,8 @@ class ManifestModel extends Model
                 rmen.food_name,
                 IF(tps.baggage = 1, 'Bawa', 'Tidak Bawa') as baggage,
                 IF(cst.status_name IS NULL, 'Menunggu', cst.status_name) as checkin_status,
+                tb.pickup_trip_location,
+                tb.drop_trip_location
             ")
             ->join('tkt_booking AS tb', 'tps.booking_id = tb.id_no')
             ->join('trip_assign AS tras', 'tb.trip_id_no = tras.trip')
