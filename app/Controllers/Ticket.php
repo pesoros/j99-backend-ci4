@@ -55,9 +55,9 @@ class Ticket extends ResourceController
             }
             
             $result->payment_registration = $this->ticketModel->getPaymentRegis($code)->getRow();
-            $result->payment_tutorial = $this->ticketModel->getPaymentTutor($result->payment_registration->payment_channel_code)->getResult();
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
+            $result->payment_tutorial = $this->ticketModel->getPaymentTutor($result->payment_registration->payment_channel_code)->getResult();
             foreach ($result->ticket as $key => $value) {
                 $timebook = new DateTime($value->booking_date);
                 $timebook = $timebook->format('Y-m-d');
