@@ -55,6 +55,7 @@ class Ticket extends ResourceController
             }
             
             $result->payment_registration = $this->ticketModel->getPaymentRegis($code)->getRow();
+            $result->payment_tutorial = $this->ticketModel->getPaymentTutor($result->payment_registration->payment_channel_code)->getResult();
             $result->code_type = 'booking';
             $result->ticket = $this->ticketModel->getTicket($code,'book')->getResult();
             foreach ($result->ticket as $key => $value) {

@@ -45,7 +45,7 @@ class Booking extends ResourceController
         unset($data['pergi']['price']);
         unset($data['pergi']['message']);
         $total_seat = count($pergi['seatPicked']);
- 
+
         if ($pulang) {
             $roundTrip = 1;
             $total_seat = $total_seat + count($pulang['seatPicked']);
@@ -72,23 +72,17 @@ class Booking extends ResourceController
         $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
         $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
 
-        if ($payment_method != 'CASH') {
-            $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
-            $payment_id = $setPayment['id']; 
-    } else {
-            $setPayment = [];
-            $payment_id = 0; 
-    }
-        
+        $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
+        $payment_id = $setPayment['id'];
         $va_number = '-';
         $mobile_link = '-';
         $dekstop_link = '-';
 
         if ($payment_method == 'VIRTUAL_ACCOUNT') {
-            $va_number = $setPayment['account_number']; 
+            $va_number = $setPayment['account_number'];
         } elseif ($payment_method == 'EWALLET') {
-            $mobile_link = $setPayment['actions']['mobile_web_checkout_url']; 
-            $dekstop_link = $setPayment['actions']['desktop_web_checkout_url']; 
+            $mobile_link = $setPayment['actions']['mobile_web_checkout_url'];
+            $dekstop_link = $setPayment['actions']['desktop_web_checkout_url'];
         }
 
         $setBookingCode = $this->bookingModel->paymentRegistration([
@@ -103,10 +97,11 @@ class Booking extends ResourceController
             'dekstop_link' => $dekstop_link,
             'created_at' => $dateNow,
         ]);
-        
+
         $data['bookingCode'] = $bookingCode;
         $data['payment'] = $setPayment;
         $data['payment']['total_price'] = $total_price;
+        $data['payment_tutorial'] = $this->bookingModel->getPaymentTutor($payment_channel_code)->getResult();
 
         return $this->respond($data, 200);
     }
@@ -196,56 +191,56 @@ class Booking extends ResourceController
             $req_special_seat = (!empty($rout_chsp_seat[0]->special_seat) ? $rout_chsp_seat[0]->special_seat : 20);
             // if ($tcs <= $req_children_seat) {
             //     if ($tspecialck <= $rout_chsp_seat[0]->special_seat) {
-                    #---------check seats--------
-                    $bookCheck = $this->checkBooking($trip_id_no, $fleet_type, $seat_number, $booking_date);
-                    // return $this->respond($bookCheck);
-                    if ($bookCheck) {
+            #---------check seats--------
+            $bookCheck = $this->checkBooking($trip_id_no, $fleet_type, $seat_number, $booking_date);
+            // return $this->respond($bookCheck);
+            if ($bookCheck) {
 
-                        if ($this->bookingModel->createGroup($postData)) {
+                if ($this->bookingModel->createGroup($postData)) {
 
-                            foreach ($seatPicked as $key => $value) {
-                                $ticketNumber = $this->codeGenerate("T", 8);
-                                $ticketdata = [
-                                    'booking_id' => $bookId,
-                                    'ticket_number' => $ticketNumber,
-                                    'name' => $value['name'],
-                                    'fleet_type' => $fleet_type,
-                                    'seat_number' => $value['seat'],
-                                    'food' => $value['food'],
-                                    'baggage' => $value['baggage'],
-                                    'phone' => $value['phone'],
-                                ];
-                                $createTicket = $this->bookingModel->createTicket($ticketdata);
-                            }
-
-                            // $binfo = $this->bookingModel->getBookingHistory($postData['id_no'])->getResult();
-                            // $total_amnt = $binfo[0]->price;
-                            // $comission = $this->bookingModel->getWsSetting()->getResult();
-                            // $obj['b_commission'] = ($binfo[0]->price * $comission[0]->bank_commission) / 100;
-                            // $obj['commission_per'] = $comission[0]->bank_commission;
-                            // $priprice = $this->bookingModel->getPriPrice($trip_route_id)->getResult();
-                            // $obj['routePrice'] = $priprice[0];
-                            $data['status'] = true;
-                            $data['message'] = 'save_successfully';
-                            // $obj['booking'] = $binfo[0];
-
-                            $postData['booking_type'] = 'Cash';
-                            $postData['payment_status'] = 2;
-                            unset($postData['offer_code']);
-                            unset($postData['tkt_refund_id']);
-                            unset($postData['status']);
-
-                            $data['price'] = $price;
-
-                            $insertdata = $this->bookingModel->createTktBooking($postData);
-                        } else {
-                            $data['status'] = false;
-                            $data['exception'] = 'please_try_again';
-                        }
-                    } else {
-                        $data['status'] = false;
-                        $data['exception'] = 'something_went_worng';
+                    foreach ($seatPicked as $key => $value) {
+                        $ticketNumber = $this->codeGenerate("T", 8);
+                        $ticketdata = [
+                            'booking_id' => $bookId,
+                            'ticket_number' => $ticketNumber,
+                            'name' => $value['name'],
+                            'fleet_type' => $fleet_type,
+                            'seat_number' => $value['seat'],
+                            'food' => $value['food'],
+                            'baggage' => $value['baggage'],
+                            'phone' => $value['phone'],
+                        ];
+                        $createTicket = $this->bookingModel->createTicket($ticketdata);
                     }
+
+                    // $binfo = $this->bookingModel->getBookingHistory($postData['id_no'])->getResult();
+                    // $total_amnt = $binfo[0]->price;
+                    // $comission = $this->bookingModel->getWsSetting()->getResult();
+                    // $obj['b_commission'] = ($binfo[0]->price * $comission[0]->bank_commission) / 100;
+                    // $obj['commission_per'] = $comission[0]->bank_commission;
+                    // $priprice = $this->bookingModel->getPriPrice($trip_route_id)->getResult();
+                    // $obj['routePrice'] = $priprice[0];
+                    $data['status'] = true;
+                    $data['message'] = 'save_successfully';
+                    // $obj['booking'] = $binfo[0];
+
+                    $postData['booking_type'] = 'Cash';
+                    $postData['payment_status'] = 2;
+                    unset($postData['offer_code']);
+                    unset($postData['tkt_refund_id']);
+                    unset($postData['status']);
+
+                    $data['price'] = $price;
+
+                    $insertdata = $this->bookingModel->createTktBooking($postData);
+                } else {
+                    $data['status'] = false;
+                    $data['exception'] = 'please_try_again';
+                }
+            } else {
+                $data['status'] = false;
+                $data['exception'] = 'something_went_worng';
+            }
             //     } else {
             //         $data['status'] = false;
             //         $data['exception'] = 'Special Seats Are not Available';
@@ -346,7 +341,6 @@ class Booking extends ResourceController
             "name" => $name,
             "expiration_date" => $dateExpired,
             "expected_amount" => $amount,
-            "is_single_use" => true,
             "is_closed" => true,
         ];
 
@@ -395,7 +389,7 @@ class Booking extends ResourceController
     public function testemail()
     {
         return view('mail/test');
-        $sendMail = $this->sendMail($email,'test',$bodyMail);
+        $sendMail = $this->sendMail($email, 'test', $bodyMail);
     }
 
     public function codeGenerate($head = 'J99', $length = 12)
@@ -411,28 +405,28 @@ class Booking extends ResourceController
         return $result;
     }
 
-    private function sendMail($mailTo,$subject,$message)
-	{
+    private function sendMail($mailTo, $subject, $message)
+    {
         $nickname = getenv('EMAIL_CONFIG_SENDERNAME');
         $mailFrom = getenv('EMAIL_CONFIG_SENDERMAIL');
 
-		// $config['protocol'] = getenv('EMAIL_CONFIG_PROTOCOL');
-		// $config['SMTPHost'] = getenv('EMAIL_CONFIG_HOST');
-		// $config['SMTPPort'] = getenv('EMAIL_CONFIG_PORT');
-		// $config['SMTPUser'] = getenv('EMAIL_CONFIG_USER');
-		// $config['SMTPPass'] = getenv('EMAIL_CONFIG_PASS');
+        // $config['protocol'] = getenv('EMAIL_CONFIG_PROTOCOL');
+        // $config['SMTPHost'] = getenv('EMAIL_CONFIG_HOST');
+        // $config['SMTPPort'] = getenv('EMAIL_CONFIG_PORT');
+        // $config['SMTPUser'] = getenv('EMAIL_CONFIG_USER');
+        // $config['SMTPPass'] = getenv('EMAIL_CONFIG_PASS');
         // $config['SMTPCrypto'] = getenv('CRYPTO');
 
         $this->email->clear();
         // $this->email->initialize($config);
         $this->email->setTo($mailTo);
         $this->email->setFrom($mailFrom, $nickname);
-        
+
         $this->email->setSubject($subject);
         $this->email->setMessage($message);
         $send = $this->email->send();
-		
-		return $send;
-	}
+
+        return $send;
+    }
 
 }

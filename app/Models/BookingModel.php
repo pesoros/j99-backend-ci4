@@ -131,4 +131,19 @@ class BookingModel extends Model
 
         return $query;
     }
+
+    public function getPaymentTutor($channel)
+    {
+        $query = $this->db->table('payment_tutor a')
+            ->select('
+                b.channel,
+                a.gate,
+                a.title,
+                b.context
+            ')
+            ->join('payment_tutor_detail b', 'b.tutor_id = a.id')
+            ->where('b.channel',$channel)
+            ->get();
+        return $query;
+    }
 }
