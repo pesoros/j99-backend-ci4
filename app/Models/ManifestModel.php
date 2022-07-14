@@ -49,11 +49,13 @@ class ManifestModel extends Model
                 tb.drop_trip_location
             ")
             ->join('tkt_booking AS tb', 'tps.booking_id = tb.id_no')
+            ->join('tkt_booking_head AS tbh', 'tb.booking_code = tbh.booking_code')
             ->join('trip_assign AS tras', 'tb.trip_id_no = tras.trip')
             ->join('checkin AS cn', 'tps.ticket_number = cn.ticket_number','left')
             ->join('resto_menu AS rmen', 'tps.food = rmen.id','left')
             ->join('checkin_status AS cst', 'cn.status = cst.id','left')
             ->where('tras.id', $trip_id_no)
+            ->where('tbh.payment_status', 1)
             ->where('DATE(tb.booking_date)', $booking_date)
             ->get();
 
