@@ -141,7 +141,7 @@ class Trip extends ResourceController
                 if (in_array(trim($value), $bookArray)) {
                     $avail = false;
                 } else {
-                    $avail = true;
+                    $avail = false;
                 }
 
                 if (trim($value) == 'X') {
@@ -175,7 +175,7 @@ class Trip extends ResourceController
                     if (in_array(trim($value), $bookArray)) {
                         $avail = false;
                     } else {
-                        $avail = true;
+                        $avail = false;
                     }
 
                     if (trim($value) == 'X') {
@@ -221,7 +221,7 @@ class Trip extends ResourceController
                     if (in_array(trim($value), $bookArray)) {
                         $avail = false;
                     } else {
-                        $avail = true;
+                        $avail = false;
                     }
 
                     if (trim($value) == 'X') {
