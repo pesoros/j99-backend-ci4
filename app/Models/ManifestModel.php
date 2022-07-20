@@ -49,10 +49,12 @@ class ManifestModel extends Model
                 tb.drop_trip_location,
                 tpoint.dep_time,
                 tpoint.arr_time,
+                ftp.type,
             ")
             ->join('tkt_booking AS tb', 'tps.booking_id = tb.id_no')
             ->join('tkt_booking_head AS tbh', 'tb.booking_code = tbh.booking_code')
             ->join('trip_assign AS tras', 'tb.trip_id_no = tras.trip')
+            ->join('fleet_type AS ftp', 'ftp.id = tps.fleet_type')
             ->join('trip_point AS tpoint', 'tpoint.trip_assign_id = tras.id AND tpoint.dep_point = tb.pickup_trip_location AND tpoint.arr_point = tb.drop_trip_location')
             ->join('checkin AS cn', 'tps.ticket_number = cn.ticket_number','left')
             ->join('resto_menu AS rmen', 'tps.food = rmen.id','left')
