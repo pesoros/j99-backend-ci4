@@ -62,8 +62,8 @@ class Trip extends ResourceController
         foreach ($result as $key => $value) {
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat, $value->type)->getResult();
             $value->seatPicked = strval(COUNT($checkSeat)); 
-            // $value->seatAvail = intval($value->fleet_seats) - intval(COUNT($checkSeat)); 
-            $value->seatAvail = 0; 
+            $value->seatAvail = intval($value->fleet_seats) - intval(COUNT($checkSeat)); 
+            // $value->seatAvail = 0; 
             $spday = explode(',', $value->sp_day);
             for ($i=0; $i < count($spday); $i++) { 
                 if ($spday[$i] == $dayArray[$dayforday]) {
@@ -142,7 +142,7 @@ class Trip extends ResourceController
                 if (in_array(trim($value), $bookArray)) {
                     $avail = false;
                 } else {
-                    $avail = false;
+                    $avail = true;
                 }
 
                 if (trim($value) == 'X') {
@@ -176,7 +176,7 @@ class Trip extends ResourceController
                     if (in_array(trim($value), $bookArray)) {
                         $avail = false;
                     } else {
-                        $avail = false;
+                        $avail = true;
                     }
 
                     if (trim($value) == 'X') {
@@ -222,7 +222,7 @@ class Trip extends ResourceController
                     if (in_array(trim($value), $bookArray)) {
                         $avail = false;
                     } else {
-                        $avail = false;
+                        $avail = true;
                     }
 
                     if (trim($value) == 'X') {
