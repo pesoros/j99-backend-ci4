@@ -63,7 +63,9 @@ class Trip extends ResourceController
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat, $value->type)->getResult();
             $value->seatPicked = strval(COUNT($checkSeat)); 
             $value->seatAvail = intval($value->fleet_seats) - intval(COUNT($checkSeat)); 
-            // $value->seatAvail = 0; 
+            if ($tanggalBerangkat < date("Y-m-d", strtotime('2022-07-25'))) {
+                $value->seatAvail = 0; 
+            }
             $spday = explode(',', $value->sp_day);
             for ($i=0; $i < count($spday); $i++) { 
                 if ($spday[$i] == $dayArray[$dayforday]) {
@@ -143,6 +145,9 @@ class Trip extends ResourceController
                     $avail = false;
                 } else {
                     $avail = true;
+                    if ($booking_date < date("Y-m-d", strtotime('2022-07-25'))) {
+                        $avail = false;
+                    }
                 }
 
                 if (trim($value) == 'X') {
@@ -177,6 +182,9 @@ class Trip extends ResourceController
                         $avail = false;
                     } else {
                         $avail = true;
+                        if ($booking_date < date("Y-m-d", strtotime('2022-07-25'))) {
+                            $avail = false;
+                        }
                     }
 
                     if (trim($value) == 'X') {
@@ -223,6 +231,9 @@ class Trip extends ResourceController
                         $avail = false;
                     } else {
                         $avail = true;
+                        if ($booking_date < date("Y-m-d", strtotime('2022-07-25'))) {
+                            $avail = false;
+                        }
                     }
 
                     if (trim($value) == 'X') {
