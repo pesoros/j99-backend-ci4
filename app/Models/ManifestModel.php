@@ -49,7 +49,7 @@ class ManifestModel extends Model
                 tb.drop_trip_location,
                 tpoint.dep_time,
                 tpoint.arr_time,
-                ftp.type,
+                ftp.type as class,
             ")
             ->join('tkt_booking AS tb', 'tps.booking_id = tb.id_no')
             ->join('tkt_booking_head AS tbh', 'tb.booking_code = tbh.booking_code')
