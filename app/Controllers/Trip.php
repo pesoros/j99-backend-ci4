@@ -147,6 +147,9 @@ class Trip extends ResourceController
                     $avail = true;
                     if ($booking_date < date("Y-m-d", strtotime('2022-07-29'))) {
                         $avail = false;
+                        if ($trip_route_id == 23 && $booking_date > date("Y-m-d", strtotime('2022-07-27'))) {
+                            $avail = false;
+                        }
                     }
                 }
 
@@ -184,6 +187,9 @@ class Trip extends ResourceController
                         $avail = true;
                         if ($booking_date < date("Y-m-d", strtotime('2022-07-29'))) {
                             $avail = false;
+                            if ($trip_route_id == 23 && $booking_date > date("Y-m-d", strtotime('2022-07-27'))) {
+                                $avail = false;
+                            }
                         }
                     }
 
@@ -233,6 +239,9 @@ class Trip extends ResourceController
                         $avail = true;
                         if ($booking_date < date("Y-m-d", strtotime('2022-07-29'))) {
                             $avail = false;
+                            if ($trip_route_id == 23 && $booking_date > date("Y-m-d", strtotime('2022-07-27'))) {
+                                $avail = false;
+                            }
                         }
                     }
 
