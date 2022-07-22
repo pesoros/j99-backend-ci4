@@ -148,7 +148,7 @@ class Trip extends ResourceController
                     if ($booking_date < date("Y-m-d", strtotime('2022-07-29'))) {
                         $avail = false;
                         if ((intval($trip_id_no) == 30 || intval($trip_id_no) == 31) && $booking_date > date("Y-m-d", strtotime('2022-07-27'))) {
-                            $avail = false;
+                            $avail = true;
                         }
                     }
                 }
@@ -188,7 +188,7 @@ class Trip extends ResourceController
                         if ($booking_date < date("Y-m-d", strtotime('2022-07-29'))) {
                             $avail = false;
                             if ((intval($trip_id_no) == 30 || intval($trip_id_no) == 31) && $booking_date > date("Y-m-d", strtotime('2022-07-27'))) {
-                                $avail = false;
+                                $avail = true;
                             }
                         }
                     }
@@ -240,7 +240,7 @@ class Trip extends ResourceController
                         if ($booking_date < date("Y-m-d", strtotime('2022-07-29'))) {
                             $avail = false;
                             if ((intval($trip_id_no) == 30 || intval($trip_id_no) == 31) && $booking_date > date("Y-m-d", strtotime('2022-07-27'))) {
-                                $avail = false;
+                                $avail = true;
                             }
                         }
                     }
