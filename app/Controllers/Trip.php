@@ -64,7 +64,10 @@ class Trip extends ResourceController
             $value->seatPicked = strval(COUNT($checkSeat)); 
             $value->seatAvail = intval($value->fleet_seats) - intval(COUNT($checkSeat)); 
             if ($tanggalBerangkat < date("Y-m-d", strtotime('2022-07-29'))) {
-                $value->seatAvail = 0; 
+                if ((intval($value->trip_id_no) == 28 || intval($value->trip_id_no) == 29) && $dateawal > date("Y-m-d", strtotime('2022-07-27'))) {
+                } else {
+                    $value->seatAvail = 0; 
+                }
             }
             $spday = explode(',', $value->sp_day);
             for ($i=0; $i < count($spday); $i++) { 
