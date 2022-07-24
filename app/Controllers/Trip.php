@@ -78,7 +78,7 @@ class Trip extends ResourceController
             }
             if ($value->price_ext !== null) {
                 $priceextnom = intval($value->price) * (intval($value->price_ext) / 100);
-                $value->price = strval($priceextsum - $priceextnom);
+                $value->price = strval($value->price - $priceextnom);
 
             }
 
