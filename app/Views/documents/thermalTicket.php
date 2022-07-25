@@ -41,7 +41,7 @@
 
         #logo img {
             width: 140px;
-            height: 25px;
+            height: 30px;
             margin-top: 0px;
             margin-left: -115px;
         }
@@ -167,7 +167,7 @@
     </div>
     <div class="footer center-align">
         <p>
-            web:tiketjuragan99.id <br> phone:081277755485 <br> email:admin@tiketjuragan99.id
+            web:tiketjuragan99.id <br> phone:081253536799 <br> email:admin@tiketjuragan99.id
         </p>
     </div>
     <?php if ($tickedData->baggage == 'Bawa') { ?>
@@ -259,7 +259,7 @@
     </div>
     <div class="footer center-align">
         <p>
-            web:tiketjuragan99.id <br> phone:081277755485 <br> email:admin@tiketjuragan99.id
+            web:tiketjuragan99.id <br> phone:081253536799 <br> email:admin@tiketjuragan99.id
         </p>
     </div>
     <?php } ?>
