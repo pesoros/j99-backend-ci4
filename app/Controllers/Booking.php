@@ -77,12 +77,13 @@ class Booking extends ResourceController
             'agent' => $booker_id,
         ]);
 
+        $va_number = '-';
+        $mobile_link = '-';
+        $dekstop_link = '-';
+
         if ($payment_method != 'CASH') {
             $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
             $payment_id = $setPayment['id'];
-            $va_number = '-';
-            $mobile_link = '-';
-            $dekstop_link = '-';
 
             if ($payment_method == 'VIRTUAL_ACCOUNT') {
                 $va_number = $setPayment['account_number'];
@@ -104,6 +105,19 @@ class Booking extends ResourceController
                 'created_at' => $dateNow,
             ]);
             $data['payment'] = $setPayment;
+        } else {
+            $setBookingCode = $this->bookingModel->paymentRegistration([
+                'email' => $booker_email,
+                'booking_code' => $bookingCode,
+                'payment_method' => $payment_method,
+                'payment_channel_code' => $payment_channel_code,
+                'price' => $total_price,
+                'payment_id' => '-',
+                'va_number' => $va_number,
+                'mobile_link' => $mobile_link,
+                'dekstop_link' => $dekstop_link,
+                'created_at' => $dateNow,
+            ]);
         }
 
         $data['bookingCode'] = $bookingCode;
