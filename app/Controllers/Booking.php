@@ -57,20 +57,26 @@ class Booking extends ResourceController
             $data['pulang'] = '-';
         }
 
+        $paystatus = '0';
+
+        if ($payment_method == 'CASH') {
+            $paystatus = '1';
+        }
+
+        $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
+        $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
+
         $setBookingCode = $this->createBooking([
             'booker' => $booker_email,
             'booking_code' => $bookingCode,
             'round_trip' => $roundTrip,
             'total_price' => $total_price,
             'total_seat' => $total_seat,
-            'payment_status' => '0',
+            'payment_status' => $paystatus,
             'offer_code' => $offer_code,
             'created_at' => $dateNow,
             'agent' => $booker_id,
         ]);
-
-        $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
-        $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
 
         $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
         $payment_id = $setPayment['id'];
