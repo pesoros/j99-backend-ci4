@@ -309,11 +309,11 @@ class Booking extends ResourceController
         $dateExpired = date("Y-m-d", strtotime($dateExpired)) . 'T' . date("h:i:s", strtotime($dateExpired)) . '.000Z';
 
         if ($payment_method == 'VIRTUAL_ACCOUNT') {
-            $result = $this->generateVirtualAccountPay($bookingId, strtolower($email), $name, $description, $amount, $payment_channel_code, $dateExpired);
+            $result = $this->generateVirtualAccountPay($bookingId, strtolower($email), substr($name,0,25), $description, $amount, $payment_channel_code, $dateExpired);
         } elseif ($payment_method == 'EWALLET') {
-            $result = $this->generateEwalletPay($bookingId, strtolower($email), $name, $description, $amount, $payment_channel_code, $dateExpired);
+            $result = $this->generateEwalletPay($bookingId, strtolower($email), substr($name,0,25), $description, $amount, $payment_channel_code, $dateExpired);
         } elseif ($payment_method == 'RETAIL_OUTLET') {
-            $result = $this->generateRetailOutletPay($bookingId, strtolower($email), $name, $description, $amount, $payment_channel_code, $dateExpired);
+            $result = $this->generateRetailOutletPay($bookingId, strtolower($email), substr($name,0,15), $description, $amount, $payment_channel_code, $dateExpired);
         } else {
             $result = false;
         }
