@@ -57,14 +57,13 @@ class Booking extends ResourceController
             $data['pulang'] = '-';
         }
 
+        $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
+        $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
         $paystatus = '0';
 
         if ($payment_method == 'CASH') {
             $paystatus = '1';
         }
-
-        $payment_method = isset($bodyRaw['payment_method']) ? $bodyRaw['payment_method'] : '';
-        $payment_channel_code = isset($bodyRaw['payment_channel_code']) ? $bodyRaw['payment_channel_code'] : '';
 
         $setBookingCode = $this->createBooking([
             'booker' => $booker_email,
@@ -78,34 +77,36 @@ class Booking extends ResourceController
             'agent' => $booker_id,
         ]);
 
-        $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
-        $payment_id = $setPayment['id'];
-        $va_number = '-';
-        $mobile_link = '-';
-        $dekstop_link = '-';
+        if ($payment_method != 'CASH') {
+            $setPayment = $this->paymentGateway($payment_method, $bookingCode, $booker_email, $booker_name, 'j99 ticket', $total_price, $payment_channel_code);
+            $payment_id = $setPayment['id'];
+            $va_number = '-';
+            $mobile_link = '-';
+            $dekstop_link = '-';
 
-        if ($payment_method == 'VIRTUAL_ACCOUNT') {
-            $va_number = $setPayment['account_number'];
-        } elseif ($payment_method == 'EWALLET') {
-            $mobile_link = $setPayment['actions']['mobile_web_checkout_url'];
-            $dekstop_link = $setPayment['actions']['desktop_web_checkout_url'];
+            if ($payment_method == 'VIRTUAL_ACCOUNT') {
+                $va_number = $setPayment['account_number'];
+            } elseif ($payment_method == 'EWALLET') {
+                $mobile_link = $setPayment['actions']['mobile_web_checkout_url'];
+                $dekstop_link = $setPayment['actions']['desktop_web_checkout_url'];
+            }
+
+            $setBookingCode = $this->bookingModel->paymentRegistration([
+                'email' => $booker_email,
+                'booking_code' => $bookingCode,
+                'payment_method' => $payment_method,
+                'payment_channel_code' => $payment_channel_code,
+                'price' => $total_price,
+                'payment_id' => $payment_id,
+                'va_number' => $va_number,
+                'mobile_link' => $mobile_link,
+                'dekstop_link' => $dekstop_link,
+                'created_at' => $dateNow,
+            ]);
+            $data['payment'] = $setPayment;
         }
 
-        $setBookingCode = $this->bookingModel->paymentRegistration([
-            'email' => $booker_email,
-            'booking_code' => $bookingCode,
-            'payment_method' => $payment_method,
-            'payment_channel_code' => $payment_channel_code,
-            'price' => $total_price,
-            'payment_id' => $payment_id,
-            'va_number' => $va_number,
-            'mobile_link' => $mobile_link,
-            'dekstop_link' => $dekstop_link,
-            'created_at' => $dateNow,
-        ]);
-
         $data['bookingCode'] = $bookingCode;
-        $data['payment'] = $setPayment;
         $data['payment']['total_price'] = $total_price;
         $data['payment_tutorial'] = $this->bookingModel->getPaymentTutor($payment_channel_code)->getResult();
 
