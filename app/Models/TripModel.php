@@ -102,8 +102,11 @@ class TripModel extends Model
             ->join('trip AS ta', "ta.trip_id = tb.trip_id_no")
             ->where('tpc.fleet_type', $class)
             ->where('tb.trip_id_no', $trip_id_no)
-            ->where('tb.booking_date', $date)
-            ->where("tb.tkt_refund_id", NULL)
+            ->like('tb.booking_date', $date, 'after')
+            ->groupStart()
+            ->where("tb.tkt_refund_id IS NULL", null, false)
+            ->orWhere("tb.tkt_refund_id", 0)
+            ->orWhere("tb.tkt_refund_id", null)
             ->groupEnd()
             ->get();
 
