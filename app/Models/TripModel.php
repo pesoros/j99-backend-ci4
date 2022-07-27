@@ -103,9 +103,6 @@ class TripModel extends Model
             ->where('tpc.fleet_type', $class)
             ->where('tb.trip_id_no', $trip_id_no)
             ->like('tb.booking_date', $date, 'after')
-            ->groupStart()
-            ->where("tb.tkt_refund_id", NULL)
-            ->groupEnd()
             ->get();
 
         return $bookingResult;
