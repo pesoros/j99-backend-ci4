@@ -48,12 +48,16 @@ class TicketModel extends Model
                 tbook.adult,
                 trip.trip_id,
                 r.resto_name,
+                tpoint.dep_time,
+                tpoint.arr_time,
             ")
             ->join('tkt_booking AS tbook', 'tps.booking_id = tbook.id_no')
             ->join('trip', 'tbook.trip_id_no = trip.trip_id')
             ->join('fleet_type AS ft', 'tps.fleet_type = ft.id')
             ->join('resto_menu AS resto', 'tps.food = resto.id')
             ->join('resto AS r', 'r.id = resto.id_resto')
+            ->join('trip_assign AS tras', 'tbook.trip_id_no = tras.trip')
+            ->join('trip_point AS tpoint', 'tpoint.trip_assign_id = tras.id AND tpoint.dep_point = tbook.pickup_trip_location AND tpoint.arr_point = tbook.drop_trip_location')
             ->where($wherefield,$code)
             ->get();
         return $query;
