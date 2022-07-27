@@ -104,9 +104,7 @@ class TripModel extends Model
             ->where('tb.trip_id_no', $trip_id_no)
             ->like('tb.booking_date', $date, 'after')
             ->groupStart()
-            ->where("tb.tkt_refund_id IS NULL", null, false)
-            ->orWhere("tb.tkt_refund_id", 0)
-            ->orWhere("tb.tkt_refund_id", null)
+            ->where("tb.tkt_refund_id", null)
             ->groupEnd()
             ->get();
 
