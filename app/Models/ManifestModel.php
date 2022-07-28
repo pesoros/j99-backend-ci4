@@ -42,6 +42,7 @@ class ManifestModel extends Model
                 tps.name,
                 tps.ticket_number,
                 tps.seat_number,
+                tps.phone,
                 rmen.food_name,
                 IF(tps.baggage = 1, 'Bawa', 'Tidak Bawa') as baggage,
                 IF(cst.status_name IS NULL, 'Menunggu', cst.status_name) as checkin_status,
