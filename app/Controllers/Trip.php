@@ -61,6 +61,7 @@ class Trip extends ResourceController
 
         foreach ($result as $key => $value) {
             $checkSeat = $this->tripModel->checkSeatAvail($value->trip_id_no, $tanggalBerangkat, $value->type)->getResult();
+            $value->seatPickedArr = $checkSeat; 
             $value->seatPicked = strval(COUNT($checkSeat)); 
             $value->seatAvail = intval($value->fleet_seats) - intval(COUNT($checkSeat)); 
             if ($tanggalBerangkat < date("Y-m-d", strtotime('2022-07-29'))) {
