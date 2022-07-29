@@ -99,7 +99,7 @@ class TripModel extends Model
         $bookingResult = $this->db->table("tkt_booking AS tb")
             ->select("
                 tpc.ticket_number AS picked
-                ,tpc.seat AS seat
+                ,tpc.seat AS seat_number
             ")
             ->join('tkt_passenger_pcs AS tpc', "tpc.booking_id = tb.id_no")
             ->join('trip AS ta', "ta.trip_id = tb.trip_id_no")
