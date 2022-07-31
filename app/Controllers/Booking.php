@@ -326,7 +326,7 @@ class Booking extends ResourceController
     public function paymentGateway($payment_method, $bookingId, $email, $name, $description, $amount, $payment_channel_code)
     {
         // $createInvoice = $this->createInvoice($bookingId, $email, $name, $description, $amount, $payment_channel_code);
-        $dateExpired = new Time('+1 day');
+        $dateExpired = new Time('+1 hour');
         $dateExpired = date("Y-m-d", strtotime($dateExpired)) . 'T' . date("h:i:s", strtotime($dateExpired)) . '.000Z';
 
         if ($payment_method == 'VIRTUAL_ACCOUNT') {
