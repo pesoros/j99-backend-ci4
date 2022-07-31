@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class ManifestModel extends Model
 {
-    public function getTripDetail($trip_id_no)
+    public function getTripDetail($trip_id_no, $manifest_id)
     {
-        $query = $this->db->table('trip_assign AS ta')
+        $query = $this->db->table('manifest AS mn')
             ->select("
                 ta.id,
                 trt.name as route,
@@ -21,14 +21,17 @@ class ManifestModel extends Model
                 CONCAT(empassist2.first_name,' ',empassist2.second_name) as assistant_2,
                 CONCAT(empassist3.first_name,' ',empassist3.second_name) as assistant_3,
             ")
-            ->join('fleet_registration AS flr', 'ta.fleet_registration_id = flr.id')
+            ->join('trip_assign AS ta', 'ta.id = mn.trip_assign')
+            ->join('fleet_registration AS flr', 'mn.fleet = flr.id', 'left')
+            ->join('trip_assign AS ta_2', 'ta_2.fleet_registration_id = flr.id', 'left')
             ->join('resto AS rs', 'ta.resto_id = rs.id')
             ->join('trip AS tr', 'ta.trip = tr.trip_id')
             ->join('trip_route AS trt', 'tr.route = trt.id')
-            ->join('employee_history AS empdriver', 'ta.driver_id = empdriver.id','left')
-            ->join('employee_history AS empassist1', 'ta.assistant_1 = empassist1.id','left')
-            ->join('employee_history AS empassist2', 'ta.assistant_2 = empassist2.id','left')
-            ->join('employee_history AS empassist3', 'ta.assistant_3 = empassist3.id','left')
+            ->join('employee_history AS empdriver', 'ta_2.driver_id = empdriver.id','left')
+            ->join('employee_history AS empassist1', 'ta_2.assistant_1 = empassist1.id','left')
+            ->join('employee_history AS empassist2', 'ta_2.assistant_2 = empassist2.id','left')
+            ->join('employee_history AS empassist3', 'ta_2.assistant_3 = empassist3.id','left')
+            ->where('mn.id', $manifest_id)
             ->where('ta.id', $trip_id_no)
             ->get();
 
@@ -197,6 +200,24 @@ class ManifestModel extends Model
             ')
             ->where('email_assign', $email)
             ->where('status', 1)
+            ->orderBy('id','ASC')
+            ->get();
+
+        return $query;
+    }
+
+    public function getManifestByTrip($trip_id_no,$booking_date)
+    {
+        $query = $this->db->table('manifest')
+            ->select('
+                id
+                ,trip_assign as trip_id_no
+                ,trip_date
+                ,email_assign
+                ,status
+            ')
+            ->where('trip_assign', $trip_id_no)
+            ->where('trip_date', $booking_date)
             ->orderBy('id','ASC')
             ->get();
 
