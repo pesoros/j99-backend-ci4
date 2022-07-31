@@ -110,7 +110,7 @@ class MasterData extends ResourceController
     public function clearticket()
     {
         $ticket = $this->masterModel->clearTicket()->getResult();
-        $now = new Time('-60 minutes');
+        $now = new Time('-62 minutes');
 
         foreach ($ticket as $key => $value) {
             if ($value->created_at < $now) {
