@@ -24,7 +24,7 @@ class ManifestModel extends Model
             ->join('trip_assign AS ta', 'ta.id = mn.trip_assign')
             ->join('fleet_registration AS flr', 'mn.fleet = flr.id', 'left')
             ->join('trip_assign AS ta_2', 'ta_2.fleet_registration_id = flr.id', 'left')
-            ->join('resto AS rs', 'ta.resto_id = rs.id')
+            ->join('resto AS rs', 'ta_2.resto_id = rs.id', 'left')
             ->join('trip AS tr', 'ta.trip = tr.trip_id')
             ->join('trip_route AS trt', 'tr.route = trt.id')
             ->join('employee_history AS empdriver', 'ta_2.driver_id = empdriver.id','left')
@@ -71,12 +71,12 @@ class ManifestModel extends Model
         return $query;
     }
 
-    public function getTripType($assign_id)
+    public function getTripType($reg_no)
     {
-        $query = $this->db->table('trip_point_price tpr')
-            ->join('trip_point AS tpoint', 'tpr.point_id = tpoint.id')
-            ->join('fleet_type AS ft', 'tpr.type = ft.id')
-            ->where('tpoint.trip_assign_id', $assign_id)
+        $query = $this->db->table('fleet_registration_type frt')
+            ->select('ft.type')
+            ->join('fleet_type AS ft', 'frt.type = ft.id')
+            ->where('frt.registration', $reg_no)
             ->get();
 
         return $query;

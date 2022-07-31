@@ -55,9 +55,7 @@ class Manifest extends ResourceController
         }
 
         $tripDetail = $this->manifestModel->getTripDetail($tripIdNo, $manifest->id)->getRow();
-        echo json_encode($tripDetail);
-        return;
-        $class = $this->manifestModel->getTripType($tripDetail->id)->getResult();
+        $class = $this->manifestModel->getTripType($tripDetail->reg_no)->getResult();
         $className = '';
         foreach ($class as $key => $value) {
             if ($key > 0) {
