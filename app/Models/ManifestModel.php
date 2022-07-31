@@ -66,6 +66,7 @@ class ManifestModel extends Model
             ->where('tras.id', $trip_id_no)
             ->where('tbh.payment_status', 1)
             ->where('DATE(tb.booking_date)', $booking_date)
+            ->orderBy('tps.seat_number','ASC')
             ->get();
 
         return $query;
